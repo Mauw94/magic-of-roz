@@ -1,8 +1,12 @@
 import os
 import arcade
+import random
 from helpers.consts import Consts
 from entities.player import Player
 from input.keys import Keys
+from arcade.experimental.lights import Light, LightLayer
+
+AMBIENT_COLOR = (10, 10, 10)
 
 class GameView(arcade.View):
     def __init__(self) -> None:
@@ -23,11 +27,12 @@ class GameView(arcade.View):
         self.tile_map = None
         self.camera = None
         self.gui_camera = None
-        self.physics_engine = None
+        self.physics_engine = None                
         
-        # TODO load sounds
-        # TODO create input handler class        
+        self.light_layer = None
+        self.player_light = None
         
+        # TODO load sounds                
     
     def on_show_view(self):        
         self.setup()
@@ -36,23 +41,50 @@ class GameView(arcade.View):
         self.camera = arcade.Camera(self.window.width, self.window.height)
         self.gui_camera = arcade.Camera(self.window.width, self.window.height)
         
-        map_name = ":resources:tiled_maps/grass.json"
+        # map_name = ":resources:tiled_maps/level_1.json"
         
-        self.tile_map = arcade.load_tilemap(
-            map_name, Consts.SPRITE_SCALING_TILES
-        )
-        self.scene = arcade.Scene.from_tilemap(self.tile_map)
-        #self.scene = arcade.Scene()
+        # self.tile_map = arcade.load_tilemap(
+        #     map_name, Consts.SPRITE_SCALING_TILES
+        # )
+        # self.scene = arcade.Scene.from_tilemap(self.tile_map)
+        self.scene = arcade.Scene()
+        self.background_sprite_list = arcade.SpriteList()
+        
         self.player = Player()
-        self.player.center_x = Consts.SPRITE_SIZE * 1 + Consts.SPRITE_SIZE / 2
-        self.player.center_y = Consts.SPRITE_SIZE * 1 + Consts.SPRITE_SIZE / 2
+        self.player.center_x = Consts.SCREEN_WIDTH / 2
+        self.player.center_y = Consts.SCREEN_HEIGHT / 2
         self.scene.add_sprite("Player", self.player)    
            
+        for x in range(-128, 2000, 128):
+            for y in range(-128, 1000, 128):
+                sprite = arcade.Sprite(":resources:images/tiles/brickTextureWhite.png")
+                sprite.position = x, y
+                self.background_sprite_list.append(sprite)             
+                
         self.physics_engine = arcade.PhysicsEnginePlatformer(
             self.player,
             gravity_constant=0
         )
 
+        self.light_layer = LightLayer(Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT)
+        self.light_layer.set_background_color(arcade.color.BLACK)        
+        
+        radius = 950
+        mode = "soft"
+        color = arcade.color.WHITE
+        self.player_light = Light(0, 0, radius, color, mode)
+        self.light_layer.add(self.player_light)
+        
+        self.player_light.position = self.player.position
+        
+        self.coins = arcade.SpriteList()
+        # Add some random coins just for the sake of it for now
+        for i in range(50):
+            coin = arcade.Sprite(":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_TILES)
+            coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
+            coin.center_y = random.randrange(Consts.SCREEN_HEIGHT)
+            self.coins.append(coin)                
+        
     def process_keychange(self):
         self.handle_input.process_keychange(self)
         
@@ -68,11 +100,7 @@ class GameView(arcade.View):
     def on_update(self, delta_time):
         self.physics_engine.update()
         self.scene.update_animation(delta_time)
-        self.center_camera_to_player()
-        
-        # print(self.player.change_x)
-        # print("X: ", self.player.center_x)
-        # print("Y: ", self.player.center_y)
+        self.center_camera_to_player()                
 
     def center_camera_to_player(self, speed=0.2):
         screen_center_x = self.camera.scale * (
@@ -87,13 +115,20 @@ class GameView(arcade.View):
         if screen_center_y < 0:
             screen_center_y = 0
         
-        player_centered = (screen_center_x, screen_center_y)
+        player_centered = (screen_center_x, screen_center_y)        
         
         self.camera.move_to(player_centered, speed)
         
     def on_draw(self):
         self.clear()
-        
         self.camera.use()
-        self.scene.draw()
-        self.gui_camera.use()
+        
+        with self.light_layer:
+            self.background_sprite_list.draw()
+            self.coins.draw()
+            self.scene.draw()
+            
+        self.gui_camera.use()        
+        
+        self.light_layer.draw(ambient_color=AMBIENT_COLOR)
+        

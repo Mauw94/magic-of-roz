@@ -1,0 +1,8 @@
+* move play towards mouse position
+* create starting map (town)
+* create first adventure map (level_1)
+* implement drag&drop for items and inventory management
+* create enemies
+* loottable for enemies
+* create basic attacks
+* implement damage and health

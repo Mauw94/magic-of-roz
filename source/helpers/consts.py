@@ -20,5 +20,5 @@ class Consts:
     PLAYER_START_X = 2 
     PLAYER_START_Y = 10
     
-    PLAYER_MOVEMENT_SPEED = 10
+    PLAYER_MOVEMENT_SPEED = 5
     
