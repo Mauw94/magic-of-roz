@@ -5,6 +5,7 @@ from helpers.consts import Consts
 from entities.player import Player
 from input.keys import Keys
 from arcade.experimental.lights import Light, LightLayer
+from entities.enemies.zombie_enemy import ZombieEnemey
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
@@ -74,15 +75,25 @@ class GameView(arcade.View):
         self.player_light = Light(0, 0, radius, color, mode)
         self.light_layer.add(self.player_light)    
         
-        self.coins = arcade.SpriteList()
+        # TODO move coins and enemies creation to seperate functions
         # Add some random coins just for the sake of it for now
+        self.coins = arcade.SpriteList()
         for i in range(50):
             coin = arcade.Sprite(":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_TILES)
             coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
             coin.center_y = random.randrange(Consts.SCREEN_HEIGHT)
-            self.coins.append(coin)         
-        
+            self.coins.append(coin)             
         self.scene.add_sprite_list("Coins", True, self.coins)
+        
+        self.enemies = arcade.SpriteList()
+        zombie = ZombieEnemey()
+        zombie.center_x = random.randrange(Consts.SCREEN_WIDTH)
+        zombie.center_y = random.randrange(Consts.SCREEN_HEIGHT)
+        self.enemies.append(zombie)        
+        self.scene.add_sprite_list("Enemies", True, self.enemies)
+        print("Enemey added")
+        print(len(self.scene["Enemies"]))
+        print(self.scene["Enemies"][0].change_x)
         
         self.view_left = 0
         self.view_bottom = 0       
@@ -102,10 +113,11 @@ class GameView(arcade.View):
     def on_update(self, delta_time):
         self.physics_engine.update()
         self.player_light.position = self.player.position        
-        self.scene.update_animation(delta_time)     
+        self.scene.update(["Enemies"])     # TODO global var for scene names
+        self.scene.update_animation(delta_time)        
+        self.check_collision_with_coins() 
         
-        self.check_collision_with_coins()
-         
+        # TODO: control enemy movement        
         self.scroll_screen()
         
     def check_collision_with_coins(self):
@@ -148,8 +160,7 @@ class GameView(arcade.View):
         self.clear()
         
         with self.light_layer:
-            self.background_sprite_list.draw()
-            # self.coins.draw()
+            self.background_sprite_list.draw()            
             self.scene.draw()        
         
         self.light_layer.draw(ambient_color=AMBIENT_COLOR)

@@ -9,9 +9,10 @@ class Entity(arcade.Sprite):
         super().__init__()
         
         self.facing_direction = Consts.RIGHT_FACING
-        
-        self.cur_texture = 0
         self.scale = Consts.SPRITE_SCALING_PLAYER
+        self.cur_texture = 0
+        self.health = 0
+        self.damage = 0
         
         main_path = f":resources:images/animated_characters/{folder}/{file}"
         
