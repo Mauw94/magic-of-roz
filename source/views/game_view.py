@@ -7,6 +7,7 @@ from input.keys import Keys
 from arcade.experimental.lights import Light, LightLayer
 
 AMBIENT_COLOR = (10, 10, 10)
+VIEWPORT_MARGIN = 200
 
 class GameView(arcade.View):
     def __init__(self) -> None:
@@ -25,22 +26,22 @@ class GameView(arcade.View):
         self.scene = None
         self.player = None
         self.tile_map = None
-        self.camera = None
-        self.gui_camera = None
-        self.physics_engine = None                
+        self.physics_engine = None                        
         
         self.light_layer = None
         self.player_light = None
         
-        # TODO load sounds                
+        self.view_left = 0
+        self.view_bottom = 0
+            
+        self.coin_collect_sound = arcade.load_sound(":resources:sounds/coin1.wav")
+        
+        self.score = 0
     
     def on_show_view(self):        
         self.setup()
         
-    def setup(self):    
-        self.camera = arcade.Camera(self.window.width, self.window.height)
-        self.gui_camera = arcade.Camera(self.window.width, self.window.height)
-        
+    def setup(self):                    
         # map_name = ":resources:tiled_maps/level_1.json"
         
         # self.tile_map = arcade.load_tilemap(
@@ -49,22 +50,20 @@ class GameView(arcade.View):
         # self.scene = arcade.Scene.from_tilemap(self.tile_map)
         self.scene = arcade.Scene()
         self.background_sprite_list = arcade.SpriteList()
+        self.score = 0
         
         self.player = Player()
         self.player.center_x = Consts.SCREEN_WIDTH / 2
         self.player.center_y = Consts.SCREEN_HEIGHT / 2
         self.scene.add_sprite("Player", self.player)    
-           
+        
         for x in range(-128, 2000, 128):
             for y in range(-128, 1000, 128):
                 sprite = arcade.Sprite(":resources:images/tiles/brickTextureWhite.png")
                 sprite.position = x, y
                 self.background_sprite_list.append(sprite)             
                 
-        self.physics_engine = arcade.PhysicsEnginePlatformer(
-            self.player,
-            gravity_constant=0
-        )
+        self.physics_engine = arcade.PhysicsEngineSimple(self.player, None)
 
         self.light_layer = LightLayer(Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT)
         self.light_layer.set_background_color(arcade.color.BLACK)        
@@ -73,9 +72,7 @@ class GameView(arcade.View):
         mode = "soft"
         color = arcade.color.WHITE
         self.player_light = Light(0, 0, radius, color, mode)
-        self.light_layer.add(self.player_light)
-        
-        self.player_light.position = self.player.position
+        self.light_layer.add(self.player_light)    
         
         self.coins = arcade.SpriteList()
         # Add some random coins just for the sake of it for now
@@ -83,52 +80,77 @@ class GameView(arcade.View):
             coin = arcade.Sprite(":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_TILES)
             coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
             coin.center_y = random.randrange(Consts.SCREEN_HEIGHT)
-            self.coins.append(coin)                
+            self.coins.append(coin)         
+        
+        self.scene.add_sprite_list("Coins", True, self.coins)
+        
+        self.view_left = 0
+        self.view_bottom = 0       
         
     def process_keychange(self):
         self.handle_input.process_keychange(self)
         
     def on_key_press(self, key, modifiers):
         self.handle_input.on_key_press(self, key, modifiers)
-
+        
     def on_key_release(self, key, modifiers):
         self.handle_input.on_key_release(self, key, modifiers)
-    
+        
     def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
-        self.handle_input.on_mouse_scroll(self, x, y, scroll_x, scroll_y)
+        self.handle_input.on_mouse_scroll(self, x, y, scroll_x, scroll_y)    
 
     def on_update(self, delta_time):
         self.physics_engine.update()
-        self.scene.update_animation(delta_time)
-        self.center_camera_to_player()                
+        self.player_light.position = self.player.position        
+        self.scene.update_animation(delta_time)     
+        
+        self.check_collision_with_coins()
+         
+        self.scroll_screen()
+        
+    def check_collision_with_coins(self):
+        coin_hit_list = arcade.check_for_collision_with_list(self.player, self.scene["Coins"])
+        for coin in coin_hit_list:                        
+            self.score += 1
+            coin.remove_from_sprite_lists()
+            arcade.play_sound(self.coin_collect_sound)
+        
+    def scroll_screen(self):        
+        # Scroll left
+        left_boundary = self.view_left + (self.window.width / 2)
+        if self.player.left < left_boundary:
+            self.view_left -= left_boundary - self.player.left
 
-    def center_camera_to_player(self, speed=0.2):
-        screen_center_x = self.camera.scale * (
-            self.player.center_x - (self.camera.viewport_width / 2)
-        )
-        screen_center_y = self.camera.scale * (
-            self.player.center_y - (self.camera.viewport_height / 2)
-        )
-        
-        if screen_center_x < 0:
-            screen_center_x = 0
-        if screen_center_y < 0:
-            screen_center_y = 0
-        
-        player_centered = (screen_center_x, screen_center_y)        
-        
-        self.camera.move_to(player_centered, speed)
-        
+        # Scroll right
+        right_boundary = self.view_left + self.window.width - (self.window.width / 2)
+        if self.player.right > right_boundary:
+            self.view_left += self.player.right - right_boundary
+
+        # Scroll up
+        top_boundary = self.view_bottom + self.window.height - (self.window.height / 2)
+        if self.player.top > top_boundary:
+            self.view_bottom += self.player.top - top_boundary
+
+        # Scroll down
+        bottom_boundary = self.view_bottom + (self.window.height / 2)
+        if self.player.bottom < bottom_boundary:
+            self.view_bottom -= bottom_boundary - self.player.bottom
+
+        self.view_left = int(self.view_left)
+        self.view_bottom = int(self.view_bottom)    
+
+        arcade.set_viewport(self.view_left,
+                            self.window.width + self.view_left,
+                            self.view_bottom,
+                            self.window.height + self.view_bottom)
+
     def on_draw(self):
         self.clear()
-        self.camera.use()
         
         with self.light_layer:
             self.background_sprite_list.draw()
-            self.coins.draw()
-            self.scene.draw()
-            
-        self.gui_camera.use()        
+            # self.coins.draw()
+            self.scene.draw()        
         
         self.light_layer.draw(ambient_color=AMBIENT_COLOR)
         

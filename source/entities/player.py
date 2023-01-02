@@ -3,7 +3,7 @@ from entities.entity import Entity
 
 class Player(Entity):
     def __init__(self):
-        super().__init__("male_person", "malePerson")
+        super().__init__("male_person", "malePerson")        
     
     def update_animation(self, delta_time: float = 1 / 60):
         if self.change_x < 0 and self.facing_direction == Consts.RIGHT_FACING:

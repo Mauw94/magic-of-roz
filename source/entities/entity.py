@@ -26,4 +26,4 @@ class Entity(arcade.Sprite):
             self.walk_textures.append(texture)
         
         self.texture = self.idle_texture_pair[0]
-        #self.set_hit_box(self.texture.hit_box_points)
+        self.set_hit_box(self.texture.hit_box_points)

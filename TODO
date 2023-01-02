@@ -1,4 +1,4 @@
-* move play towards mouse position
+* endless scrolling screen -> DONE
 * create starting map (town)
 * create first adventure map (level_1)
 * implement drag&drop for items and inventory management
