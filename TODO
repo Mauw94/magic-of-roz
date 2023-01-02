@@ -1,3 +1,12 @@
+plan:
+    - add enemies
+    - implement ranged attack for player
+    - implement melee attack for enemy
+    - enemy can only move between fixed x, y
+    - implement health and damage numbers
+    - add little healthbar over enemies head
+
+
 * endless scrolling screen -> DONE
 * create starting map (town)
 * create first adventure map (level_1)
