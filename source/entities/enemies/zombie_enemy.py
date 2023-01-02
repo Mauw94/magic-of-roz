@@ -1,6 +1,6 @@
-from entities.entity import Entity
+from entities.enemy import Enemy
 
-class ZombieEnemey(Entity):
+class ZombieEnemey(Enemy):
     def __init__(self):
         super().__init__("zombie", "zombie")
         

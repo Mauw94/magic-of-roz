@@ -85,15 +85,10 @@ class GameView(arcade.View):
             self.coins.append(coin)             
         self.scene.add_sprite_list("Coins", True, self.coins)
         
-        self.enemies = arcade.SpriteList()
         zombie = ZombieEnemey()
         zombie.center_x = random.randrange(Consts.SCREEN_WIDTH)
         zombie.center_y = random.randrange(Consts.SCREEN_HEIGHT)
-        self.enemies.append(zombie)        
-        self.scene.add_sprite_list("Enemies", True, self.enemies)
-        print("Enemey added")
-        print(len(self.scene["Enemies"]))
-        print(self.scene["Enemies"][0].change_x)
+        self.scene.add_sprite("Enemies", zombie)            
         
         self.view_left = 0
         self.view_bottom = 0       
@@ -113,8 +108,10 @@ class GameView(arcade.View):
     def on_update(self, delta_time):
         self.physics_engine.update()
         self.player_light.position = self.player.position        
+        
+        self.scene.update_animation(delta_time, ["Player", "Coins", "Enemies"])        
         self.scene.update(["Enemies"])     # TODO global var for scene names
-        self.scene.update_animation(delta_time)        
+        
         self.check_collision_with_coins() 
         
         # TODO: control enemy movement        

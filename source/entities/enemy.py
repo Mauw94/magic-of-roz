@@ -6,9 +6,12 @@ class Enemy(Entity):
         super().__init__(folder, file)
         
         self.should_update_walk = 0
-        self.boundary_left, self.boundary_right, self.boundary_bottom, self.boundary_top = 200
+        self.boundary_left = 200 
+        self.boundary_right = 200 
+        self.boundary_bottom = 200 
+        self.boundary_top = 200
     
-    def update_animation(self, delta_time: float = 1 / 60):
+    def update_animation(self, delta_time: float = 1 / 60):        
         if self.change_x < 0 and self.facing_direction == Consts.RIGHT_FACING:
             self.facing_direction = Consts.LEFT_FACING
         elif self.change_x > 0 and self.facing_direction == Consts.LEFT_FACING:
