@@ -11,7 +11,7 @@ class Player(Entity):
         elif self.change_x > 0 and self.facing_direction == Consts.LEFT_FACING:
             self.facing_direction = Consts.RIGHT_FACING
         
-        if self.change_x == 0:
+        if self.change_x == 0 and self.change_y == 0:
             self.texture = self.idle_texture_pair[self.facing_direction]
             return
         
