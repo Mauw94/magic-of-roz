@@ -5,6 +5,7 @@ plan:
     - enemy can only move between fixed x, y
     - implement health and damage numbers
     - add little healthbar over enemies head
+    - add town
 
 
 * endless scrolling screen -> DONE
@@ -15,3 +16,4 @@ plan:
 * loottable for enemies
 * create basic attacks
 * implement damage and health
+* add stats to character
