@@ -2,6 +2,8 @@ plan:
     - add enemies -> DONE
     - implement ranged attack for player -> DONE
     - implement second type of ranged attack for player 
+        * move sounds to attacks class
+        * move damage and timers to attacks class
     - implement melee attack for enemy
     - enemy can only move between fixed x, y -> DONE
     - implement health and damage numbers

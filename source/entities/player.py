@@ -3,7 +3,6 @@ from entities.entity import Entity
 
 class Player(Entity):
     def __init__(self):
-        
         self.can_shoot_normal_ranged_attack = False
         self.can_shoot_special_ranged_attack = False
         
@@ -11,10 +10,7 @@ class Player(Entity):
         self.special_ranged_attack_pressed = False
         
         self.normal_shoot_timer = 0
-        self.special_shoot_timer = 0
-        
-        self.normal_ranged_attack_dmg = 50
-        self.normal_melee_attack_dmg = 25
+        self.special_shoot_timer = 0    
                 
         super().__init__("male_person", "malePerson")        
 

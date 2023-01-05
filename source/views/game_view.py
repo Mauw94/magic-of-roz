@@ -7,6 +7,7 @@ from input.keys import Keys
 from arcade.experimental.lights import Light, LightLayer
 from entities.enemies.zombie_enemy import ZombieEnemey
 from services.collision_detection_service import CollisionDetectionService
+from entities.attacks.normal_ranged_attack import NormalRangedAttack
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
@@ -133,9 +134,8 @@ class GameView(arcade.View):
         if self.player.can_shoot_normal_ranged_attack:
             if self.player.normal_ranged_attack_pressed:
                 arcade.play_sound(self.normal_shoot_sound)
-                bullet = arcade.Sprite(
-                    ":resources:images/space_shooter/laserBlue01.png", Consts.SPRITE_SCALING_TILES)
 
+                bullet = NormalRangedAttack()
                 if self.player.facing_direction == Consts.RIGHT_FACING:
                     bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
                 else:
@@ -153,7 +153,7 @@ class GameView(arcade.View):
                 self.player.can_shoot_normal_ranged_attack = True
                 self.player.special_shoot_timer = 0
 
-    def player_special_ranged_attack(self):
+    def player_special_ranged_attack(self): # TODO implement SpecialRangedAttack class
         if self.player.can_shoot_special_ranged_attack:
             if self.player.special_ranged_attack_pressed:
                 arcade.play_sound(self.special_shoot_sound)
