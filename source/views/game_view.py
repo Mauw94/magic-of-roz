@@ -6,6 +6,7 @@ from entities.player import Player
 from input.keys import Keys
 from arcade.experimental.lights import Light, LightLayer
 from entities.enemies.zombie_enemy import ZombieEnemey
+from services.collision_detection_service import CollisionDetectionService
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
@@ -19,7 +20,8 @@ class GameView(arcade.View):
         os.chdir(file_path)
 
         self.handle_input = Keys()
-
+        self.collision_detection_service = CollisionDetectionService()
+        
         self.left_pressed = False
         self.right_pressed = False
         self.up_pressed = False
@@ -120,41 +122,11 @@ class GameView(arcade.View):
     def on_update(self, delta_time):
         self.physics_engine.update()
         self.player_light.position = self.player.position
-
         self.scene.update_animation(delta_time, ["Player", "Coins", "Enemies"])
-
-        self.check_collision_with_coins()
-        self.check_bullets_collisions()
+        self.collision_detection_service.collision_detection(self)
         self.player_attack()
-
-        # TODO global var for scene names
         self.scene.update(["Enemies", "Bullets"])
-
-        # TODO: control enemy movement
         self.scroll_screen()
-
-    def check_collision_with_coins(self):
-        coin_hit_list = arcade.check_for_collision_with_list(
-            self.player, self.scene["Coins"])
-        for coin in coin_hit_list:
-            self.score += 1
-            coin.remove_from_sprite_lists()
-            arcade.play_sound(self.coin_collect_sound)
-
-    def check_bullets_collisions(self):
-        for bullet in self.scene["Bullets"]:
-            bullet_hit_list = arcade.check_for_collision_with_list(
-                bullet, self.scene["Enemies"]
-            )
-            if bullet_hit_list:
-                bullet.remove_from_sprite_lists()
-                for enemy in bullet_hit_list:
-                    enemy.health -= self.player.normal_ranged_attack_dmg
-
-                    if enemy.health <= 0:
-                        enemy.remove_from_sprite_lists()
-
-                    arcade.play_sound(self.hit_sound)
 
     def player_attack(self):
         if self.can_shoot:
