@@ -30,4 +30,4 @@ class CollisionDetectionService:
                     if enemy.health <= 0:
                         enemy.remove_from_sprite_lists()
                     
-                    arcade.play_sound(game.hit_sound)
+                    arcade.play_sound(game.normal_hit_sound)

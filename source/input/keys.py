@@ -40,7 +40,10 @@ class Keys:
             game.camera.zoom(-0.01)
         
         if key == arcade.key.Q:
-            game.shoot_pressed = True
+            game.player.normal_ranged_attack_pressed = True
+        
+        if key == arcade.key.E:
+            game.player.special_ranged_attack_pressed = True
 
         self.process_keychange(game)
 
@@ -55,7 +58,10 @@ class Keys:
             game.up_pressed = False
             
         if key == arcade.key.Q:
-            game.shoot_pressed = False
+            game.player.normal_ranged_attack_pressed = False
+            
+        if key == arcade.key.E:
+            game.player.special_ranged_attack_pressed = False
             
         self.process_keychange(game)
     
