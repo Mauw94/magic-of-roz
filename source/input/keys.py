@@ -24,7 +24,7 @@ class Keys:
             game.player.change_x = 0
             game.player.change_y = 0
     
-    def on_key_press(self, game, key: 'GameView', modifiers):
+    def on_key_press(self, game: 'GameView', key, modifiers):
         if key == arcade.key.LEFT or key == arcade.key.A:
             game.left_pressed = True
         elif key == arcade.key.RIGHT or key == arcade.key.D:
@@ -38,6 +38,9 @@ class Keys:
             game.camera.zoom(0.01)
         elif key == arcade.key.MINUS:
             game.camera.zoom(-0.01)
+        
+        if key == arcade.key.Q:
+            game.shoot_pressed = True
 
         self.process_keychange(game)
 
@@ -50,6 +53,9 @@ class Keys:
             game.down_pressed = False
         elif key == arcade.key.UP or key == arcade.key.W:
             game.up_pressed = False
+            
+        if key == arcade.key.Q:
+            game.shoot_pressed = False
             
         self.process_keychange(game)
     

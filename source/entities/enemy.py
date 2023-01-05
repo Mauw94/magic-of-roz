@@ -10,6 +10,8 @@ class Enemy(Entity):
         self.boundary_right = 200 
         self.boundary_bottom = 200 
         self.boundary_top = 200
+        
+        self.health = 50
     
     def update_animation(self, delta_time: float = 1 / 60):        
         if self.change_x < 0 and self.facing_direction == Consts.RIGHT_FACING:
