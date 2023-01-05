@@ -22,6 +22,5 @@ class MainMenu(arcade.View):
         )
     
     def on_mouse_press(self, _x, _y, _button, _modifiers):
-        print("mouse pressed")
         game_view = GameView()
         self.window.show_view(game_view)

@@ -23,6 +23,7 @@ class GameView(arcade.View):
         self.right_pressed = False
         self.up_pressed = False
         self.down_pressed = False
+        self.shoot_pressed = False
         
         self.scene = None
         self.player = None
@@ -110,7 +111,7 @@ class GameView(arcade.View):
         self.player_light.position = self.player.position        
         
         self.scene.update_animation(delta_time, ["Player", "Coins", "Enemies"])        
-        self.scene.update(["Enemies"])     # TODO global var for scene names
+        self.scene.update(["Enemies"]) # TODO global var for scene names
         
         self.check_collision_with_coins() 
         

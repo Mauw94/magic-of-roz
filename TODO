@@ -1,8 +1,8 @@
 plan:
-    - add enemies
+    - add enemies -> DONE
     - implement ranged attack for player
     - implement melee attack for enemy
-    - enemy can only move between fixed x, y
+    - enemy can only move between fixed x, y -> DONE
     - implement health and damage numbers
     - add little healthbar over enemies head
     - add town
