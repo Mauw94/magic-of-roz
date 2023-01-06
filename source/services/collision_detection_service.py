@@ -1,5 +1,7 @@
 import arcade
 from entities.attacks.normal_ranged_attack import NormalRangedAttack
+from entities.attacks.special_ranged_attack import SpecialRangedAttack
+from entities.enemy import Enemy
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from views.game_view import GameView
@@ -25,12 +27,11 @@ class CollisionDetectionService:
             if bullet_hit_list:
                 bullet.remove_from_sprite_lists()
                 for enemy in bullet_hit_list:
-                    if type(bullet) == NormalRangedAttack:
-                        enemy.health -= bullet.damage
+                    enemy.health -= bullet.damage
+                    # if type(bullet) == NormalRangedAttack: 
+                    # type checking is not needed, 
+                    # maybe for something else later on
                     enemy.play_hit_sound()
                     
-                    # TODO implement this
-                    # elif type(bullet) == SpecialRangedAttack:
-                    #     enemy.health -= game.player.special_ranged_attack_dmg
                     if enemy.health <= 0:
                         enemy.remove_from_sprite_lists()

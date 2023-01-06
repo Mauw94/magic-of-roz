@@ -38,16 +38,10 @@ class GameView(arcade.View):
 
         self.view_left = 0
         self.view_bottom = 0
+        self.score = 0
 
         self.coin_collect_sound = arcade.load_sound(
             ":resources:sounds/coin1.wav")
-
-        # TODO move to specialranged attack class
-        self.special_shoot_sound = arcade.load_sound(":resources:sounds/hurt1.wav")        
-        # TODO move to other enemy class
-        self.special_hit_sound = arcade.load_sound(":resources:sounds/hit3.wav")
-        
-        self.score = 0
 
     def on_show_view(self):
         self.setup()
@@ -125,54 +119,11 @@ class GameView(arcade.View):
         self.player_light.position = self.player.position
         self.scene.update_animation(delta_time, ["Player", "Coins", "Enemies"])
         self.collision_detection_service.collision_detection(self)
-        self.player_normal_ranged_attack()
-        self.player_special_ranged_attack()
+        self.player.normal_ranged_attack(self)
+        self.player.special_ranged_attack(self)       
         self.scene.update(["Enemies", "Bullets"])
         self.scroll_screen()
 
-    def player_normal_ranged_attack(self): # TODO maybe move this logic to play class
-        if self.player.can_shoot_normal_ranged_attack:
-            if self.player.normal_ranged_attack_pressed:
-                bullet = NormalRangedAttack()
-                bullet.play_shooting_sound()
-                if self.player.facing_direction == Consts.RIGHT_FACING:
-                    bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
-                else:
-                    bullet.change_x = -Consts.PLAYER_ATTACK_PARTICLE_SPEED
-
-                bullet.center_x = self.player.center_x
-                bullet.center_y = self.player.center_y
-
-                self.scene.add_sprite("Bullets", bullet)
-                self.player.can_shoot_normal_ranged_attack = False
-        else:
-            self.player.special_shoot_timer += 1
-            if self.player.special_shoot_timer == Consts.PLAYER_ATTACK_SPEED:
-                self.player.can_shoot_normal_ranged_attack = True
-                self.player.special_shoot_timer = 0
-
-    def player_special_ranged_attack(self): # TODO implement SpecialRangedAttack class
-        if self.player.can_shoot_special_ranged_attack:
-            if self.player.special_ranged_attack_pressed:
-                arcade.play_sound(self.special_shoot_sound)
-                bullet = arcade.Sprite(":resources:images/space_shooter/laserRed01.png", Consts.SPRITE_SCALING_TILES)
-                
-                if self.player.facing_direction == Consts.RIGHT_FACING:
-                    bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
-                else:
-                    bullet.change_x = -Consts.PLAYER_ATTACK_PARTICLE_SPEED
-                
-                bullet.center_x = self.player.center_x
-                bullet.center_y = self.player.center_y
-                
-                self.scene.add_sprite("Bullets", bullet)
-                self.player.can_shoot_special_ranged_attack = False
-        else:
-            self.player.special_shoot_timer += 1
-            if self.player.special_shoot_timer == Consts.PLAYER_ATTACK_SPEED:
-                self.player.can_shoot_special_ranged_attack = True
-                self.player.special_shoot_timer = 0
-        
     def scroll_screen(self):
         # Scroll left
         left_boundary = self.view_left + (self.window.width / 2)
