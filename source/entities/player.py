@@ -9,6 +9,8 @@ if TYPE_CHECKING:
 
 class Player(Entity):
     def __init__(self):
+        super().__init__("male_person", "malePerson")
+
         self.can_shoot_normal_ranged_attack = False
         self.can_shoot_special_ranged_attack = False
 
@@ -18,7 +20,7 @@ class Player(Entity):
         self.normal_shoot_timer = 0
         self.special_shoot_timer = 0
 
-        super().__init__("male_person", "malePerson")
+        self.health = 100
 
     def update_animation(self, delta_time: float = 1 / 60):
         if self.change_x < 0 and self.facing_direction == Consts.RIGHT_FACING:

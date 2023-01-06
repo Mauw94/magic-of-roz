@@ -22,7 +22,7 @@ class GameView(arcade.View):
 
         self.handle_input = Keys()
         self.collision_detection_service = CollisionDetectionService()
-        
+
         self.left_pressed = False
         self.right_pressed = False
         self.up_pressed = False
@@ -120,12 +120,12 @@ class GameView(arcade.View):
         self.scene.update_animation(delta_time, ["Player", "Coins", "Enemies"])
         self.collision_detection_service.collision_detection(self)
         self.player.normal_ranged_attack(self)
-        self.player.special_ranged_attack(self)       
+        self.player.special_ranged_attack(self)
         self.scene.update(["Enemies", "Attacks"])
-        
+
         for enemy in self.scene["Enemies"]:
             enemy.ranged_attack(self)
-            
+
         self.scroll_screen()
 
     def scroll_screen(self):
@@ -167,3 +167,11 @@ class GameView(arcade.View):
             self.scene.draw()
 
         self.light_layer.draw(ambient_color=AMBIENT_COLOR)
+
+        arcade.draw_text(
+            f"Health: {self.player.health}",
+            self.player.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
+            self.player.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            arcade.csscolor.RED,
+            18
+        )
