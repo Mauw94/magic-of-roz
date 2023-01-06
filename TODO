@@ -11,6 +11,7 @@ plan:
             * when enemy attack hits damage player
     - fire player attacks at mouse pos
     - enemy can only move between fixed x, y -> DONE
+    - show flickering when hit by enemy
     - implement health and damage numbers
     - add little healthbar over enemies head
     - add town
