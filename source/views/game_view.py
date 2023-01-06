@@ -62,7 +62,7 @@ class GameView(arcade.View):
         self.player.center_y = Consts.SCREEN_HEIGHT / 2
         self.scene.add_sprite("Player", self.player)
 
-        self.scene.add_sprite_list("Bullets")
+        self.scene.add_sprite_list("Attacks")
 
         for x in range(-128, 2000, 128):
             for y in range(-128, 1000, 128):
@@ -121,7 +121,11 @@ class GameView(arcade.View):
         self.collision_detection_service.collision_detection(self)
         self.player.normal_ranged_attack(self)
         self.player.special_ranged_attack(self)       
-        self.scene.update(["Enemies", "Bullets"])
+        self.scene.update(["Enemies", "Attacks"])
+        
+        for enemy in self.scene["Enemies"]:
+            enemy.ranged_attack(self)
+            
         self.scroll_screen()
 
     def scroll_screen(self):

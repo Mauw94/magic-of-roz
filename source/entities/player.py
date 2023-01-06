@@ -48,7 +48,7 @@ class Player(Entity):
                 bullet.center_x = self.center_x
                 bullet.center_y = self.center_y
 
-                game.scene.add_sprite("Bullets", bullet)
+                game.scene.add_sprite("Attacks", bullet)
                 self.can_shoot_normal_ranged_attack = False
         else:
             self.special_shoot_timer += 1
@@ -69,7 +69,7 @@ class Player(Entity):
                 bullet.center_x = self.center_x
                 bullet.center_y = self.center_y
 
-                game.scene.add_sprite("Bullets", bullet)
+                game.scene.add_sprite("Attacks", bullet)
                 self.can_shoot_special_ranged_attack = False
         else:
             self.special_shoot_timer += 1

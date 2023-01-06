@@ -6,6 +6,10 @@ plan:
         * move damage and timers to attacks class -> DONE
     - implement melee attack for enemy
     - implement range attack for enemy every x seconds when player is in range
+    - implement player health
+            * show health somewhere on screen 
+            * when enemy attack hits damage player
+    - fire player attacks at mouse pos
     - enemy can only move between fixed x, y -> DONE
     - implement health and damage numbers
     - add little healthbar over enemies head

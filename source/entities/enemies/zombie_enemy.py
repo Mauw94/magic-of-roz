@@ -1,39 +1,49 @@
 from entities.enemy import Enemy
 from helpers.consts import Consts
+from entities.attacks.enemy_attacks.zombie_attack import ZombieAttack
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from views.game_view import GameView
 import random
 import arcade
+import math
+
 
 class ZombieEnemey(Enemy):
     def __init__(self):
         super().__init__("zombie", "zombie")
-        
-        self.max_move_x = 120 # max movement to x
-        self.max_move_y = 120 # max movement to y
-        self.steps = 0 # steps
-        
+
+        self.max_move_x = 120  # max movement to x
+        self.max_move_y = 120  # max movement to y
+        self.steps = 0  # steps
+
         self.horizontal = True
         self.vertical = False
         self.change_y = 0
         self.change_x = 2
         self.hit_sound = arcade.load_sound(":resources:sounds/hit5.wav")
-    
+
+        self.attack_timer = 0
+        self.__attack_interval = 200
+        self.attack = None
+
     def update(self):
         self.steps += 1
-        
+
         if self.steps >= self.max_move_x:
             if self.facing_direction == Consts.RIGHT_FACING:
                 self.facing_direction = Consts.LEFT_FACING
             elif self.facing_direction == Consts.LEFT_FACING:
                 self.facing_direction = Consts.RIGHT_FACING
-        
+
             self.change_x *= -1
             self.steps = 0
-                
+
         return super().update()
 
     def move_random_up_down(self):
         self.steps += 1
-        
+
         if self.horizontal:
             self.change_x = 2
             self.change_y = 0
@@ -42,7 +52,7 @@ class ZombieEnemey(Enemy):
                     self.facing_direction = Consts.LEFT_FACING
                 elif self.facing_direction == Consts.LEFT_FACING:
                     self.facing_direction = Consts.RIGHT_FACING
-            
+
                 self.change_x *= -1
                 self.steps = 0
                 self.set_new_dir()
@@ -54,7 +64,7 @@ class ZombieEnemey(Enemy):
                 self.change_y *= -1
                 self.steps = 0
                 self.set_new_dir()
-                
+
     def set_new_dir(self):
         if random.randrange(0, 2) == 0:
             print("0")
@@ -64,4 +74,29 @@ class ZombieEnemey(Enemy):
             print("1")
             self.horizontal = False
             self.vertical = True
-        
+
+    def ranged_attack(self, game: 'GameView'):
+        self.attack = ZombieAttack()
+        if self.attack_timer >= self.__attack_interval:
+            print("attacking player")
+            self.attack_player(game)
+            game.scene.add_sprite("Attacks", self.attack)
+            self.attack_timer = 0
+
+        self.attack_timer += 1
+
+    def attack_player(self, game: 'GameView'):
+        curplayer_x = game.player.center_x
+        curplayer_y = game.player.center_y
+
+        self.attack.center_x = self.center_x
+        self.attack.center_y = self.center_y
+
+        x_diff = curplayer_x - self.attack.center_x
+        y_diff = curplayer_y - self.attack.center_y
+
+        angle = math.atan2(y_diff, x_diff)
+
+        self.attack.angle = math.degrees(angle)-90
+        self.attack.change_x = math.cos(angle) * 5
+        self.attack.change_y = math.sin(angle) * 5
