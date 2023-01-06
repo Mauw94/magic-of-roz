@@ -1,10 +1,11 @@
 plan:
     - add enemies -> DONE
     - implement ranged attack for player -> DONE
-    - implement second type of ranged attack for player 
-        * move sounds to attacks class
-        * move damage and timers to attacks class
+    - implement second type of ranged attack for player  -> DONE
+        * move sounds to attacks class -> DONE
+        * move damage and timers to attacks class -> DONE
     - implement melee attack for enemy
+    - implement range attack for enemy every x seconds when player is in range
     - enemy can only move between fixed x, y -> DONE
     - implement health and damage numbers
     - add little healthbar over enemies head
