@@ -1,5 +1,6 @@
 from entities.entity import Entity
 from helpers.consts import Consts
+import arcade
 
 class Enemy(Entity):
     def __init__(self, folder, file):
@@ -12,6 +13,8 @@ class Enemy(Entity):
         self.boundary_top = 200
         
         self.health = 50
+        
+        self.hit_sound = None
     
     def update_animation(self, delta_time: float = 1 / 60):        
         if self.change_x < 0 and self.facing_direction == Consts.RIGHT_FACING:
@@ -31,3 +34,7 @@ class Enemy(Entity):
             return
 
         self.should_update_walk += 1                
+    
+    def play_hit_sound(self):
+        if self.hit_sound is not None:
+            arcade.play_sound(self.hit_sound)

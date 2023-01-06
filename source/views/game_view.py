@@ -41,10 +41,10 @@ class GameView(arcade.View):
 
         self.coin_collect_sound = arcade.load_sound(
             ":resources:sounds/coin1.wav")
-        self.normal_shoot_sound = arcade.load_sound(":resources:sounds/hurt5.wav")
-        self.special_shoot_sound = arcade.load_sound(":resources:sounds/hurt1.wav")
-        
-        self.normal_hit_sound = arcade.load_sound(":resources:sounds/hit5.wav")
+
+        # TODO move to specialranged attack class
+        self.special_shoot_sound = arcade.load_sound(":resources:sounds/hurt1.wav")        
+        # TODO move to other enemy class
         self.special_hit_sound = arcade.load_sound(":resources:sounds/hit3.wav")
         
         self.score = 0
@@ -130,12 +130,11 @@ class GameView(arcade.View):
         self.scene.update(["Enemies", "Bullets"])
         self.scroll_screen()
 
-    def player_normal_ranged_attack(self):
+    def player_normal_ranged_attack(self): # TODO maybe move this logic to play class
         if self.player.can_shoot_normal_ranged_attack:
             if self.player.normal_ranged_attack_pressed:
-                arcade.play_sound(self.normal_shoot_sound)
-
                 bullet = NormalRangedAttack()
+                bullet.play_shooting_sound()
                 if self.player.facing_direction == Consts.RIGHT_FACING:
                     bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
                 else:
@@ -145,7 +144,6 @@ class GameView(arcade.View):
                 bullet.center_y = self.player.center_y
 
                 self.scene.add_sprite("Bullets", bullet)
-
                 self.player.can_shoot_normal_ranged_attack = False
         else:
             self.player.special_shoot_timer += 1

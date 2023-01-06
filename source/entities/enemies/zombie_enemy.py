@@ -1,6 +1,7 @@
 from entities.enemy import Enemy
 from helpers.consts import Consts
 import random
+import arcade
 
 class ZombieEnemey(Enemy):
     def __init__(self):
@@ -14,6 +15,7 @@ class ZombieEnemey(Enemy):
         self.vertical = False
         self.change_y = 0
         self.change_x = 2
+        self.hit_sound = arcade.load_sound(":resources:sounds/hit5.wav")
     
     def update(self):
         self.steps += 1

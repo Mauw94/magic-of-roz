@@ -27,10 +27,10 @@ class CollisionDetectionService:
                 for enemy in bullet_hit_list:
                     if type(bullet) == NormalRangedAttack:
                         enemy.health -= bullet.damage
+                    enemy.play_hit_sound()
+                    
                     # TODO implement this
                     # elif type(bullet) == SpecialRangedAttack:
                     #     enemy.health -= game.player.special_ranged_attack_dmg
                     if enemy.health <= 0:
                         enemy.remove_from_sprite_lists()
-                    
-                    arcade.play_sound(game.normal_hit_sound)
