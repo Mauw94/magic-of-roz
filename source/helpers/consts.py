@@ -24,3 +24,5 @@ class Consts:
     
     PLAYER_ATTACK_SPEED = 15
     PLAYER_ATTACK_PARTICLE_SPEED = 12
+    
+    MAX_ENEMY_HEALTH = 100

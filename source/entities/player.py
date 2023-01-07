@@ -5,6 +5,7 @@ from entities.attacks.special_ranged_attack import SpecialRangedAttack
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from views.game_view import GameView
+import arcade
 
 
 class Player(Entity):
@@ -21,6 +22,8 @@ class Player(Entity):
         self.special_shoot_timer = 0
 
         self.health = 100
+        self.hit = False
+        self.hit_sound = arcade.load_sound(":resources:sounds/hit2.wav")
 
     def update_animation(self, delta_time: float = 1 / 60):
         if self.change_x < 0 and self.facing_direction == Consts.RIGHT_FACING:
@@ -58,6 +61,8 @@ class Player(Entity):
                 self.can_shoot_normal_ranged_attack = True
                 self.special_shoot_timer = 0
 
+    # a lot of duplicate code from normal_ranged_attack 
+    # -> better way of doing this?
     def special_ranged_attack(self, game: 'GameView'):
         if self.can_shoot_special_ranged_attack:
             if self.special_ranged_attack_pressed:
@@ -78,3 +83,7 @@ class Player(Entity):
             if self.special_shoot_timer == Consts.PLAYER_ATTACK_SPEED:
                 self.can_shoot_special_ranged_attack = True
                 self.special_shoot_timer = 0
+                
+    def play_hit_sound(self):
+        if self.hit_sound is not None:
+            arcade.play_sound(self.hit_sound)

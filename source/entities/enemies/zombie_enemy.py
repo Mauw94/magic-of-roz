@@ -7,11 +7,12 @@ if TYPE_CHECKING:
 import random
 import arcade
 import math
+from game_objects.health_bar import HealthBar
 
 
 class ZombieEnemey(Enemy):
-    def __init__(self):
-        super().__init__("zombie", "zombie")
+    def __init__(self, bar_list):
+        super().__init__("zombie", "zombie", bar_list)
 
         self.max_move_x = 120  # max movement to x
         self.max_move_y = 120  # max movement to y
@@ -28,17 +29,7 @@ class ZombieEnemey(Enemy):
         self.attack = None
 
     def update(self):
-        self.steps += 1
-
-        if self.steps >= self.max_move_x:
-            if self.facing_direction == Consts.RIGHT_FACING:
-                self.facing_direction = Consts.LEFT_FACING
-            elif self.facing_direction == Consts.LEFT_FACING:
-                self.facing_direction = Consts.RIGHT_FACING
-
-            self.change_x *= -1
-            self.steps = 0
-
+        self.__move_n_steps_horizontal(self.max_move_x)
         return super().update()
 
     def move_random_up_down(self):
@@ -97,6 +88,20 @@ class ZombieEnemey(Enemy):
 
         angle = math.atan2(y_diff, x_diff)
 
-        self.attack.angle = math.degrees(angle)-90
+        self.attack.angle = math.degrees(angle)
+        if self.attack.angle < 0:
+            self.attack.angle += 360
         self.attack.change_x = math.cos(angle) * 5
         self.attack.change_y = math.sin(angle) * 5
+
+    def __move_n_steps_horizontal(self, steps):
+        self.steps += 1
+
+        if self.steps >= steps:
+            if self.facing_direction == Consts.RIGHT_FACING:
+                self.facing_direction = Consts.LEFT_FACING
+            elif self.facing_direction == Consts.LEFT_FACING:
+                self.facing_direction = Consts.RIGHT_FACING
+
+            self.change_x *= -1
+            self.steps = 0

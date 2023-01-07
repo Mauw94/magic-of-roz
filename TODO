@@ -1,18 +1,8 @@
 plan:
-    - add enemies -> DONE
-    - implement ranged attack for player -> DONE
-    - implement second type of ranged attack for player  -> DONE
-        * move sounds to attacks class -> DONE
-        * move damage and timers to attacks class -> DONE
     - implement melee attack for enemy
-    - implement range attack for enemy every x seconds when player is in range
-    - implement player health
-            * show health somewhere on screen 
-            * when enemy attack hits damage player
     - fire player attacks at mouse pos
-    - enemy can only move between fixed x, y -> DONE
     - show flickering when hit by enemy
-    - implement health and damage numbers
+    - implement and damage numbers when hitting an enemy
     - add little healthbar over enemies head
     - add town
 

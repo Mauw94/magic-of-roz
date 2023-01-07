@@ -1,29 +1,41 @@
 from entities.entity import Entity
 from helpers.consts import Consts
 from helpers.texture_loader import TextureLoader
+from game_objects.health_bar import HealthBar
 import arcade
 
+
 class Enemy(Entity):
-    def __init__(self, folder, file):
+    def __init__(self, folder, file, bar_list):
         super().__init__(folder, file)
-        self.texture_loader = TextureLoader()
-        
+
         self.should_update_walk = 0
-        self.boundary_left = 200 
-        self.boundary_right = 200 
-        self.boundary_bottom = 200 
-        self.boundary_top = 200      
-        self.health = 50
-    
+        self.boundary_left = 200
+        self.boundary_right = 200
+        self.boundary_bottom = 200
+        self.boundary_top = 200
+        self.health = Consts.MAX_ENEMY_HEALTH
+
         self.hit_sound = None
         self.attack = None
-    
-    def update_animation(self, delta_time: float = 1 / 60):        
+
+        self.texture_loader = TextureLoader()
+        self.health_bar = HealthBar(
+            self, bar_list, 75, 4, (self.center_x, self.center_y))
+
+    def update(self):
+        # Update the enemy's health bar pos
+        self.health_bar.position = (
+            self.center_x, self.center_y + 32)  # 32 is the offset
+
+        return super().update()
+
+    def update_animation(self, delta_time: float = 1 / 60):
         if self.change_x < 0 and self.facing_direction == Consts.RIGHT_FACING:
             self.facing_direction = Consts.LEFT_FACING
         elif self.change_x > 0 and self.facing_direction == Consts.LEFT_FACING:
             self.facing_direction = Consts.RIGHT_FACING
-            
+
         if self.change_x == 0:
             self.texture = self.idle_texture_pair[self.facing_direction]
 
@@ -35,9 +47,13 @@ class Enemy(Entity):
             self.should_update_walk = 0
             return
 
-        self.should_update_walk += 1                
-    
-    def play_hit_sound(self):
+        self.should_update_walk += 1
+
+    def hit(self, damage):
+        self.__play_hit_sound()
+        self.health -= damage
+        self.health_bar.fullness = self.health / Consts.MAX_ENEMY_HEALTH
+
+    def __play_hit_sound(self):
         if self.hit_sound is not None:
             arcade.play_sound(self.hit_sound)
-   

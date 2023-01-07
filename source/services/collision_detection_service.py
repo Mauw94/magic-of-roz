@@ -32,8 +32,7 @@ class CollisionDetectionService:
                     return
                 attack.remove_from_sprite_lists()
                 for enemy in attack_hit_list:
-                    enemy.health -= attack.damage
-                    enemy.play_hit_sound()
+                    enemy.hit(attack.damage)
                     if enemy.health <= 0:
                         enemy.remove_from_sprite_lists()
 
@@ -44,4 +43,5 @@ class CollisionDetectionService:
             if attack_hit_list:
                 if type(attack) is ZombieAttack:
                     game.player.health -= attack.damage
+                    game.player.play_hit_sound()
                     attack.remove_from_sprite_lists()

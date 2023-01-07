@@ -46,7 +46,7 @@ class GameView(arcade.View):
     def on_show_view(self):
         self.setup()
 
-    def setup(self):
+    def setup(self): # TODO: clear this method up
         # map_name = ":resources:tiled_maps/level_1.json"
 
         # self.tile_map = arcade.load_tilemap(
@@ -61,7 +61,6 @@ class GameView(arcade.View):
         self.player.center_x = Consts.SCREEN_WIDTH / 2
         self.player.center_y = Consts.SCREEN_HEIGHT / 2
         self.scene.add_sprite("Player", self.player)
-
         self.scene.add_sprite_list("Attacks")
 
         for x in range(-128, 2000, 128):
@@ -94,7 +93,9 @@ class GameView(arcade.View):
             self.coins.append(coin)
         self.scene.add_sprite_list("Coins", True, self.coins)
 
-        zombie = ZombieEnemey()
+        self.bar_list = arcade.SpriteList()
+        self.scene.add_sprite_list("Bars", self.bar_list)
+        zombie = ZombieEnemey(self.scene["Bars"])
         zombie.center_x = random.randrange(Consts.SCREEN_WIDTH)
         zombie.center_y = random.randrange(Consts.SCREEN_HEIGHT)
         self.scene.add_sprite("Enemies", zombie)
