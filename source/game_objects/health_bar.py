@@ -41,8 +41,8 @@ class HealthBar:
         self.bar_list.append(self._background_box)
         self.bar_list.append(self._full_box)
 
-        self.fullness = 1 # amount of green to draw in the healthbar
-        self.position = position # position above entities head
+        self.fullness = 1  # amount of green to draw in the healthbar
+        self.position = position  # position above entities head
 
     @property
     def position(self):
@@ -69,8 +69,8 @@ class HealthBar:
 
         self._fullness = new_fullness
         if new_fullness == 0:
-            self._full_box.visible = False
+            self.bar_list.remove(self._background_box)
+            self.bar_list.remove(self._full_box)
         else:
-            self._full_box.visible = True
             self._full_box.width = self._box_width * new_fullness
             self._full_box.left = self._center_x - (self._box_width // 2)

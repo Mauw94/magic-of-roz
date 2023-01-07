@@ -69,7 +69,6 @@ class ZombieEnemey(Enemy):
     def ranged_attack(self, game: 'GameView'):
         self.attack = ZombieAttack()
         if self.attack_timer >= self.__attack_interval:
-            print("attacking player")
             self.attack_player(game)
             game.scene.add_sprite("Attacks", self.attack)
             self.attack_timer = 0
