@@ -46,7 +46,7 @@ class GameView(arcade.View):
     def on_show_view(self):
         self.setup()
 
-    def setup(self): # TODO: clear this method up
+    def setup(self): # TODO: clean this method up
         # map_name = ":resources:tiled_maps/level_1.json"
 
         # self.tile_map = arcade.load_tilemap(
@@ -85,7 +85,7 @@ class GameView(arcade.View):
         # TODO move coins and enemies creation to seperate functions
         # Add some random coins just for the sake of it for now
         self.coins = arcade.SpriteList()
-        for i in range(50):
+        for _ in range(50):
             coin = arcade.Sprite(
                 ":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_TILES)
             coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
@@ -95,10 +95,13 @@ class GameView(arcade.View):
 
         self.bar_list = arcade.SpriteList()
         self.scene.add_sprite_list("Bars", self.bar_list)
-        zombie = ZombieEnemey(self.scene["Bars"])
-        zombie.center_x = random.randrange(Consts.SCREEN_WIDTH)
-        zombie.center_y = random.randrange(Consts.SCREEN_HEIGHT)
-        self.scene.add_sprite("Enemies", zombie)
+        
+        # add 3 zombies at random positions
+        for _ in range(3):
+            zombie = ZombieEnemey(self.scene["Bars"])
+            zombie.center_x = random.randrange(Consts.SCREEN_WIDTH)
+            zombie.center_y = random.randrange(Consts.SCREEN_HEIGHT)
+            self.scene.add_sprite("Enemies", zombie)
 
         self.view_left = 0
         self.view_bottom = 0
