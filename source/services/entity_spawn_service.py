@@ -7,7 +7,7 @@ import random
 class EntitySpawnService:
     def __init__(self):
         self.enemy_spawn_locations = []
-        self.max_distance_between = 100
+        self.max_distance_between = 650
 
     def spawn_zombie_enemy(self, hpbar_list) -> ZombieEnemey:
         x, y = self.__determine_x_y()
@@ -24,10 +24,9 @@ class EntitySpawnService:
         y = random.randrange(Consts.SCREEN_HEIGHT)
 
         for point in self.enemy_spawn_locations:
-            x_diff = abs(point[0] - x)
-            y_diff = abs(point[1] - y)
+            manhatten_dist = abs((x - point[0])) + abs((y - point[1]))
 
-            if x_diff < self.max_distance_between or y_diff < self.max_distance_between:
+            if manhatten_dist < self.max_distance_between:
                 self.__determine_x_y()
 
         return x, y
