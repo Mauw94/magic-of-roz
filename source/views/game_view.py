@@ -7,6 +7,7 @@ from input.keys import Keys
 from arcade.experimental.lights import Light, LightLayer
 from entities.enemies.zombie_enemy import ZombieEnemey
 from services.collision_detection_service import CollisionDetectionService
+from services.entity_spawn_service import EntitySpawnService
 from entities.attacks.normal_ranged_attack import NormalRangedAttack
 
 AMBIENT_COLOR = (10, 10, 10)
@@ -22,6 +23,7 @@ class GameView(arcade.View):
 
         self.handle_input = Keys()
         self.collision_detection_service = CollisionDetectionService()
+        self.entity_spawn_service = EntitySpawnService()
 
         self.left_pressed = False
         self.right_pressed = False
@@ -43,10 +45,12 @@ class GameView(arcade.View):
         self.coin_collect_sound = arcade.load_sound(
             ":resources:sounds/coin1.wav")
 
+        self.enemy_attack_timer = 0
+
     def on_show_view(self):
         self.setup()
 
-    def setup(self): # TODO: clean this method up
+    def setup(self):  # TODO: clean this method up
         # map_name = ":resources:tiled_maps/level_1.json"
 
         # self.tile_map = arcade.load_tilemap(
@@ -56,10 +60,10 @@ class GameView(arcade.View):
         self.scene = arcade.Scene()
         self.background_sprite_list = arcade.SpriteList()
         self.score = 0
+        self.enemy_attack_timer = 0
 
-        self.player = Player()
-        self.player.center_x = Consts.SCREEN_WIDTH / 2
-        self.player.center_y = Consts.SCREEN_HEIGHT / 2
+        self.player = Player(Consts.SCREEN_WIDTH // 2,
+                             Consts.SCREEN_HEIGHT // 2)
         self.scene.add_sprite("Player", self.player)
         self.scene.add_sprite_list("Attacks")
 
@@ -95,12 +99,11 @@ class GameView(arcade.View):
 
         self.bar_list = arcade.SpriteList()
         self.scene.add_sprite_list("Bars", self.bar_list)
-        
+
         # add 3 zombies at random positions
         for _ in range(3):
-            zombie = ZombieEnemey(self.scene["Bars"])
-            zombie.center_x = random.randrange(Consts.SCREEN_WIDTH)
-            zombie.center_y = random.randrange(Consts.SCREEN_HEIGHT)
+            zombie = self.entity_spawn_service.spawn_zombie_enemy(
+                self.scene["Bars"])
             self.scene.add_sprite("Enemies", zombie)
 
         self.view_left = 0
@@ -127,8 +130,7 @@ class GameView(arcade.View):
         self.player.special_ranged_attack(self)
         self.scene.update(["Enemies", "Attacks"])
 
-        for enemy in self.scene["Enemies"]:
-            enemy.ranged_attack(self)
+        self.__enemies_attack()
 
         self.scroll_screen()
 
@@ -179,3 +181,7 @@ class GameView(arcade.View):
             arcade.csscolor.RED,
             18
         )
+
+    def __enemies_attack(self):
+        for enemy in self.scene["Enemies"]:
+            enemy.ranged_attack(self)

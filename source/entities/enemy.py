@@ -6,14 +6,10 @@ import arcade
 
 
 class Enemy(Entity):
-    def __init__(self, folder, file, bar_list):
+    def __init__(self, folder, file, x, y,  bar_list):
         super().__init__(folder, file)
 
         self.should_update_walk = 0
-        self.boundary_left = 200
-        self.boundary_right = 200
-        self.boundary_bottom = 200
-        self.boundary_top = 200
         self.health = Consts.MAX_ENEMY_HEALTH
 
         self.hit_sound = None
@@ -22,6 +18,9 @@ class Enemy(Entity):
         self.texture_loader = TextureLoader()
         self.health_bar = HealthBar(
             self, bar_list, 75, 4, (self.center_x, self.center_y))
+
+        self.center_x = x
+        self.center_y = y
 
     def update(self):
         # Update the enemy's health bar pos

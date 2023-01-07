@@ -9,8 +9,11 @@ import arcade
 
 
 class Player(Entity):
-    def __init__(self):
+    def __init__(self, x, y):
         super().__init__("male_person", "malePerson")
+
+        self.center_x = x
+        self.center_y = y
 
         self.can_shoot_normal_ranged_attack = False
         self.can_shoot_special_ranged_attack = False
@@ -61,7 +64,7 @@ class Player(Entity):
                 self.can_shoot_normal_ranged_attack = True
                 self.special_shoot_timer = 0
 
-    # a lot of duplicate code from normal_ranged_attack 
+    # a lot of duplicate code from normal_ranged_attack
     # -> better way of doing this?
     def special_ranged_attack(self, game: 'GameView'):
         if self.can_shoot_special_ranged_attack:
@@ -83,7 +86,7 @@ class Player(Entity):
             if self.special_shoot_timer == Consts.PLAYER_ATTACK_SPEED:
                 self.can_shoot_special_ranged_attack = True
                 self.special_shoot_timer = 0
-                
+
     def play_hit_sound(self):
         if self.hit_sound is not None:
             arcade.play_sound(self.hit_sound)

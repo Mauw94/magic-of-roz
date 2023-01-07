@@ -1,7 +1,6 @@
 --- plan ---
 
-* enemies can't all shoot at once
-* implement and damage numbers when hitting an enemy
+* implement damage numbers when hitting an enemy
 * implement basic loottable when enemy dies
 * implement melee attack for enemy
 * fire player attacks at mouse pos
