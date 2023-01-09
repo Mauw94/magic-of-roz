@@ -9,6 +9,7 @@ from entities.enemies.zombie_enemy import ZombieEnemey
 from services.collision_detection_service import CollisionDetectionService
 from services.entity_spawn_service import EntitySpawnService
 from entities.attacks.normal_ranged_attack import NormalRangedAttack
+from helpers.logging.logger import Logger
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
@@ -17,6 +18,8 @@ VIEWPORT_MARGIN = 200
 class GameView(arcade.View):
     def __init__(self) -> None:
         super().__init__()
+
+        Logger.log_info("Initializing game")
 
         file_path = os.path.dirname(os.path.abspath(__file__))
         os.chdir(file_path)
@@ -57,6 +60,8 @@ class GameView(arcade.View):
         #     map_name, Consts.SPRITE_SCALING_TILES
         # )
         # self.scene = arcade.Scene.from_tilemap(self.tile_map)
+        Logger.log_info("Setting up game")
+
         self.scene = arcade.Scene()
         self.background_sprite_list = arcade.SpriteList()
         self.score = 0
@@ -76,6 +81,8 @@ class GameView(arcade.View):
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, None)
 
+        Logger.log_info("Physics enginge created")
+
         self.light_layer = LightLayer(
             Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT)
         self.light_layer.set_background_color(arcade.color.BLACK)
@@ -85,6 +92,8 @@ class GameView(arcade.View):
         color = arcade.color.WHITE
         self.player_light = Light(0, 0, radius, color, mode)
         self.light_layer.add(self.player_light)
+
+        Logger.log_info("Lights created")
 
         # TODO move coins and enemies creation to seperate functions
         # Add some random coins just for the sake of it for now
@@ -105,6 +114,8 @@ class GameView(arcade.View):
             zombie = self.entity_spawn_service.spawn_zombie_enemy(
                 self.scene["Bars"])
             self.scene.add_sprite("Enemies", zombie)
+
+        Logger.log_info("Sprites intialized")
 
         self.view_left = 0
         self.view_bottom = 0
@@ -131,10 +142,26 @@ class GameView(arcade.View):
         self.scene.update(["Enemies", "Attacks"])
 
         self.__enemies_attack()
+        self.__scroll_screen()
 
-        self.scroll_screen()
+    def on_draw(self):
+        self.clear()
 
-    def scroll_screen(self):
+        with self.light_layer:
+            self.background_sprite_list.draw()
+            self.scene.draw()
+
+        self.light_layer.draw(ambient_color=AMBIENT_COLOR)
+
+        arcade.draw_text(
+            f"Health: {self.player.health}",
+            self.player.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
+            self.player.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            arcade.csscolor.RED,
+            18
+        )
+
+    def __scroll_screen(self):
         # Scroll left
         left_boundary = self.view_left + (self.window.width / 2)
         if self.player.left < left_boundary:
@@ -164,23 +191,6 @@ class GameView(arcade.View):
                             self.window.width + self.view_left,
                             self.view_bottom,
                             self.window.height + self.view_bottom)
-
-    def on_draw(self):
-        self.clear()
-
-        with self.light_layer:
-            self.background_sprite_list.draw()
-            self.scene.draw()
-
-        self.light_layer.draw(ambient_color=AMBIENT_COLOR)
-
-        arcade.draw_text(
-            f"Health: {self.player.health}",
-            self.player.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
-            self.player.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
-            arcade.csscolor.RED,
-            18
-        )
 
     def __enemies_attack(self):
         for enemy in self.scene["Enemies"]:

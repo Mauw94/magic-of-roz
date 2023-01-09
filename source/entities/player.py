@@ -2,6 +2,7 @@ from helpers.consts import Consts
 from entities.entity import Entity
 from entities.attacks.normal_ranged_attack import NormalRangedAttack
 from entities.attacks.special_ranged_attack import SpecialRangedAttack
+from helpers.logging.logger import Logger
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from views.game_view import GameView
@@ -46,6 +47,7 @@ class Player(Entity):
     def normal_ranged_attack(self, game: 'GameView'):
         if self.can_shoot_normal_ranged_attack:
             if self.normal_ranged_attack_pressed:
+                Logger.log_game_event("Performing normal ranged attack")
                 bullet = NormalRangedAttack()
                 bullet.play_shooting_sound()
                 if self.facing_direction == Consts.RIGHT_FACING:
@@ -69,6 +71,7 @@ class Player(Entity):
     def special_ranged_attack(self, game: 'GameView'):
         if self.can_shoot_special_ranged_attack:
             if self.special_ranged_attack_pressed:
+                Logger.log_game_event("Performing special ranged attack")
                 bullet = SpecialRangedAttack()
                 bullet.play_shooting_sound()
                 if self.facing_direction == Consts.RIGHT_FACING:

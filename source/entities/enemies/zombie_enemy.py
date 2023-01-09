@@ -1,6 +1,7 @@
 from entities.enemy import Enemy
 from helpers.consts import Consts
 from entities.attacks.enemy_attacks.zombie_attack import ZombieAttack
+from helpers.logging.logger import Logger
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from views.game_view import GameView
@@ -41,6 +42,8 @@ class ZombieEnemey(Enemy):
         self.attack_timer += 1
 
     def attack_player(self, game: 'GameView'):
+        Logger.log_game_event(f"{self} Attacking player")
+
         curplayer_x = game.player.center_x
         curplayer_y = game.player.center_y
 
