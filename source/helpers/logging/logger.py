@@ -36,6 +36,6 @@ class Logger:
 
     def __log_to_file(msg: str):
         f = open("logs.txt", "a")
-        f.write(msg.strip() + "\n")
+        f.write(msg.replace(" ", "") + "\n")
         f.flush()
         f.close()

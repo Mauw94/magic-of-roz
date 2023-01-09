@@ -1,4 +1,10 @@
-20:26:12 [94mINFO: Initializing game
-20:29:17 [94mINFO: Initializing game
-20:30:30 [94mINFO: Initializing game
-20:32:24 [94mINFO: Initializing game
+20:48:54[94mINFO:Initializinggame
+20:48:54[96mOBJECT_CREATION:CollisionDetectionService
+20:48:54[96mOBJECT_CREATION:EntitySpawnService
+20:48:54[94mINFO:Settingupgame
+20:48:54[94mINFO:Physicsengingecreated
+20:48:54[94mINFO:Lightscreated
+20:48:54[96mOBJECT_CREATION:TextureLoader
+20:48:54[96mOBJECT_CREATION:TextureLoader
+20:48:54[96mOBJECT_CREATION:TextureLoader
+20:48:54[94mINFO:Spritesintialized

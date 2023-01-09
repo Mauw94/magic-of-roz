@@ -19,10 +19,13 @@ class GameView(arcade.View):
     def __init__(self) -> None:
         super().__init__()
 
+        self.__check_log_file_size()
+
         Logger.log_info("Initializing game")
 
-        file_path = os.path.dirname(os.path.abspath(__file__))
-        os.chdir(file_path)
+        # Maybe need this later
+        # file_path = os.path.dirname(os.path.abspath(__file__))
+        # os.chdir(file_path)
 
         self.handle_input = Keys()
         self.collision_detection_service = CollisionDetectionService()
@@ -195,3 +198,8 @@ class GameView(arcade.View):
     def __enemies_attack(self):
         for enemy in self.scene["Enemies"]:
             enemy.ranged_attack(self)
+
+    def __check_log_file_size(self):
+        s = os.path.getsize("logs.txt")
+        if s > 1000.000:
+            open("logs.txt", "w").close() # clears the file
