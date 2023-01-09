@@ -9,13 +9,14 @@ class EntitySpawnService:
     def __init__(self):
         self.enemy_spawn_locations = []
         self.max_distance_between = 650
+        Logger.log_object_creation("EntitySpawnService")
 
     def spawn_zombie_enemy(self, hpbar_list) -> ZombieEnemey:
         x, y = self.__determine_x_y()
         zombie = ZombieEnemey(x, y, hpbar_list)
         self.enemy_spawn_locations.append([x, y])
 
-        Logger.log_info("Spawning enemy")
+        #Logger.log_info("Spawning enemy")
 
         return zombie
 

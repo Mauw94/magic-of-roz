@@ -1,0 +1,4 @@
+20:26:12 [94mINFO: Initializing game
+20:29:17 [94mINFO: Initializing game
+20:30:30 [94mINFO: Initializing game
+20:32:24 [94mINFO: Initializing game

@@ -1,0 +1,8 @@
+20:32:24 [96mOBJECT_CREATION: CollisionDetectionService
+20:32:24 [94mINFO: Setting up game
+20:32:24 [94mINFO: Physics enginge created
+20:32:24 [94mINFO: Lights created
+20:32:24 [94mINFO: Sprites intialized
+20:32:29 [92mEVENT: <entities.enemies.zombie_enemy.ZombieEnemey object at 0x000001C9BF41A7C0> Attacking player
+20:32:29 [92mEVENT: <entities.enemies.zombie_enemy.ZombieEnemey object at 0x000001C9BF404BB0> Attacking player
+20:32:29 [92mEVENT: <entities.enemies.zombie_enemy.ZombieEnemey object at 0x000001C9BF41A8B0> Attacking player
