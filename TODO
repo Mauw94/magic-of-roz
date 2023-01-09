@@ -1,5 +1,6 @@
 --- plan ---
 
+* add logging framework
 * implement a star pathfinding algo
 * implement damage numbers when hitting an enemy
 * implement basic loottable when enemy dies
