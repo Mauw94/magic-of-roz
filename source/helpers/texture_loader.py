@@ -3,8 +3,8 @@ import arcade
 
 
 class TextureLoader:
-    def __init__(self):
-        Logger.log_object_creation("TextureLoader")
+    def __init__(self, cameFrom):
+        Logger.log_object_creation("TextureLoader", cameFrom)
 
     # Load texture facing left and facing right
     def load_texture_pair(self, filename):

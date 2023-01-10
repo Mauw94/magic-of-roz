@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 class CollisionDetectionService:
     def __init__(self):
-        Logger.log_object_creation("CollisionDetectionService")
+        Logger.log_object_creation("CollisionDetectionService", "CollisionDetectionServiceClass")
 
     def collision_detection(self, game: 'GameView'):
         self.__coins_collision_detection(game)

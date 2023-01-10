@@ -6,6 +6,8 @@ import arcade
 
 
 class Enemy(Entity):
+    texture_loader = TextureLoader("EnemyClass")
+
     def __init__(self, folder, file, x, y,  bar_list):
         super().__init__(folder, file)
 
@@ -15,7 +17,6 @@ class Enemy(Entity):
         self.hit_sound = None
         self.attack = None
 
-        self.texture_loader = TextureLoader()
         self.health_bar = HealthBar(
             self, bar_list, 75, 4, (self.center_x, self.center_y))
 

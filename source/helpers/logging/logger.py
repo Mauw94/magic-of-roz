@@ -1,8 +1,14 @@
 from helpers.logging.bcolors import bcolors
 from datetime import datetime
+# import traceback
+# import sys
+# traceback.print_stack(file=sys.stdout)
+# might needs this later
 
 
 class Logger:
+    loggingEnabled = True
+
     def log_warning(msg):
         log = f"{Logger.__print_time()} {bcolors.WARNING}WARNING: {msg}"
         print(log, bcolors.ENDC)
@@ -23,8 +29,8 @@ class Logger:
         print(log, bcolors.ENDC)
         Logger.__log_to_file(log)
 
-    def log_object_creation(msg):
-        log = f"{Logger.__print_time()} {bcolors.OKCYAN}OBJECT_CREATION: {msg}"
+    def log_object_creation(msg, creationIn):
+        log = f"{Logger.__print_time()} {bcolors.OKCYAN}OBJECT_CREATION: {msg} IN: {creationIn}"
         print(log, bcolors.ENDC)
         Logger.__log_to_file(log)
 
@@ -35,7 +41,8 @@ class Logger:
         return cur_time
 
     def __log_to_file(msg: str):
-        f = open("logs.txt", "a")
-        f.write(msg.replace(" ", "") + "\n")
-        f.flush()
-        f.close()
+        if Logger.loggingEnabled:
+            f = open("logs.txt", "a")
+            f.write(msg.replace(" ", "") + "\n")
+            f.flush()
+            f.close()

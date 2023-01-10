@@ -201,5 +201,5 @@ class GameView(arcade.View):
 
     def __check_log_file_size(self):
         s = os.path.getsize("logs.txt")
-        if s > 1000.000:
+        if s > 1000000:
             open("logs.txt", "w").close() # clears the file

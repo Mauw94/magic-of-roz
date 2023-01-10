@@ -1,6 +1,8 @@
 import arcade
 from helpers.consts import Consts
 from views.main_menu import MainMenu
+from helpers.logging.logger import Logger
+
 
 class MyGame(arcade.Window):
 
@@ -14,12 +16,16 @@ class MyGame(arcade.Window):
     def on_draw(self):
         self.clear()
 
+
 def main():
-    window = arcade.Window(Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT, Consts.SCREEN_TITLE)
+    Logger.loggingEnabled = True
+
+    window = arcade.Window(Consts.SCREEN_WIDTH,
+                           Consts.SCREEN_HEIGHT, Consts.SCREEN_TITLE)
     menu_view = MainMenu(Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT)
     window.show_view(menu_view)
     arcade.run()
 
+
 if __name__ == "__main__":
     main()
-
