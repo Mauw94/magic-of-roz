@@ -1,0 +1,56 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "maps/town/town.json",
+    "expandedProjectPaths": [
+        "maps",
+        ".",
+        "maps/town"
+    ],
+    "fileStates": {
+        "maps/town/buch-outdoor.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "maps/town/isometric_grass_and_water.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "maps/town/sprites.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "maps/town/tmw_desert_spacing.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "maps/town/town.json": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 668,
+                "y": 508.6666666666667
+            }
+        }
+    },
+    "last.imagePath": "C:/Program Files/Tiled/examples",
+    "map.height": 40,
+    "map.lastUsedFormat": "json",
+    "map.width": 60,
+    "openFiles": [
+        "maps/town/town.json",
+        "maps/town/tmw_desert_spacing.tsx",
+        "maps/town/buch-outdoor.tsx"
+    ],
+    "project": "magic-of-roz.tiled-project",
+    "recentFiles": [
+        "maps/town/buch-outdoor.tsx",
+        "maps/town/tmw_desert_spacing.tsx",
+        "maps/town/town.json",
+        "maps/town/sprites.tsx",
+        "maps/town/isometric_grass_and_water.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}

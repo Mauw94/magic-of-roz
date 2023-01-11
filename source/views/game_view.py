@@ -57,16 +57,18 @@ class GameView(arcade.View):
         self.setup()
 
     def setup(self):  # TODO: clean this method up
-        # map_name = ":resources:tiled_maps/level_1.json"
+        Logger.log_info("Initializing tilemap")
 
-        # self.tile_map = arcade.load_tilemap(
-        #     map_name, Consts.SPRITE_SCALING_TILES
-        # )
-        # self.scene = arcade.Scene.from_tilemap(self.tile_map)
+        map_path = os.path.abspath(
+            "./tile-map/maps/town/town.json")
+        # map_path = ":resources:tiled_maps/test_map_7.json"
+        self.tile_map = arcade.load_tilemap(
+            map_path, Consts.MAP_SCALING
+        )
+        self.scene = arcade.Scene.from_tilemap(self.tile_map)
+
         Logger.log_info("Setting up game")
 
-        self.scene = arcade.Scene()
-        self.background_sprite_list = arcade.SpriteList()
         self.score = 0
         self.enemy_attack_timer = 0
 
@@ -74,13 +76,6 @@ class GameView(arcade.View):
                              Consts.SCREEN_HEIGHT // 2)
         self.scene.add_sprite("Player", self.player)
         self.scene.add_sprite_list("Attacks")
-
-        for x in range(-128, 2000, 128):
-            for y in range(-128, 1000, 128):
-                sprite = arcade.Sprite(
-                    ":resources:images/tiles/brickTextureWhite.png")
-                sprite.position = x, y
-                self.background_sprite_list.append(sprite)
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, None)
 
@@ -103,7 +98,7 @@ class GameView(arcade.View):
         self.coins = arcade.SpriteList()
         for _ in range(50):
             coin = arcade.Sprite(
-                ":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_TILES)
+                ":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_PLAYER)
             coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
             coin.center_y = random.randrange(Consts.SCREEN_HEIGHT)
             self.coins.append(coin)
@@ -119,6 +114,9 @@ class GameView(arcade.View):
             self.scene.add_sprite("Enemies", zombie)
 
         Logger.log_info("Sprites intialized")
+
+        if self.tile_map.background_color:
+            arcade.set_background_color(self.tile_map.background_color)
 
         self.view_left = 0
         self.view_bottom = 0
@@ -151,7 +149,6 @@ class GameView(arcade.View):
         self.clear()
 
         with self.light_layer:
-            self.background_sprite_list.draw()
             self.scene.draw()
 
         self.light_layer.draw(ambient_color=AMBIENT_COLOR)
@@ -202,4 +199,4 @@ class GameView(arcade.View):
     def __check_log_file_size(self):
         s = os.path.getsize("logs.txt")
         if s > 1000000:
-            open("logs.txt", "w").close() # clears the file
+            open("logs.txt", "w").close()  # clears the file
