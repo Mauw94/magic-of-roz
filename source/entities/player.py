@@ -10,9 +10,11 @@ import arcade
 
 
 class Player(Entity):
-    def __init__(self, x, y):
+    def __init__(self, x, y, class_type, character_name):
         super().__init__("male_person", "malePerson")
 
+        self.class_type = class_type
+        self.character_name = character_name
         self.center_x = x
         self.center_y = y
 

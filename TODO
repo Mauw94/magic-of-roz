@@ -1,4 +1,13 @@
 --- plan ---
+* code testing
+* implement player classes
+* implement character creation screen; choose player class and enter character name
+* implement save game; save player class + name
+* implement load game; load player
+* implement items; base items and some variation of them
+* implement item rarities
+* implement item stats
+
 
 * implement a star pathfinding algo
 * implement damage numbers when hitting an enemy
