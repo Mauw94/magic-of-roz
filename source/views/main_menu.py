@@ -58,7 +58,7 @@ class MainMenu(arcade.View):
 
     def on_click_char_selection(self, event):
         game_view = CharacterSelectionView(
-
+            self.screen_width, self.screen_height
         )
         self.window.show_view(game_view)
 
