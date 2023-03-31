@@ -280,3 +280,7 @@
 23:49:45[96mOBJECT_CREATION:TextureLoaderIN:RangedAttackClass
 23:51:01[96mOBJECT_CREATION:TextureLoaderIN:EntityClass
 23:51:01[96mOBJECT_CREATION:TextureLoaderIN:RangedAttackClass
+23:54:08[96mOBJECT_CREATION:TextureLoaderIN:EntityClass
+23:54:08[96mOBJECT_CREATION:TextureLoaderIN:RangedAttackClass
+23:54:16[96mOBJECT_CREATION:TextureLoaderIN:EntityClass
+23:54:16[96mOBJECT_CREATION:TextureLoaderIN:RangedAttackClass
