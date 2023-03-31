@@ -88,34 +88,37 @@ class CharacterCreationView(arcade.View):
 
         super().__init__()
 
-    def on_click_create(self, event):
+    def on_click_create(self, event) -> None:
         if len(self.input_name.text) > 0:
             self.player_character_name = self.input_name.text
             if self.player_character_class_type is not None:
-                p = self.create()
-                # open game view here with p
+                self.create()
+                from views.character_selection_view import CharacterSelectionView
+                game_view = CharacterSelectionView(
+                    self.screen_width, self.screen_height)
+                self.window.show_view(game_view)
             else:
                 self.ui_error_label.text = "Choose a class!"
         else:
             self.ui_error_label.text = "Fill in a character name!"
 
-    def on_click_necro(self, event):
+    def on_click_necro(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Necromancer"
         self.set_player_class_type(ClassType.NECROMANCER)
 
-    def on_click_druid(self, event):
+    def on_click_druid(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Druid"
         self.set_player_class_type(ClassType.DRUID)
 
-    def on_click_warrior(self, event):
+    def on_click_warrior(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Warrior"
         self.set_player_class_type(ClassType.WARRIOR)
 
-    def on_click_wizard(self, event):
+    def on_click_wizard(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Wizard"
         self.set_player_class_type(ClassType.WIZARD)
 
-    def on_back(self, event):
+    def on_back(self, event) -> None:
         from views.main_menu import MainMenu
         game_view = MainMenu(
             self.screen_width, self.screen_height)
@@ -125,22 +128,13 @@ class CharacterCreationView(arcade.View):
         self.clear()
         self.manager.draw()
 
-    def set_player_class_type(self, type):
+    def set_player_class_type(self, type) -> None:
         self.player_character_class_type = type
 
-    def set_player_character_name(self, name):
+    def set_player_character_name(self, name) -> None:
         self.player_character_name = name
 
-    def create(self):
-        p = Player(Consts.SCREEN_WIDTH // 2,
-                   Consts.SCREEN_HEIGHT // 2,
-                   self.player_character_class_type,
-                   self.player_character_name)
-        
-        self.save_player_character_info()
-        return p
-
-    def save_player_character_info(self):
+    def create(self) -> None:
         i = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         character_info = {
             "player_id": 1,

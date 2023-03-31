@@ -1,9 +1,11 @@
+from typing import Any
 import arcade
 import arcade.gui
 from data.mongodb_connector import get_database
 from entities.player import Player
 from helpers.consts import Consts
 from entities.classes.class_type import ClassType
+from managers.data_managers.characters_manager import CharactersManager
 
 
 class CharSelectButton(arcade.gui.UIFlatButton):
@@ -13,10 +15,13 @@ class CharSelectButton(arcade.gui.UIFlatButton):
 
     def on_click(self, event: arcade.gui.UIOnClickEvent):
         # TODO create method that parses the gathered player to player obj
-        print(self.character)
+        self.characters_manager.load_player_object(self.character_info)
 
-    def set_char(self, c):
-        self.character = c
+    def set_char_info(self, c_info: Any) -> None:
+        self.character_info = c_info
+    
+    def set_characters_manager(self, c_manager: CharactersManager) -> None:
+        self.characters_manager = c_manager
 
 # TODO show character level
 
@@ -26,17 +31,19 @@ class CharacterSelectionView(arcade.View):
         self.screen_width = screen_w
         self.screen_height = screen_h
 
+        self.characters_manager = CharactersManager()
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
 
-        characters = self.get_player_characters()
+        characters = self.characters_manager.get_player_characters()
         self.v_box = arcade.gui.UIBoxLayout()
 
         if len(characters) > 0:
             for c in characters:
                 button = CharSelectButton(
                     text=c["character_name"] + " - " + c["character_class"].lower(), width=200)
-                button.set_char(c)
+                button.set_characters_manager(self.characters_manager)
+                button.set_char_info(c)
                 self.v_box.add(button.with_space_around(bottom=20))
 
         else:
@@ -59,24 +66,6 @@ class CharacterSelectionView(arcade.View):
         ))
         arcade.set_background_color(arcade.color.DARK_BLUE_GRAY)
         super().__init__()
-        
-    def get_player_characters(self) -> list:
-        db = get_database()
-        c = list(db['characters'].find())
-        return c
-
-    def get_class(self, c_class) -> ClassType:
-        match c_class:
-            case "druid":
-                return ClassType.DRUID
-            case "warrior":
-                return ClassType.WARRIOR
-            case "necromancer":
-                return ClassType.NECROMANCER
-            case "wizard":
-                return ClassType.WIZARD
-            case _:
-                raise Exception("unkown class type")
 
     def on_click_back(self, event):
         from views.main_menu import MainMenu
