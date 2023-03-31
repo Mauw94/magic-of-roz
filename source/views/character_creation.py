@@ -5,9 +5,7 @@ import arcade.experimental.uistyle
 from entities.classes.class_type import ClassType
 from entities.player import Player
 from helpers.consts import Consts
-from data.mongodb_connector import get_database
-
-# TODO: show character creation screen when there's no save file yet
+from managers.data_managers.characters_manager import CharactersManager
 
 
 class CharacterCreationView(arcade.View):
@@ -15,6 +13,10 @@ class CharacterCreationView(arcade.View):
         self.screen_width = screen_width
         self.screen_height = screen_height
 
+        self.characters_manager = CharactersManager()
+        self.player_character_class_type = None
+        self.player_character_name = ""
+        
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
 
@@ -84,9 +86,6 @@ class CharacterCreationView(arcade.View):
             child=self.h_box
         ))
 
-        self.dbname = get_database()
-        self.collection = self.dbname['characters']
-
         super().__init__()
 
     def on_click_create(self, event):
@@ -137,6 +136,7 @@ class CharacterCreationView(arcade.View):
                    Consts.SCREEN_HEIGHT // 2,
                    self.player_character_class_type,
                    self.player_character_name)
+        
         self.save_player_character_info()
         return p
 
@@ -148,5 +148,4 @@ class CharacterCreationView(arcade.View):
             "character_class": self.player_character_class_type.name,
             "creation_time": i
         }
-
-        self.collection.insert_one(character_info)
+        self.characters_manager.save_player_character_info(character_info)
