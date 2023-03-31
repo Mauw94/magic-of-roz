@@ -2,6 +2,7 @@ import arcade
 import arcade.gui
 from views.game_view import GameView
 from views.character_creation import CharacterCreationView
+from views.character_selection_view import CharacterSelectionView
 from data.mongodb_connector import get_database
 
 
@@ -9,7 +10,7 @@ class MainMenu(arcade.View):
     def __init__(self, screen_width, screen_height) -> None:
         self.screen_height = screen_height
         self.screen_width = screen_width
-        
+
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
 
@@ -24,13 +25,16 @@ class MainMenu(arcade.View):
             text="Create Character", width=200)
         self.v_box.add(char_creation_button.with_space_around(bottom=20))
 
+        char_selection_button = arcade.gui.UIFlatButton(
+            text="Character selection", width=200)
+        self.v_box.add(char_selection_button.with_space_around(bottom=20))
+
         quit_button = arcade.gui.UIFlatButton(text="Quit", width=200)
         self.v_box.add(quit_button)
 
-        self.check_if_player_has_characters()
-
         start_button.on_click = self.on_click_start
         char_creation_button.on_click = self.on_click_char_creation
+        char_selection_button.on_click = self.on_click_char_selection
         quit_button.on_click = self.on_click_quit
 
         self.manager.add(arcade.gui.UIAnchorWidget(
@@ -41,6 +45,9 @@ class MainMenu(arcade.View):
 
         super().__init__()
 
+    def on_show_view(self):
+        self.check_if_player_has_characters()
+
     def on_click_start(self, event):
         print("start: ", event)
 
@@ -49,17 +56,18 @@ class MainMenu(arcade.View):
             self.screen_width, self.screen_height)
         self.window.show_view(game_view)
 
+    def on_click_char_selection(self, event):
+        game_view = CharacterSelectionView(
+
+        )
+        self.window.show_view(game_view)
+
     def on_click_quit(self, event):
         arcade.exit()
 
     def on_draw(self):
         self.clear()
         self.manager.draw()
-
-    # def on_mouse_press(self, _x, _y, _button, _modifiers):
-    #     game_view = CharacterCreationView(
-    #         self.screen_width, self.screen_height)
-    #     self.window.show_view(game_view)
 
     def check_if_player_has_characters(self):
         db = get_database()
