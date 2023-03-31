@@ -23,7 +23,7 @@ class CharSelectButton(arcade.gui.UIFlatButton):
     def set_characters_manager(self, c_manager: CharactersManager) -> None:
         self.characters_manager = c_manager
 
-# TODO show character level
+# TODO add logger info
 
 
 class CharacterSelectionView(arcade.View):

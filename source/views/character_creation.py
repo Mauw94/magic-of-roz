@@ -6,7 +6,7 @@ from entities.player.player import Player
 from helpers.consts import Consts
 from managers.data_managers.characters_manager import CharactersManager
 
-
+# TODO add logger info
 class CharacterCreationView(arcade.View):
     def __init__(self, screen_width, screen_height) -> None:
         self.screen_width = screen_width

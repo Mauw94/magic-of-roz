@@ -13,11 +13,14 @@ class CharactersManager():
         self.collection = self.db[CHARACTERS_COLLECTION]
         self.c_stat_manager = CharactersStatManager()
         
+        # test stuff
+        # self.c_stat_manager.mutate_stats_off_level(ClassType.NECROMANCER, 3)
+        
     def get_player_characters(self) -> list:
         return list(self.collection.find())
 
     def save_player_character_info(self, name: str, class_type: ClassType) -> None:
-        base_stats = self._get_base_stats_for_class(class_type)
+        base_stats = self.c_stat_manager.get_base_stats_for_class(class_type)
         
         c = CharacterInfo()
         c.set_stats(base_stats)
@@ -31,18 +34,6 @@ class CharactersManager():
     def load_player_object(self, c_info) -> Player:
         print(c_info)
     
-    def _get_base_stats_for_class(self, c) -> dict:
-        match c:
-            case ClassType.NECROMANCER:
-                return self.c_stat_manager.necromancer_base_stats()
-            case ClassType.WARRIOR:
-                return self.c_stat_manager.warrior_base_stats()
-            case ClassType.DRUID:
-                return self.c_stat_manager.druid_base_stats()
-            case ClassType.WIZARD:
-                return self.c_stat_manager.wizard_base_stats()
-            case _:
-                raise Exception("unkown class type")
 
     def _get_player_class_from_str(self, c: str) -> ClassType:
         match c.upper():
