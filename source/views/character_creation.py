@@ -5,8 +5,9 @@ from entities.classes.class_type import ClassType
 from entities.player.player import Player
 from helpers.consts import Consts
 from managers.data_managers.characters_manager import CharactersManager
+from helpers.logging.logger import Logger
 
-# TODO add logger info
+
 class CharacterCreationView(arcade.View):
     def __init__(self, screen_width, screen_height) -> None:
         self.screen_width = screen_width
@@ -134,4 +135,5 @@ class CharacterCreationView(arcade.View):
         self.player_character_name = name
 
     def create(self) -> None:
+        Logger.log_info("Creating new character")
         self.characters_manager.save_player_character_info(self.player_character_name, self.player_character_class_type)

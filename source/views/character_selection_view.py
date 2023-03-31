@@ -6,6 +6,7 @@ from entities.player.player import Player
 from helpers.consts import Consts
 from entities.classes.class_type import ClassType
 from managers.data_managers.characters_manager import CharactersManager
+from helpers.logging.logger import Logger
 
 
 class CharSelectButton(arcade.gui.UIFlatButton):
@@ -15,6 +16,7 @@ class CharSelectButton(arcade.gui.UIFlatButton):
 
     def on_click(self, event: arcade.gui.UIOnClickEvent):
         # TODO create method that parses the gathered player to player obj
+        Logger.log_info("Loading player object with character info")
         self.characters_manager.load_player_object(self.character_info)
 
     def set_char_info(self, c_info: Any) -> None:
@@ -22,8 +24,6 @@ class CharSelectButton(arcade.gui.UIFlatButton):
     
     def set_characters_manager(self, c_manager: CharactersManager) -> None:
         self.characters_manager = c_manager
-
-# TODO add logger info
 
 
 class CharacterSelectionView(arcade.View):
