@@ -1,29 +1,68 @@
 import arcade
+import arcade.gui
 from views.game_view import GameView
 from views.character_creation import CharacterCreationView
+from data.mongodb_connector import get_database
 
 
 class MainMenu(arcade.View):
     def __init__(self, screen_width, screen_height) -> None:
         self.screen_height = screen_height
         self.screen_width = screen_width
+        
+        self.manager = arcade.gui.UIManager()
+        self.manager.enable()
+
+        arcade.set_background_color(arcade.color.DARK_BLUE_GRAY)
+
+        self.v_box = arcade.gui.UIBoxLayout()
+
+        start_button = arcade.gui.UIFlatButton(text="Start Game", width=200)
+        self.v_box.add(start_button.with_space_around(bottom=20))
+
+        char_creation_button = arcade.gui.UIFlatButton(
+            text="Create Character", width=200)
+        self.v_box.add(char_creation_button.with_space_around(bottom=20))
+
+        quit_button = arcade.gui.UIFlatButton(text="Quit", width=200)
+        self.v_box.add(quit_button)
+
+        self.check_if_player_has_characters()
+
+        start_button.on_click = self.on_click_start
+        char_creation_button.on_click = self.on_click_char_creation
+        quit_button.on_click = self.on_click_quit
+
+        self.manager.add(arcade.gui.UIAnchorWidget(
+            anchor_x="center_x",
+            anchor_y="center_y",
+            child=self.v_box
+        ))
+
         super().__init__()
 
-    def on_show_view(self):
-        arcade.set_background_color(arcade.color.BLACK)
+    def on_click_start(self, event):
+        print("start: ", event)
 
-    def on_draw(self):
-        self.clear()
-        arcade.draw_text(
-            "Main Menu - Click to play",
-            self.screen_width / 2,
-            self.screen_height / 2,
-            arcade.color.WHITE,
-            font_size=30,
-            anchor_x="center"
-        )
-
-    def on_mouse_press(self, _x, _y, _button, _modifiers):
+    def on_click_char_creation(self, event):
         game_view = CharacterCreationView(
             self.screen_width, self.screen_height)
         self.window.show_view(game_view)
+
+    def on_click_quit(self, event):
+        arcade.exit()
+
+    def on_draw(self):
+        self.clear()
+        self.manager.draw()
+
+    # def on_mouse_press(self, _x, _y, _button, _modifiers):
+    #     game_view = CharacterCreationView(
+    #         self.screen_width, self.screen_height)
+    #     self.window.show_view(game_view)
+
+    def check_if_player_has_characters(self):
+        db = get_database()
+        col = list(db['characters'].find())
+        print(col)
+        # specific = db['characters'].find({"player_id": 1})

@@ -1,4 +1,5 @@
 --- plan ---
+* some sort of login
 * code testing
 * implement player classes
 * implement character creation screen; choose player class and enter character name
