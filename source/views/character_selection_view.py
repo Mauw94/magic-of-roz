@@ -1,6 +1,8 @@
 import arcade
 import arcade.gui
 from data.mongodb_connector import get_database
+from entities.player import Player
+from helpers.consts import Consts
 
 
 class CharSelectButton(arcade.gui.UIFlatButton):
@@ -9,18 +11,23 @@ class CharSelectButton(arcade.gui.UIFlatButton):
                          size_hint_min, size_hint_max, style, **kwargs)
 
     def on_click(self, event: arcade.gui.UIOnClickEvent):
-        print(self.char_name)
-        # TODO load game with correct char
-
-    def set_char(self, char_name):
-        self.char_name = char_name
+        print(self.c_name)
+        # TODO fix
+        p = Player(Consts.SCREEN_WIDTH // 2,
+                   Consts.SCREEN_HEIGHT // 2,
+                   self.player_character_class_type,
+                   self.player_character_name)
+        
+    def set_char(self, c_name, c_class):
+        self.c_name = c_name
+        self.c_class = c_class
 
 
 class CharacterSelectionView(arcade.View):
     def __init__(self, screen_w, screen_h):
         self.screen_width = screen_w
         self.screen_height = screen_h
-        
+
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
 
@@ -32,7 +39,7 @@ class CharacterSelectionView(arcade.View):
             for c in characters:
                 button = CharSelectButton(
                     text=c["character_name"] + " - " + c["character_class"].lower(), width=200)
-                button.set_char(c["character_name"])
+                button.set_char(c["character_name"], c["character_class"])
                 self.v_box.add(button.with_space_around(bottom=20))
 
         else:
