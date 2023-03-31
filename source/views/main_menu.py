@@ -1,9 +1,7 @@
 import arcade
 import arcade.gui
-from views.game_view import GameView
 from views.character_creation import CharacterCreationView
 from views.character_selection_view import CharacterSelectionView
-from data.mongodb_connector import get_database
 
 
 class MainMenu(arcade.View):
@@ -45,9 +43,6 @@ class MainMenu(arcade.View):
 
         super().__init__()
 
-    def on_show_view(self):
-        self.check_if_player_has_characters()
-
     def on_click_start(self, event):
         print("start: ", event)
 
@@ -68,9 +63,4 @@ class MainMenu(arcade.View):
     def on_draw(self):
         self.clear()
         self.manager.draw()
-
-    def check_if_player_has_characters(self):
-        db = get_database()
-        col = list(db['characters'].find())
-        print(col)
-        # specific = db['characters'].find({"player_id": 1})
+    

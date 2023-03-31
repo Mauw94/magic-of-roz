@@ -2,7 +2,7 @@ from typing import Any
 import arcade
 import arcade.gui
 from data.mongodb_connector import get_database
-from entities.player import Player
+from entities.player.player import Player
 from helpers.consts import Consts
 from entities.classes.class_type import ClassType
 from managers.data_managers.characters_manager import CharactersManager
@@ -41,7 +41,7 @@ class CharacterSelectionView(arcade.View):
         if len(characters) > 0:
             for c in characters:
                 button = CharSelectButton(
-                    text=c["character_name"] + " - " + c["character_class"].lower(), width=200)
+                    text=c["name"] + " - " + c["class"].lower(), width=200)
                 button.set_characters_manager(self.characters_manager)
                 button.set_char_info(c)
                 self.v_box.add(button.with_space_around(bottom=20))

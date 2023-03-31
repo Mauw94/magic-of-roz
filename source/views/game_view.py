@@ -2,7 +2,7 @@ import os
 import arcade
 import random
 from helpers.consts import Consts
-from entities.player import Player
+from entities.player.player import Player
 from input.keys import Keys
 from arcade.experimental.lights import Light, LightLayer
 from entities.enemies.zombie_enemy import ZombieEnemey

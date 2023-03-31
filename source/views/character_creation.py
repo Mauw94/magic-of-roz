@@ -1,9 +1,8 @@
-from datetime import datetime
 import arcade
 import arcade.gui
 import arcade.experimental.uistyle
 from entities.classes.class_type import ClassType
-from entities.player import Player
+from entities.player.player import Player
 from helpers.consts import Consts
 from managers.data_managers.characters_manager import CharactersManager
 
@@ -135,11 +134,4 @@ class CharacterCreationView(arcade.View):
         self.player_character_name = name
 
     def create(self) -> None:
-        i = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        character_info = {
-            "player_id": 1,
-            "character_name": self.player_character_name,
-            "character_class": self.player_character_class_type.name,
-            "creation_time": i
-        }
-        self.characters_manager.save_player_character_info(character_info)
+        self.characters_manager.save_player_character_info(self.player_character_name, self.player_character_class_type)

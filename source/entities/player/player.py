@@ -4,17 +4,22 @@ from entities.attacks.normal_ranged_attack import NormalRangedAttack
 from entities.attacks.special_ranged_attack import SpecialRangedAttack
 from helpers.logging.logger import Logger
 from typing import TYPE_CHECKING
+
+from entities.player.character_info import CharacterInfo
 if TYPE_CHECKING:
     from views.game_view import GameView
 import arcade
 
 
 class Player(Entity):
-    def __init__(self, x, y, class_type, character_name):
+    def __init__(self, x, y):
         super().__init__("male_person", "malePerson")
-
-        self.class_type = class_type
-        self.character_name = character_name
+        
+        # character info
+        # TODO: items
+        # TODO: inventory
+        self.character_info = CharacterInfo()
+        
         self.center_x = x
         self.center_y = y
 
