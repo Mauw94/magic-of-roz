@@ -16,7 +16,7 @@ class CharacterCreationView(arcade.View):
         self.characters_manager = CharactersManager()
         self.player_character_class_type = None
         self.player_character_name = ""
-        
+
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
 
@@ -33,7 +33,7 @@ class CharacterCreationView(arcade.View):
         self.h_box.add(self.ui_error_label.with_space_around(bottom=50))
 
         self.ui_text_label = arcade.gui.UILabel(text="Chosen class: ",
-                                                width=600,
+                                                width=650,
                                                 height=40,
                                                 font_size=24,
                                                 font_name="Kenney Future")
@@ -73,7 +73,7 @@ class CharacterCreationView(arcade.View):
         wiz_button.on_click = self.on_click_wizard
         create_button.on_click = self.on_click_create
         back_button.on_click = self.on_back
-        
+
         self.manager.add(arcade.gui.UIAnchorWidget(
             anchor_x="center_x",
             anchor_y="center_y",
@@ -136,4 +136,5 @@ class CharacterCreationView(arcade.View):
 
     def create(self) -> None:
         Logger.log_info("Creating new character")
-        self.characters_manager.save_player_character_info(self.player_character_name, self.player_character_class_type)
+        self.characters_manager.save_player_character_info(
+            self.player_character_name, self.player_character_class_type)

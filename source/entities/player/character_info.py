@@ -7,6 +7,7 @@ class CharacterInfo():
         self.stats = {}
         self.level = None
         self.name = None
+        self.class_type = None
 
     def set_info(self, c_info: dict) -> None:
         self.set_name(c_info["name"])
@@ -15,7 +16,10 @@ class CharacterInfo():
 
     def get_normal_damage(self) -> int:
         return self.stats["ap"]
-        
+
+    def get_name(self) -> str:
+        return self.name
+
     def set_name(self, n: str) -> None:
         self.name = n
 
@@ -25,6 +29,9 @@ class CharacterInfo():
     def set_stats(self, stats: dict) -> None:
         self.stats = stats
 
+    def set_class_type(self, class_t: ClassType):
+        self.class_type = class_t
+
     def get_stats(self) -> dict:
         return self.stats
 
@@ -33,4 +40,5 @@ class CharacterInfo():
             "stats": self.get_stats(),
             "level": self.level,
             "name": self.name,
+            "class": self.class_type.name
         }

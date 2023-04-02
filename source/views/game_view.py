@@ -83,7 +83,7 @@ class GameView(arcade.View):
             Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT)
         self.light_layer.set_background_color(arcade.color.BLACK)
 
-        radius = 950
+        radius = 970
         mode = "soft"
         color = arcade.color.WHITE
         self.player_light = Light(0, 0, radius, color, mode)
@@ -94,7 +94,7 @@ class GameView(arcade.View):
         # TODO move coins and enemies creation to seperate functions
         # Add some random coins just for the sake of it for now
         self.coins = arcade.SpriteList()
-        for _ in range(50):
+        for _ in range(30):
             coin = arcade.Sprite(
                 ":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_PLAYER)
             coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
@@ -128,8 +128,9 @@ class GameView(arcade.View):
     def on_key_release(self, key, modifiers):
         self.handle_input.on_key_release(self, key, modifiers)
 
-    def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
-        self.handle_input.on_mouse_scroll(self, x, y, scroll_x, scroll_y)
+    # errors
+    # def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
+    #     self.handle_input.on_mouse_scroll(self, x, y, scroll_x, scroll_y)
 
     def on_update(self, delta_time):
         self.physics_engine.update()
@@ -156,6 +157,14 @@ class GameView(arcade.View):
             self.player.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
             self.player.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
             arcade.csscolor.RED,
+            18
+        )
+
+        arcade.draw_text(
+            f"Mana: {self.player.get_mana()}",
+            self.player.center_x + (Consts.SCREEN_WIDTH / 2) - 130,
+            self.player.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            arcade.csscolor.BLUE,
             18
         )
 

@@ -38,6 +38,19 @@ class Player(Entity):
         self.health = self.character_info.get_stats()["hp"]
         return self.health
 
+    def get_mana(self) -> int:
+        self.mana = self.character_info.get_stats()["mana"]
+        return self.mana
+
+    def update(self):
+        arcade.draw_text(
+            f"{self.character_info.get_name()}",
+            self.center_x,
+            self.center_y + 32,
+            arcade.csscolor.WHITE
+        )
+        return super().update()
+
     def update_animation(self, delta_time: float = 1 / 60):
         if self.change_x < 0 and self.facing_direction == Consts.RIGHT_FACING:
             self.facing_direction = Consts.LEFT_FACING

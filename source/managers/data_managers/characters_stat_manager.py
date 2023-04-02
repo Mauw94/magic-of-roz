@@ -40,7 +40,7 @@ class CharactersStatManager():
             "hp": 90,
             "ap": 5,
             "as": 1.1,
-            "mana": 100,
+            "mana": 120,
             "intelligence_stat": 11,
             "strength_stat": 3,
             "dexterity_stat": 5,

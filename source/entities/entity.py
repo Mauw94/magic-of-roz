@@ -14,6 +14,7 @@ class Entity(arcade.Sprite):
         self.cur_texture = 0
         self.health = 0
         self.damage = 0
+        self.mana = 0
 
         main_path = f":resources:images/animated_characters/{folder}/{file}"
 
