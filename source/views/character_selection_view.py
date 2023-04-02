@@ -7,6 +7,7 @@ from helpers.consts import Consts
 from entities.classes.class_type import ClassType
 from managers.data_managers.characters_manager import CharactersManager
 from helpers.logging.logger import Logger
+from entities.classes.necromancer import Necromancer
 
 
 class CharSelectButton(arcade.gui.UIFlatButton):
@@ -15,19 +16,28 @@ class CharSelectButton(arcade.gui.UIFlatButton):
                          size_hint_min, size_hint_max, style, **kwargs)
 
     def on_click(self, event: arcade.gui.UIOnClickEvent):
-        # TODO create method that parses the gathered player to player obj
-        Logger.log_info("Loading player object with character info")
-        self.characters_manager.load_player_object(self.character_info)
+        Logger.log_info("Loading player object with character info: ")
+        p = self.characters_manager.load_player_object(self.character_info)
+        for x, y in p.character_info.get_stats().items():
+            print(x, y)
+        from views.game_view import GameView
+        game_view = GameView(p)
+        self.game_window.show_view(game_view)
 
-    def set_char_info(self, c_info: Any) -> None:
+    def set_char_info(self, c_info: dict) -> None:
         self.character_info = c_info
-    
+
     def set_characters_manager(self, c_manager: CharactersManager) -> None:
         self.characters_manager = c_manager
+
+    def set_game_window(self, window: arcade.Window) -> None:
+        self.game_window = window
 
 
 class CharacterSelectionView(arcade.View):
     def __init__(self, screen_w, screen_h):
+        super().__init__()
+
         self.screen_width = screen_w
         self.screen_height = screen_h
 
@@ -44,6 +54,7 @@ class CharacterSelectionView(arcade.View):
                     text=c["name"] + " - " + c["class"].lower(), width=200)
                 button.set_characters_manager(self.characters_manager)
                 button.set_char_info(c)
+                button.set_game_window(self.window)
                 self.v_box.add(button.with_space_around(bottom=20))
 
         else:
@@ -65,7 +76,6 @@ class CharacterSelectionView(arcade.View):
             child=self.v_box
         ))
         arcade.set_background_color(arcade.color.DARK_BLUE_GRAY)
-        super().__init__()
 
     def on_click_back(self, event):
         from views.main_menu import MainMenu

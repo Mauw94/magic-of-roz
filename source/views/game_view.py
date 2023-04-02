@@ -16,7 +16,7 @@ VIEWPORT_MARGIN = 200
 
 
 class GameView(arcade.View):
-    def __init__(self) -> None:
+    def __init__(self, player: Player) -> None:
         super().__init__()
 
         self.__check_log_file_size()
@@ -37,7 +37,7 @@ class GameView(arcade.View):
         self.down_pressed = False
 
         self.scene = None
-        self.player = None
+        self.player = player
         self.tile_map = None
         self.physics_engine = None
 
@@ -72,8 +72,6 @@ class GameView(arcade.View):
         self.score = 0
         self.enemy_attack_timer = 0
 
-        self.player = Player(Consts.SCREEN_WIDTH // 2,
-                             Consts.SCREEN_HEIGHT // 2)
         self.scene.add_sprite("Player", self.player)
         self.scene.add_sprite_list("Attacks")
 
@@ -154,7 +152,7 @@ class GameView(arcade.View):
         self.light_layer.draw(ambient_color=AMBIENT_COLOR)
 
         arcade.draw_text(
-            f"Health: {self.player.health}",
+            f"Health: {self.player.get_health()}",
             self.player.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
             self.player.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
             arcade.csscolor.RED,

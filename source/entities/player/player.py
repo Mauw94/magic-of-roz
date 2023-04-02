@@ -12,16 +12,15 @@ import arcade
 
 
 class Player(Entity):
-    def __init__(self, x, y):
+    def __init__(self):
         super().__init__("male_person", "malePerson")
-        
-        # character info
+
         # TODO: items
         # TODO: inventory
+
         self.character_info = CharacterInfo()
-        
-        self.center_x = x
-        self.center_y = y
+        self.center_x = Consts.SCREEN_WIDTH // 2
+        self.center_y = Consts.SCREEN_HEIGHT // 2
 
         self.can_shoot_normal_ranged_attack = False
         self.can_shoot_special_ranged_attack = False
@@ -32,9 +31,12 @@ class Player(Entity):
         self.normal_shoot_timer = 0
         self.special_shoot_timer = 0
 
-        self.health = 100
         self.hit = False
         self.hit_sound = arcade.load_sound(":resources:sounds/hit2.wav")
+
+    def get_health(self) -> int:
+        self.health = self.character_info.get_stats()["hp"]
+        return self.health
 
     def update_animation(self, delta_time: float = 1 / 60):
         if self.change_x < 0 and self.facing_direction == Consts.RIGHT_FACING:
