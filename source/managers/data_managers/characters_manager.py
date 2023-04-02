@@ -34,9 +34,6 @@ class CharactersManager():
         self.collection.insert_one(c_info)
 
     def load_player_object(self, c_info: dict) -> Player:
-        # TODO create player object here
-        # class_t object (e.g. Necromances extends from Player)
-        # class_t object gets new properties as basic attacks etc
         c_type = self._get_player_class_from_str(c_info["class"])
         match c_type:
             case ClassType.NECROMANCER:

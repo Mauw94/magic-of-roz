@@ -53,11 +53,13 @@ class Player(Entity):
             self.cur_texture = 0
         self.texture = self.walk_textures[self.cur_texture][self.facing_direction]
 
+    # TODO spend mana; regen mana
     def normal_ranged_attack(self, game: 'GameView'):
         if self.can_shoot_normal_ranged_attack:
             if self.normal_ranged_attack_pressed:
                 Logger.log_game_event("Performing normal ranged attack")
                 bullet = NormalRangedAttack()
+                bullet.set_damage(self.character_info.get_normal_damage())
                 bullet.play_shooting_sound()
                 if self.facing_direction == Consts.RIGHT_FACING:
                     bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED

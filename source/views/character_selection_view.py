@@ -18,8 +18,6 @@ class CharSelectButton(arcade.gui.UIFlatButton):
     def on_click(self, event: arcade.gui.UIOnClickEvent):
         Logger.log_info("Loading player object with character info: ")
         p = self.characters_manager.load_player_object(self.character_info)
-        for x, y in p.character_info.get_stats().items():
-            print(x, y)
         from views.game_view import GameView
         game_view = GameView(p)
         self.game_window.show_view(game_view)
