@@ -34,12 +34,14 @@ class Player(Entity):
         self.hit = False
         self.hit_sound = arcade.load_sound(":resources:sounds/hit2.wav")
 
-    def get_health(self) -> int:
+    def setup(self):
         self.health = self.character_info.get_stats()["hp"]
+        self.mana = self.character_info.get_stats()["mana"]
+
+    def get_health(self) -> int:
         return self.health
 
     def get_mana(self) -> int:
-        self.mana = self.character_info.get_stats()["mana"]
         return self.mana
 
     def update(self):

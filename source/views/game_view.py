@@ -69,6 +69,8 @@ class GameView(arcade.View):
 
         Logger.log_info("Setting up game")
 
+        self.player.setup()
+
         self.score = 0
         self.enemy_attack_timer = 0
 
