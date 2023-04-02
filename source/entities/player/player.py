@@ -49,8 +49,25 @@ class Player(Entity):
 
     def draw(self):
         arcade.draw_text(
+            f"Health: {self.get_health()}",
+            self.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
+            self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            arcade.csscolor.RED,
+            18
+        )
+
+        arcade.draw_text(
+            f"Mana: {self.get_mana()}",
+            self.center_x + (Consts.SCREEN_WIDTH / 2) - 130,
+            self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            arcade.csscolor.BLUE,
+            18
+        )
+
+        offset = self._get_name_offset(self.character_info.get_name())
+        arcade.draw_text(
             f"{self.character_info.get_name()}",
-            self.center_x - 30,
+            self.center_x - offset,
             self.center_y + 20,
             arcade.csscolor.WHITE,
             14
@@ -123,3 +140,23 @@ class Player(Entity):
     def play_hit_sound(self):
         if self.hit_sound is not None:
             arcade.play_sound(self.hit_sound)
+
+    def _get_name_offset(self, name: str) -> int:
+        # TODO: decent algo this is dogwater
+        o = len(name)
+        if o >= 19:
+            return 55
+        elif o >= 17:
+            return 50
+        elif o >= 15:
+            return 45
+        elif o >= 12:
+            return 40
+        elif o >= 10:
+            return 35
+        elif o >= 7:
+            return 30
+        elif o >= 5:
+            return 15
+        else:
+            return 15
