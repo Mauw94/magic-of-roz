@@ -28,6 +28,7 @@ class Enemy(Entity):
         self.health_bar.position = (
             self.center_x, self.center_y + 32)  # 32 is the offset
 
+        self.update_animation(self)
         return super().update()
 
     def update_animation(self, delta_time: float = 1 / 60):

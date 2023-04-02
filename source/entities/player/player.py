@@ -45,13 +45,16 @@ class Player(Entity):
         return self.mana
 
     def update(self):
+        self.update_animation()
+
+    def draw(self):
         arcade.draw_text(
             f"{self.character_info.get_name()}",
-            self.center_x,
-            self.center_y + 32,
-            arcade.csscolor.WHITE
+            self.center_x - 30,
+            self.center_y + 20,
+            arcade.csscolor.WHITE,
+            14
         )
-        return super().update()
 
     def update_animation(self, delta_time: float = 1 / 60):
         if self.change_x < 0 and self.facing_direction == Consts.RIGHT_FACING:
@@ -69,6 +72,7 @@ class Player(Entity):
         self.texture = self.walk_textures[self.cur_texture][self.facing_direction]
 
     # TODO spend mana; regen mana
+    # normal ranged attack when pressing Q
     def normal_ranged_attack(self, game: 'GameView'):
         if self.can_shoot_normal_ranged_attack:
             if self.normal_ranged_attack_pressed:

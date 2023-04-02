@@ -1,4 +1,10 @@
 --- plan ---
+* periodically spawn enemies
+* killing an enemy grants xp
+* level up increases stats
+* show more stats on screen
+* spend mana when attacking
+
 * some sort of login
 * code testing
 * implement player classes

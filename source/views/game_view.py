@@ -137,11 +137,11 @@ class GameView(arcade.View):
     def on_update(self, delta_time):
         self.physics_engine.update()
         self.player_light.position = self.player.position
-        self.scene.update_animation(delta_time, ["Player", "Coins", "Enemies"])
+        self.scene.update_animation(delta_time, ["Coins"])
         self.collision_detection_service.collision_detection(self)
         self.player.normal_ranged_attack(self)
         self.player.special_ranged_attack(self)
-        self.scene.update(["Enemies", "Attacks"])
+        self.scene.update(["Player", "Enemies", "Attacks"])
 
         self.__enemies_attack()
         self.__scroll_screen()
@@ -169,6 +169,8 @@ class GameView(arcade.View):
             arcade.csscolor.BLUE,
             18
         )
+
+        self.player.draw()
 
     def __scroll_screen(self):
         # Scroll left
