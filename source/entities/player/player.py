@@ -34,18 +34,25 @@ class Player(Entity):
         self.hit = False
         self.hit_sound = arcade.load_sound(":resources:sounds/hit2.wav")
 
+        self.mana_is_full = True
+        self.mana_regen_timer = 0
+        self.mana_regen_interval = 50  # TODO move to char info
+
     def setup(self):
         self.health = self.character_info.get_stats()["hp"]
         self.mana = self.character_info.get_stats()["mana"]
+        self.cur_mana = self.mana
+        self.mana_is_full = True
 
     def get_health(self) -> int:
         return self.health
 
     def get_mana(self) -> int:
-        return self.mana
+        return self.cur_mana
 
     def update(self):
         self.update_animation()
+        self._regen_mana()
 
     def draw(self):
         arcade.draw_text(
@@ -96,6 +103,7 @@ class Player(Entity):
                 Logger.log_game_event("Performing normal ranged attack")
                 bullet = NormalRangedAttack()
                 bullet.set_damage(self.character_info.get_normal_damage())
+                self.cur_mana -= bullet.mana_cost
                 bullet.play_shooting_sound()
                 if self.facing_direction == Consts.RIGHT_FACING:
                     bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
@@ -140,6 +148,15 @@ class Player(Entity):
     def play_hit_sound(self):
         if self.hit_sound is not None:
             arcade.play_sound(self.hit_sound)
+
+    def _regen_mana(self):
+        if self.cur_mana >= self.mana:
+            return
+
+        self.mana_regen_timer += 1
+        if self.mana_regen_timer == self.mana_regen_interval:
+            self.cur_mana += 1
+            self.mana_regen_timer = 0
 
     def _get_name_offset(self, name: str) -> int:
         # TODO: decent algo this is dogwater
