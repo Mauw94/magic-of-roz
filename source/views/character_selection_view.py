@@ -19,7 +19,7 @@ class CharSelectButton(arcade.gui.UIFlatButton):
         Logger.log_info("Loading player object with character info: ")
         p = self.characters_manager.load_player_object(self.character_info)
         from views.game_view import GameView
-        game_view = GameView(p)
+        game_view = GameView(self.s_w, self.s_h, p)
         self.game_window.show_view(game_view)
 
     def set_char_info(self, c_info: dict) -> None:
@@ -28,8 +28,10 @@ class CharSelectButton(arcade.gui.UIFlatButton):
     def set_characters_manager(self, c_manager: CharactersManager) -> None:
         self.characters_manager = c_manager
 
-    def set_game_window(self, window: arcade.Window) -> None:
+    def set_game_window(self, window: arcade.Window, screen_w, screen_h) -> None:
         self.game_window = window
+        self.s_w = screen_w
+        self.s_h = screen_h
 
 
 class CharacterSelectionView(arcade.View):
@@ -52,7 +54,8 @@ class CharacterSelectionView(arcade.View):
                     text=c["name"] + " - " + c["class"].lower(), width=200)
                 button.set_characters_manager(self.characters_manager)
                 button.set_char_info(c)
-                button.set_game_window(self.window)
+                button.set_game_window(
+                    self.window, self.screen_width, self.screen_height)
                 self.v_box.add(button.with_space_around(bottom=20))
 
         else:

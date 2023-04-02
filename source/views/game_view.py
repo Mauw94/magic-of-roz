@@ -16,10 +16,13 @@ VIEWPORT_MARGIN = 200
 
 
 class GameView(arcade.View):
-    def __init__(self, player: Player) -> None:
+    def __init__(self, screen_w, screen_h, player: Player) -> None:
         super().__init__()
 
         self.__check_log_file_size()
+
+        self.screen_width = screen_w
+        self.screen_height = screen_h
 
         Logger.log_info("Initializing game")
 
@@ -35,6 +38,7 @@ class GameView(arcade.View):
         self.right_pressed = False
         self.up_pressed = False
         self.down_pressed = False
+        self.escape_pressed = False
 
         self.scene = None
         self.player = player
@@ -145,6 +149,18 @@ class GameView(arcade.View):
 
         self.__enemies_attack()
         self.__scroll_screen()
+
+        if self.escape_pressed:
+            # TODO: bug -> screen moves with the player -> reset position?
+            Logger.log_game_event("Returning to main menu")
+            from views.main_menu import MainMenu
+            arcade.set_viewport(0,
+                                self.screen_width,
+                                0,
+                                self.screen_height)
+            game_view = MainMenu(
+                self.screen_width, self.screen_height)
+            self.window.show_view(game_view)
 
     def on_draw(self):
         self.clear()
