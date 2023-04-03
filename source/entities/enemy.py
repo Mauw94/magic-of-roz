@@ -57,4 +57,4 @@ class Enemy(Entity):
 
     def __play_hit_sound(self):
         if self.hit_sound is not None:
-            arcade.play_sound(self.hit_sound)
+            self.sound_manager.play_sound(self.hit_sound)

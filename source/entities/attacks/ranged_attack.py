@@ -1,6 +1,7 @@
 import arcade
 from helpers.texture_loader import TextureLoader
 from helpers.consts import Consts
+from managers.resource_managers.sound_manager import SoundManager
 
 
 class RangedAttack(arcade.Sprite):
@@ -8,6 +9,9 @@ class RangedAttack(arcade.Sprite):
 
     def __init__(self, folder, file):
         super().__init__()
+
+        self.sound_manager = SoundManager()
+        self.sound_manager.set_preferred_sound_volume(0.3)
 
         self._mana_cost = 0
         self._damage = 0
@@ -23,7 +27,7 @@ class RangedAttack(arcade.Sprite):
 
     def play_shooting_sound(self):
         if self.sound is not None:
-            arcade.play_sound(self.sound)
+            self.sound_manager.play_sound(self.sound)
 
     def mana_cost(self) -> int:
         return self._mana_cost

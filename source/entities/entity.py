@@ -1,6 +1,7 @@
 import arcade
 from helpers.texture_loader import TextureLoader
 from helpers.consts import Consts
+from managers.resource_managers.sound_manager import SoundManager
 
 
 class Entity(arcade.Sprite):
@@ -9,6 +10,8 @@ class Entity(arcade.Sprite):
     def __init__(self, folder, file):
         super().__init__()
 
+        self.sound_manager = SoundManager()
+        self.sound_manager.set_preferred_sound_volume(0.3)
         self.facing_direction = Consts.RIGHT_FACING
         self.scale = Consts.SPRITE_SCALING_PLAYER
         self.cur_texture = 0

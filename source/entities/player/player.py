@@ -147,7 +147,7 @@ class Player(Entity):
 
     def play_hit_sound(self):
         if self.hit_sound is not None:
-            arcade.play_sound(self.hit_sound)
+            self.sound_manager.play_sound(self.hit_sound)
 
     def _get_name_offset(self, name: str) -> int:
         # TODO: decent algo this is dogwater
