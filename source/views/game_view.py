@@ -170,22 +170,6 @@ class GameView(arcade.View):
 
         self.light_layer.draw(ambient_color=AMBIENT_COLOR)
 
-        arcade.draw_text(
-            f"Health: {self.player.get_health()}",
-            self.player.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
-            self.player.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
-            arcade.csscolor.RED,
-            18
-        )
-
-        arcade.draw_text(
-            f"Mana: {self.player.get_mana()}",
-            self.player.center_x + (Consts.SCREEN_WIDTH / 2) - 130,
-            self.player.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
-            arcade.csscolor.BLUE,
-            18
-        )
-
         self.player.draw()
 
     def __scroll_screen(self):

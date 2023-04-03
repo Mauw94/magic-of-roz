@@ -11,7 +11,8 @@ if TYPE_CHECKING:
 
 class CollisionDetectionService:
     def __init__(self):
-        Logger.log_object_creation("CollisionDetectionService", "CollisionDetectionServiceClass")
+        Logger.log_object_creation(
+            "CollisionDetectionService", "CollisionDetectionServiceClass")
 
     def collision_detection(self, game: 'GameView'):
         self.__coins_collision_detection(game)
@@ -35,7 +36,7 @@ class CollisionDetectionService:
                     return
                 attack.remove_from_sprite_lists()
                 for enemy in attack_hit_list:
-                    enemy.hit(attack.damage)
+                    enemy.hit(attack.damage())
                     if enemy.health <= 0:
                         enemy.remove_from_sprite_lists()
 
@@ -45,6 +46,6 @@ class CollisionDetectionService:
                 attack, game.scene["Player"])
             if attack_hit_list:
                 if type(attack) is ZombieAttack:
-                    game.player.health -= attack.damage
+                    game.player.health -= attack.damage()
                     game.player.play_hit_sound()
                     attack.remove_from_sprite_lists()

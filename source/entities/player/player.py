@@ -6,6 +6,8 @@ from helpers.logging.logger import Logger
 from typing import TYPE_CHECKING
 
 from entities.player.character_info import CharacterInfo
+from managers.entity_managers.attack_entity_manager import AttackEntityManager
+from managers.entity_managers.attack_entity_type import AttackEntityType
 if TYPE_CHECKING:
     from views.game_view import GameView
 import arcade
@@ -17,6 +19,8 @@ class Player(Entity):
 
         # TODO: items
         # TODO: inventory
+
+        self.attack_entity_manager = AttackEntityManager()
 
         self.character_info = CharacterInfo()
         self.center_x = Consts.SCREEN_WIDTH // 2
@@ -101,9 +105,9 @@ class Player(Entity):
         if self.can_shoot_normal_ranged_attack:
             if self.normal_ranged_attack_pressed:
                 Logger.log_game_event("Performing normal ranged attack")
-                bullet = NormalRangedAttack()
-                bullet.set_damage(self.character_info.get_normal_damage())
-                self.cur_mana -= bullet.mana_cost
+                bullet = self.attack_entity_manager.create_attack(
+                    AttackEntityType.NORMAL_RANGED, self.character_info.get_normal_damage(), 7)
+                self.cur_mana -= bullet.mana_cost()
                 bullet.play_shooting_sound()
                 if self.facing_direction == Consts.RIGHT_FACING:
                     bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED

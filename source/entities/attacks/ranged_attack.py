@@ -9,7 +9,9 @@ class RangedAttack(arcade.Sprite):
     def __init__(self, folder, file):
         super().__init__()
 
-        self.damage = 0
+        self._mana_cost = 0
+        self._damage = 0
+
         self.mainPath = f":resources:images/{folder}/{file}"
         self.scale = Consts.SPRITE_SCALING_TILES
         self.sound = None
@@ -22,3 +24,15 @@ class RangedAttack(arcade.Sprite):
     def play_shooting_sound(self):
         if self.sound is not None:
             arcade.play_sound(self.sound)
+
+    def mana_cost(self) -> int:
+        return self._mana_cost
+
+    def set_mana_cost(self, cost) -> None:
+        self._mana_cost = cost
+
+    def damage(self) -> int:
+        return self._damage
+
+    def set_damage(self, d) -> None:
+        self._damage = d
