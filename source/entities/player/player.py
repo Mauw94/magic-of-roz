@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 from entities.player.character_info import CharacterInfo
 from managers.entity_managers.attack_entity_manager import AttackEntityManager
 from managers.entity_managers.attack_entity_type import AttackEntityType
+from managers.resource_managers.resource_manager import ResourceManager
 if TYPE_CHECKING:
     from views.game_view import GameView
 import arcade
@@ -21,6 +22,7 @@ class Player(Entity):
         # TODO: inventory
 
         self.attack_entity_manager = AttackEntityManager()
+        self.resource_manager = ResourceManager()
 
         self.character_info = CharacterInfo()
         self.center_x = Consts.SCREEN_WIDTH // 2
@@ -38,25 +40,19 @@ class Player(Entity):
         self.hit = False
         self.hit_sound = arcade.load_sound(":resources:sounds/hit2.wav")
 
-        self.mana_is_full = True
-        self.mana_regen_timer = 0
-        self.mana_regen_interval = 50  # TODO move to char info
-
     def setup(self):
         self.health = self.character_info.get_stats()["hp"]
         self.mana = self.character_info.get_stats()["mana"]
-        self.cur_mana = self.mana
-        self.mana_is_full = True
+        self.resource_manager.set_max_mana(self.mana)
+        self.resource_manager.set_mana_regen_values(
+            50)  # TODO set regen values in char info
 
     def get_health(self) -> int:
         return self.health
 
-    def get_mana(self) -> int:
-        return self.cur_mana
-
     def update(self):
         self.update_animation()
-        self._regen_mana()
+        self.mana = self.resource_manager.regen_mana()
 
     def draw(self):
         arcade.draw_text(
@@ -68,7 +64,7 @@ class Player(Entity):
         )
 
         arcade.draw_text(
-            f"Mana: {self.get_mana()}",
+            f"Mana: {self.resource_manager.get_cur_mana()}",
             self.center_x + (Consts.SCREEN_WIDTH / 2) - 130,
             self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
             arcade.csscolor.BLUE,
@@ -107,7 +103,7 @@ class Player(Entity):
                 Logger.log_game_event("Performing normal ranged attack")
                 bullet = self.attack_entity_manager.create_attack(
                     AttackEntityType.NORMAL_RANGED, self.character_info.get_normal_damage(), 7)
-                self.cur_mana -= bullet.mana_cost()
+                self.resource_manager.cur_mana -= bullet.mana_cost()
                 bullet.play_shooting_sound()
                 if self.facing_direction == Consts.RIGHT_FACING:
                     bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
@@ -152,15 +148,6 @@ class Player(Entity):
     def play_hit_sound(self):
         if self.hit_sound is not None:
             arcade.play_sound(self.hit_sound)
-
-    def _regen_mana(self):
-        if self.cur_mana >= self.mana:
-            return
-
-        self.mana_regen_timer += 1
-        if self.mana_regen_timer == self.mana_regen_interval:
-            self.cur_mana += 1
-            self.mana_regen_timer = 0
 
     def _get_name_offset(self, name: str) -> int:
         # TODO: decent algo this is dogwater
