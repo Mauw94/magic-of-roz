@@ -46,6 +46,6 @@ class CollisionDetectionService:
                 attack, game.scene["Player"])
             if attack_hit_list:
                 if type(attack) is ZombieAttack:
-                    game.player.health -= attack.damage()
+                    game.player.resource_manager.cur_hp -= attack.damage()
                     game.player.play_hit_sound()
                     attack.remove_from_sprite_lists()

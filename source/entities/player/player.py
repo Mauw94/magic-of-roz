@@ -43,20 +43,20 @@ class Player(Entity):
     def setup(self):
         self.health = self.character_info.get_stats()["hp"]
         self.mana = self.character_info.get_stats()["mana"]
+        # TODO set regen values in char info
         self.resource_manager.set_max_mana(self.mana)
-        self.resource_manager.set_mana_regen_values(
-            50)  # TODO set regen values in char info
-
-    def get_health(self) -> int:
-        return self.health
+        self.resource_manager.set_mana_regen_values(30)
+        self.resource_manager.set_max_hp(self.health)
+        self.resource_manager.set_hp_regen_values(50)
 
     def update(self):
         self.update_animation()
-        self.mana = self.resource_manager.regen_mana()
+        self.resource_manager.regen_mana()
+        self.resource_manager.regen_hp()
 
     def draw(self):
         arcade.draw_text(
-            f"Health: {self.get_health()}",
+            f"Health: {self.resource_manager.get_cur_hp()}",
             self.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
             self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
             arcade.csscolor.RED,
