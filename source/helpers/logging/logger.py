@@ -9,26 +9,32 @@ from datetime import datetime
 class Logger:
     loggingEnabled = True
 
+    # log warning
     def log_warning(msg):
         log = f"{Logger.__print_time()} {bcolors.WARNING}WARNING: {msg}"
         print(log, bcolors.ENDC)
         Logger.__log_to_file(log)
 
+    # log info
     def log_info(msg):
         log = f"{Logger.__print_time()} {bcolors.OKBLUE}INFO: {msg}"
         print(log, bcolors.ENDC)
         Logger.__log_to_file(log)
 
+    # log error
     def log_error(msg):
         log = f"{Logger.__print_time()} {bcolors.FAIL}ERROR: {msg}"
         print(log, bcolors.ENDC)
         Logger.__log_to_file(log)
 
+    # log event
     def log_game_event(msg):
         log = f"{Logger.__print_time()} {bcolors.OKGREEN}EVENT: {msg}"
         print(log, bcolors.ENDC)
         Logger.__log_to_file(log)
 
+    # msg: class/object which will be created
+    # creationIn: class/object in which the class/object will be created
     def log_object_creation(msg, creationIn):
         log = f"{Logger.__print_time()} {bcolors.OKCYAN}OBJECT_CREATION: {msg} IN: {creationIn}"
         print(log, bcolors.ENDC)
