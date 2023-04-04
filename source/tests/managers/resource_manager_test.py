@@ -31,7 +31,7 @@ class ResourceManagerTest(unittest.TestCase):
         assert self.rm.mana_is_full == False
         assert self.rm.cur_mana == 91
 
-    def setUp(self) -> ResourceManager:
+    def setUp(self) -> None:
         self.rm = ResourceManager()
 
 

@@ -10,7 +10,7 @@ import arcade
 import math
 
 
-class ZombieEnemey(Enemy):
+class ZombieEnemy(Enemy):
     def __init__(self, x, y, bar_list):
         super().__init__("zombie", "zombie", x, y, bar_list)
 

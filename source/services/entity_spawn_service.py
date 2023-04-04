@@ -1,5 +1,5 @@
 from typing import Tuple
-from entities.enemies.zombie_enemy import ZombieEnemey
+from entities.enemies.zombie_enemy import ZombieEnemy
 from helpers.consts import Consts
 from helpers.logging.logger import Logger
 import random
@@ -12,9 +12,9 @@ class EntitySpawnService:
         Logger.log_object_creation(
             "EntitySpawnService", "EntitySpawnServiceClass")
 
-    def spawn_zombie_enemy(self, hpbar_list) -> ZombieEnemey:
+    def spawn_zombie_enemy(self, hpbar_list) -> ZombieEnemy:
         x, y = self.__determine_x_y()
-        zombie = ZombieEnemey(x, y, hpbar_list)
+        zombie = ZombieEnemy(x, y, hpbar_list)
         self.enemy_spawn_locations.append([x, y])
 
         Logger.log_info("Spawning enemy")

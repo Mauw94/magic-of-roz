@@ -5,7 +5,7 @@ from helpers.consts import Consts
 from entities.player.player import Player
 from input.keys import Keys
 from arcade.experimental.lights import Light, LightLayer
-from entities.enemies.zombie_enemy import ZombieEnemey
+from entities.enemies.zombie_enemy import ZombieEnemy
 from services.collision_detection_service import CollisionDetectionService
 from services.entity_spawn_service import EntitySpawnService
 from entities.attacks.normal_ranged_attack import NormalRangedAttack
