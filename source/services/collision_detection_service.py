@@ -17,14 +17,8 @@ class CollisionDetectionService:
     def __init__(self):
         pass
 
-    # TODO move collision methods to gameview
-    # and pass objects to correct methods
     def collision_detection(self, game: 'GameView'):
         self.sound_manager = SoundManager()
-
-        # self.__coins_collision_detection(game)
-        # self.__bullet_collision_detection(game)
-        # self.__enemy_attack_collision_detection(game)
 
     def coins_collision_detection(self, coin_hit_list: List[arcade.Sprite]) -> int:
         s = 0
@@ -55,13 +49,3 @@ class CollisionDetectionService:
                     a.remove_from_sprite_lists()
                     player.resource_manager.cur_hp -= a.damage()
                     player.play_hit_sound()
-
-    def __enemy_attack_collision_detection(self, game: 'GameView'):
-        for attack in game.scene["Attacks"]:
-            attack_hit_list = arcade.check_for_collision_with_list(
-                attack, game.scene["Player"])
-            if attack_hit_list:
-                if type(attack) is ZombieAttack:
-                    game.player.resource_manager.cur_hp -= attack.damage()
-                    game.player.play_hit_sound()
-                    attack.remove_from_sprite_lists()
