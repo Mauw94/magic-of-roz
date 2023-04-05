@@ -39,6 +39,9 @@ class CollisionDetectionService:
                 for e in attack_hit_list:
                     e.hit(a.damage())
                     if e.health <= 0:
+                        hp_bar = e.get_hp_bar()
+                        hp_bar[0].remove_from_sprite_lists()
+                        hp_bar[1].remove_from_sprite_lists()
                         e.remove_from_sprite_lists()
 
     def enemy_attack_collision_detection(self, attacks: List[arcade.Sprite], players: List[arcade.Sprite], player: Player) -> None:

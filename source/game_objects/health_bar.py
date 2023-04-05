@@ -67,8 +67,9 @@ class HealthBar:
 
         self._fullness = new_fullness
         if new_fullness == 0:
-            self.bar_list.remove(self._background_box)
-            self.bar_list.remove(self._full_box)
+            # self.bar_list.remove(self._background_box)
+            # self.bar_list.remove(self._full_box)
+            pass
         else:
             self._full_box.width = self._box_width * new_fullness
             self._full_box.left = self._center_x - (self._box_width // 2)
