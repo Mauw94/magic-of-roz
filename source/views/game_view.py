@@ -32,7 +32,12 @@ class GameView(arcade.View):
 
         self.handle_input = Keys()
         self.collision_detection_service = CollisionDetectionService()
+        Logger.log_object_creation(
+            "CollisionDetectionService", "Game_View")
+
         self.entity_spawn_service = EntitySpawnService()
+        Logger.log_object_creation(
+            "EntitySpawnService", "Game_View")
 
         self.left_pressed = False
         self.right_pressed = False

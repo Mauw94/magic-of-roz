@@ -8,11 +8,8 @@ import random
 class EntitySpawnService:
     def __init__(self):
         self.enemy_spawn_locations = []
-        self.max_distance_between = 650
-        Logger.log_object_creation(
-            "EntitySpawnService", "EntitySpawnServiceClass")
+        self.max_distance_between = 100
 
-    # TODO hpbar list has to go
     def spawn_zombie_enemy(self) -> ZombieEnemy:
         x, y = self.__determine_x_y()
         zombie = ZombieEnemy(x, y)
