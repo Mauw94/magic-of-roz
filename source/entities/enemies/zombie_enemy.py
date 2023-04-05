@@ -11,8 +11,8 @@ import math
 
 
 class ZombieEnemy(Enemy):
-    def __init__(self, x, y, bar_list):
-        super().__init__("zombie", "zombie", x, y, bar_list)
+    def __init__(self, x, y):
+        super().__init__("zombie", "zombie", x, y)
 
         self.max_move_x = 120  # max movement to x
         self.max_move_y = 120  # max movement to y

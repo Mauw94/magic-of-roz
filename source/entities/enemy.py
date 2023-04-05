@@ -1,14 +1,16 @@
+from typing import Tuple
+
+import arcade
 from entities.entity import Entity
 from helpers.consts import Consts
 from helpers.texture_loader import TextureLoader
 from game_objects.health_bar import HealthBar
-import arcade
 
 
 class Enemy(Entity):
     texture_loader = TextureLoader("EnemyClass")
 
-    def __init__(self, folder, file, x, y,  bar_list):
+    def __init__(self, folder, file, x, y):
         super().__init__(folder, file)
 
         self.should_update_walk = 0
@@ -18,10 +20,13 @@ class Enemy(Entity):
         self.attack = None
 
         self.health_bar = HealthBar(
-            self, bar_list, 75, 4, (self.center_x, self.center_y))
+            self, 75, 4, (self.center_x, self.center_y))
 
         self.center_x = x
         self.center_y = y
+
+    def get_hp_bar(self) -> Tuple[arcade.SpriteSolidColor, arcade.SpriteSolidColor]:
+        return self.health_bar.get_hp_bar()
 
     def update(self):
         # Update the enemy's health bar pos

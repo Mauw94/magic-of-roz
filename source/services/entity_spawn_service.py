@@ -12,9 +12,10 @@ class EntitySpawnService:
         Logger.log_object_creation(
             "EntitySpawnService", "EntitySpawnServiceClass")
 
-    def spawn_zombie_enemy(self, hpbar_list) -> ZombieEnemy:
+    # TODO hpbar list has to go
+    def spawn_zombie_enemy(self) -> ZombieEnemy:
         x, y = self.__determine_x_y()
-        zombie = ZombieEnemy(x, y, hpbar_list)
+        zombie = ZombieEnemy(x, y)
         self.enemy_spawn_locations.append([x, y])
 
         Logger.log_info("Spawning enemy")

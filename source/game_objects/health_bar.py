@@ -9,14 +9,12 @@ class HealthBar:
     def __init__(
         self,
         owner,
-        bar_list: arcade.SpriteList,
         width: int,
         height: int,
         position: Tuple[float, float],
         border_size: int = 4
     ):
         self.owner = owner
-        self.bar_list = bar_list
 
         self._box_width = width
         self._box_height = height
@@ -38,11 +36,11 @@ class HealthBar:
             self._full_color
         )
 
-        self.bar_list.append(self._background_box)
-        self.bar_list.append(self._full_box)
-
         self.fullness = 1  # amount of green to draw in the healthbar
         self.position = position  # position above entities head
+
+    def get_hp_bar(self) -> Tuple[arcade.SpriteSolidColor, arcade.SpriteSolidColor]:
+        return self._background_box, self._full_box
 
     @property
     def position(self):

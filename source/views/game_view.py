@@ -113,8 +113,10 @@ class GameView(arcade.View):
 
         # add 3 zombies at random positions
         for _ in range(3):
-            zombie = self.entity_spawn_service.spawn_zombie_enemy(
-                self.scene["Bars"])
+            zombie = self.entity_spawn_service.spawn_zombie_enemy()
+            hp_bar = zombie.get_hp_bar()
+            self.scene["Bars"].append(hp_bar[0])
+            self.scene["Bars"].append(hp_bar[1])
             self.scene.add_sprite("Enemies", zombie)
 
         Logger.log_info("Sprites intialized")
