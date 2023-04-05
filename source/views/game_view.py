@@ -150,6 +150,21 @@ class GameView(arcade.View):
         self.player_light.position = self.player.position
         self.scene.update_animation(delta_time, ["Coins"])
         self.collision_detection_service.collision_detection(self)
+
+        # coins hit detection
+        coin_hit_list = arcade.check_for_collision_with_list(
+            self.player, self.scene["Coins"])
+        self.score += self.collision_detection_service.coins_collision_detection(
+            coin_hit_list)
+
+        # attack enemies hit detection
+        self.collision_detection_service.bullet_collision_detection(
+            self.scene["Attacks"], self.scene["Enemies"])
+
+        # enemy attacks hit detection
+        self.collision_detection_service.enemy_attack_collision_detection(
+            self.scene["Attacks"], self.scene["Player"], self.player)
+
         self.player.normal_ranged_attack(self)
         self.player.special_ranged_attack(self)
         self.scene.update(["Player", "Enemies", "Attacks"])
