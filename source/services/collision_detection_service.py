@@ -1,9 +1,5 @@
 import arcade
-from entities.attacks.normal_ranged_attack import NormalRangedAttack
-from entities.attacks.special_ranged_attack import SpecialRangedAttack
 from entities.attacks.enemy_attacks.zombie_attack import ZombieAttack
-from entities.enemy import Enemy
-from helpers.logging.logger import Logger
 from typing import TYPE_CHECKING, List
 
 from managers.resource_managers.sound_manager import SoundManager
@@ -15,10 +11,11 @@ if TYPE_CHECKING:
 
 class CollisionDetectionService:
     def __init__(self):
+        self.sound_manager = SoundManager()
         pass
 
     def collision_detection(self, game: 'GameView'):
-        self.sound_manager = SoundManager()
+        pass
 
     def coins_collision_detection(self, coin_hit_list: List[arcade.Sprite]) -> int:
         s = 0
