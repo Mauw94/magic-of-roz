@@ -37,7 +37,7 @@ class GameView(arcade.View):
 
         self.entity_spawn_service = EntitySpawnService()
         self.entity_spawn_service.set_spawn_timer(250)
-        self.entity_spawn_service.set_base_zombies_to_spawn(3)
+        self.entity_spawn_service.set_zombies_to_spawn_in_wave(3)
         Logger.log_object_creation(
             "EntitySpawnService", "Game_View")
 
@@ -113,7 +113,7 @@ class GameView(arcade.View):
                 ":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_PLAYER)
             coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
             coin.center_y = random.randrange(Consts.SCREEN_HEIGHT)
-            self.coins.append(coin)
+            self.append(coin)
         self.scene.add_sprite_list("Coins", True, self.coins)
 
         self.bar_list = arcade.SpriteList()
@@ -229,12 +229,13 @@ class GameView(arcade.View):
             enemy.ranged_attack(self)
 
     def __spawn_zombies(self):
-        zombie = self.entity_spawn_service.spawn_zombie_enemy()
-        if zombie is not None:
-            hp_bar = zombie.get_hp_bar()
-            self.scene["Bars"].append(hp_bar[0])
-            self.scene["Bars"].append(hp_bar[1])
-            self.scene.add_sprite("Enemies", zombie)
+        zombies = self.entity_spawn_service.spawn_zombie_wave()
+        if zombies is not None:
+            for z in zombies:
+                hp_bar = z.get_hp_bar()
+                self.scene["Bars"].append(hp_bar[0])
+                self.scene["Bars"].append(hp_bar[1])
+                self.scene.add_sprite("Enemies", z)
 
     def __check_log_file_size(self):
         s = os.path.getsize("logs.txt")

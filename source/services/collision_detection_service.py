@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 class CollisionDetectionService:
     def __init__(self):
         self.sound_manager = SoundManager()
-        pass
+        self.sound_manager.set_preferred_sound_volume(0.1)
 
     def collision_detection(self, game: 'GameView'):
         pass

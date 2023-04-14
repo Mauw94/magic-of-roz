@@ -25,7 +25,7 @@ class ZombieEnemy(Enemy):
         self.hit_sound = arcade.load_sound(":resources:sounds/hit5.wav")
 
         self.attack_timer = 0
-        self.__attack_interval = random.randrange(200, 350)
+        self.__attack_interval = random.randrange(200, 550)
         self.attack = None
 
     def update(self):

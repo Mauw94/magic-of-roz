@@ -16,13 +16,18 @@ class EntitySpawnService:
         self._zombies_to_spawn = 0
         self._cur_level = 1  # level will stay 1 for now
 
-    def set_base_zombies_to_spawn(self, zombies) -> None:
+    def set_zombies_to_spawn_in_wave(self, zombies) -> None:
         self._zombies_to_spawn = zombies
 
     def set_spawn_timer(self, st) -> None:
         self._spawn_timer = st
 
-    def spawn_zombie_enemy_wave(self) -> list:
+    # spawns multiple zombies at once
+    # n of zombies set beforehand
+    def spawn_zombie_wave(self) -> list[ZombieEnemy]:
+        if self._zombies_to_spawn == 0:
+            raise Exception("Define numbers of zombies to spawn")
+
         self._cur_t += 1
         if self._cur_t == self._spawn_timer:
             self._cur_t = 0
@@ -34,26 +39,24 @@ class EntitySpawnService:
                 self._zombies_to_spawn = int(self._zombies_to_spawn)
 
             # spawn zombies
-            x, y = self.__determine_x_y()
             z = []
             for _ in range(self._zombies_to_spawn):
+                x, y = self.__determine_x_y()
                 z.append(ZombieEnemy(x, y))
 
             return z
         else:
             return None
 
-    def spawn_zombie_enemy(self) -> ZombieEnemy:
-        # more logic to spawn more and faster during level, depending on level etc
+    def spawn_zombie(self) -> ZombieEnemy:
         self._cur_t += 1
         if self._cur_t == self._spawn_timer:
+            self._cur_t = 0
             x, y = self.__determine_x_y()
             zombie = ZombieEnemy(x, y)
             self.enemy_spawn_locations.append([x, y])
 
             Logger.log_info("Spawning enemy")
-
-            self._cur_t = 0
 
             return zombie
 
