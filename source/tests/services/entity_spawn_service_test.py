@@ -6,6 +6,45 @@ from entities.enemies.zombie_enemy import ZombieEnemy
 
 class EntitySpawnServiceTest(unittest.TestCase):
 
+    def test_spawn_zombie_enemy_wave_2_waves(self):
+        st = 50
+        z_to_spawn = 3
+        self.s.set_spawn_timer(st)
+        self.s.set_base_zombies_to_spawn(z_to_spawn)
+        z = []
+
+        # first wave spawns 3
+        # second wave spawns 3
+        # third wave increases int(spawn) * 1.5 = 4
+        for _ in range(z_to_spawn):
+            for _ in range(st):
+                zombies = self.s.spawn_zombie_enemy_wave()
+                if zombies is not None:
+                    for x in zombies:
+                        z.append(x)
+
+        assert len(z) == 10
+
+    def test_spawn_zombie_enemy_wave_returns_none(self):
+        self.s.set_spawn_timer(50)
+        z = self.s.spawn_zombie_enemy_wave()
+
+        assert z == None
+
+    def test_spawn_zombie_enemy_wave(self):
+        z_to_spawn = 3
+        self.s.set_spawn_timer(1)
+        self.s.set_base_zombies_to_spawn(z_to_spawn)
+        z = self.s.spawn_zombie_enemy_wave()
+
+        assert len(z) == z_to_spawn
+
+    def test_spawn_zombie_returns_none(self):
+        self.s.set_spawn_timer(50)
+        z = self.s.spawn_zombie_enemy()
+
+        assert z == None
+
     def test_spawn_zombie(self):
         self.s.set_spawn_timer(1)
         z = self.s.spawn_zombie_enemy()
@@ -13,13 +52,13 @@ class EntitySpawnServiceTest(unittest.TestCase):
         assert type(z) is ZombieEnemy
 
     def test_spawning_multiple_enemies(self):
-        x = 5
+        x = 3
         st = 50
         self.s.set_spawn_timer(st)
-        for _ in range(st*3):
+        for _ in range(st*x):
             self.s.spawn_zombie_enemy()
 
-        assert len(self.s.enemy_spawn_locations) == 3
+        assert len(self.s.enemy_spawn_locations) == x
 
     def test_clear_spawn_locations(self):
         x = 3

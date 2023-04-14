@@ -16,6 +16,6 @@ class CollisionDetectionServiceTest(unittest.TestCase):
         score = self.s.coins_collision_detection(c)
 
         assert score == t
-    
+
     def setUp(self):
         self.s = CollisionDetectionService()

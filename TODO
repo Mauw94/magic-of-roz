@@ -1,4 +1,5 @@
 --- plan ---
+* keep state of player (level, stats etc => mongodb?)
 * periodically spawn enemies
 * killing an enemy grants xp
 * level up increases stats

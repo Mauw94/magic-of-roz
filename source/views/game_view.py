@@ -37,6 +37,7 @@ class GameView(arcade.View):
 
         self.entity_spawn_service = EntitySpawnService()
         self.entity_spawn_service.set_spawn_timer(250)
+        self.entity_spawn_service.set_base_zombies_to_spawn(3)
         Logger.log_object_creation(
             "EntitySpawnService", "Game_View")
 
@@ -161,7 +162,7 @@ class GameView(arcade.View):
 
         # spawn periodically
         self.__spawn_zombies()
-        
+
         # attacks
         self.player.normal_ranged_attack(self)
         self.player.special_ranged_attack(self)
@@ -234,7 +235,7 @@ class GameView(arcade.View):
             self.scene["Bars"].append(hp_bar[0])
             self.scene["Bars"].append(hp_bar[1])
             self.scene.add_sprite("Enemies", zombie)
-        
+
     def __check_log_file_size(self):
         s = os.path.getsize("logs.txt")
         if s > 1000000:
