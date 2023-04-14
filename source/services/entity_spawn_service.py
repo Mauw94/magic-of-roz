@@ -9,15 +9,27 @@ class EntitySpawnService:
     def __init__(self):
         self.enemy_spawn_locations = []
         self.max_distance_between = 100
+        
+        self._spawn_timer = 0
+        self._cur_t = 0
 
+    def set_spawn_timer(self, st) -> None:
+        self._spawn_timer = st
+        
     def spawn_zombie_enemy(self) -> ZombieEnemy:
-        x, y = self.__determine_x_y()
-        zombie = ZombieEnemy(x, y)
-        self.enemy_spawn_locations.append([x, y])
+        # more logic to spawn more and faster during level, depending on level etc
+        self._cur_t += 1
+        if self._cur_t == self._spawn_timer:            
+            x, y = self.__determine_x_y()
+            zombie = ZombieEnemy(x, y)
+            self.enemy_spawn_locations.append([x, y])
 
-        Logger.log_info("Spawning enemy")
+            Logger.log_info("Spawning enemy")
 
-        return zombie
+            self._cur_t = 0
+            
+            return zombie
+
 
     def clear_spawn_locations(self):
         self.enemy_spawn_locations = []

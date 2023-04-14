@@ -36,6 +36,7 @@ class GameView(arcade.View):
             "CollisionDetectionService", "Game_View")
 
         self.entity_spawn_service = EntitySpawnService()
+        self.entity_spawn_service.set_spawn_timer(250)
         Logger.log_object_creation(
             "EntitySpawnService", "Game_View")
 
@@ -85,6 +86,7 @@ class GameView(arcade.View):
 
         self.scene.add_sprite("Player", self.player)
         self.scene.add_sprite_list("Attacks")
+        self.scene.add_sprite_list("Enemies")
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, None)
 
@@ -115,14 +117,6 @@ class GameView(arcade.View):
 
         self.bar_list = arcade.SpriteList()
         self.scene.add_sprite_list("Bars", self.bar_list)
-
-        # add 3 zombies at random positions
-        for _ in range(3):
-            zombie = self.entity_spawn_service.spawn_zombie_enemy()
-            hp_bar = zombie.get_hp_bar()
-            self.scene["Bars"].append(hp_bar[0])
-            self.scene["Bars"].append(hp_bar[1])
-            self.scene.add_sprite("Enemies", zombie)
 
         Logger.log_info("Sprites intialized")
 
@@ -165,6 +159,10 @@ class GameView(arcade.View):
         self.collision_detection_service.enemy_attack_collision_detection(
             self.scene["Attacks"], self.scene["Player"], self.player)
 
+        # spawn periodically
+        self.__spawn_zombies()
+        
+        # attacks
         self.player.normal_ranged_attack(self)
         self.player.special_ranged_attack(self)
         self.scene.update(["Player", "Enemies", "Attacks"])
@@ -229,6 +227,14 @@ class GameView(arcade.View):
         for enemy in self.scene["Enemies"]:
             enemy.ranged_attack(self)
 
+    def __spawn_zombies(self):
+        zombie = self.entity_spawn_service.spawn_zombie_enemy()
+        if zombie is not None:
+            hp_bar = zombie.get_hp_bar()
+            self.scene["Bars"].append(hp_bar[0])
+            self.scene["Bars"].append(hp_bar[1])
+            self.scene.add_sprite("Enemies", zombie)
+        
     def __check_log_file_size(self):
         s = os.path.getsize("logs.txt")
         if s > 1000000:
