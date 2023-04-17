@@ -37,6 +37,8 @@ class Player(Entity):
         self.normal_shoot_timer = 0
         self.special_shoot_timer = 0
 
+        self.kill_counter = 0
+
         self.hit = False
         self.hit_sound = arcade.load_sound(":resources:sounds/hit2.wav")
 
@@ -55,6 +57,8 @@ class Player(Entity):
         self.resource_manager.regen_hp()
 
     def draw(self):
+
+        # draw hp
         arcade.draw_text(
             f"Health: {self.resource_manager.get_cur_hp()}",
             self.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
@@ -63,6 +67,7 @@ class Player(Entity):
             18
         )
 
+        # draw mana
         arcade.draw_text(
             f"Mana: {self.resource_manager.get_cur_mana()}",
             self.center_x + (Consts.SCREEN_WIDTH / 2) - 130,
@@ -71,11 +76,21 @@ class Player(Entity):
             18
         )
 
+        # draw name above player
         offset = self._get_name_offset(self.character_info.get_name())
         arcade.draw_text(
             f"{self.character_info.get_name()}",
             self.center_x - offset,
             self.center_y + 20,
+            arcade.csscolor.WHITE,
+            14
+        )
+
+        # draw kill counter
+        arcade.draw_text(
+            f"kills: {self.kill_counter}",
+            self.center_x + (Consts.SCREEN_WIDTH / 2) - 150,
+            self.center_y + (Consts.SCREEN_HEIGHT / 2) - 100,
             arcade.csscolor.WHITE,
             14
         )

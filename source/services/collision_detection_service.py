@@ -17,6 +17,7 @@ class CollisionDetectionService:
     def collision_detection(self, game: 'GameView'):
         pass
 
+    # player collision with coins
     def coins_collision_detection(self, coin_hit_list: List[arcade.Sprite]) -> int:
         s = 0
         for c in coin_hit_list:
@@ -26,7 +27,8 @@ class CollisionDetectionService:
 
         return s
 
-    def bullet_collision_detection(self, attacks: List[arcade.Sprite], enemies: List[arcade.Sprite]) -> None:
+    # player bullet collision with enemies
+    def bullet_collision_detection(self, player: Player, attacks: List[arcade.Sprite], enemies: List[arcade.Sprite]) -> None:
         for a in attacks:
             attack_hit_list = arcade.check_for_collision_with_list(a, enemies)
             if attack_hit_list:
@@ -36,11 +38,13 @@ class CollisionDetectionService:
                 for e in attack_hit_list:
                     e.hit(a.damage())
                     if e.health <= 0:
+                        player.kill_counter += 1
                         hp_bar = e.get_hp_bar()
                         hp_bar[0].remove_from_sprite_lists()
                         hp_bar[1].remove_from_sprite_lists()
                         e.remove_from_sprite_lists()
 
+    # enemies attacks collision with player
     def enemy_attack_collision_detection(self, attacks: List[arcade.Sprite], players: List[arcade.Sprite], player: Player) -> None:
         for a in attacks:
             attack_hit_list = arcade.check_for_collision_with_list(a, players)

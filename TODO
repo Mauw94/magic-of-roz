@@ -1,4 +1,7 @@
 --- plan ---
+* l o o t 
+* increase killcounter
+* define constants for each level (enemies to spawn, spawnrate, enemies to slay before next levle)
 * keep state of player (level, stats etc => mongodb?)
 * periodically spawn enemies
 * killing an enemy grants xp

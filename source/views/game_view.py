@@ -113,7 +113,7 @@ class GameView(arcade.View):
                 ":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_PLAYER)
             coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
             coin.center_y = random.randrange(Consts.SCREEN_HEIGHT)
-            self.append(coin)
+            self.coins.append(coin)
         self.scene.add_sprite_list("Coins", True, self.coins)
 
         self.bar_list = arcade.SpriteList()
@@ -154,7 +154,7 @@ class GameView(arcade.View):
 
         # attack enemies hit detection
         self.collision_detection_service.bullet_collision_detection(
-            self.scene["Attacks"], self.scene["Enemies"])
+            self.player, self.scene["Attacks"], self.scene["Enemies"])
 
         # enemy attacks hit detection
         self.collision_detection_service.enemy_attack_collision_detection(

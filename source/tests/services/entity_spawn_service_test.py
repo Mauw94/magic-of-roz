@@ -35,8 +35,8 @@ class EntitySpawnServiceTest(unittest.TestCase):
             for _ in range(t):
                 zs = self.s.spawn_zombie_wave()
                 if zs is not None:
-                    for z in zs:
-                        pass
+                    xs = [z.center_x for z in zs]
+                    
 
         pass
 
