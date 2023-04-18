@@ -15,10 +15,7 @@ class AttackEntityManager:
             case AttackEntityType.NORMAL_RANGED:
                 return self._normal_ranged_attack(dmg, mana_cost)
             case AttackEntityType.SPECIAL_RANGED:
-                sra = SpecialRangedAttack()
-                sra.set_damage(dmg)
-                sra.set_mana_cost(mana_cost)
-                return SpecialRangedAttack()
+               return self._special_ranged_attack(dmg, mana_cost)
             case _:
                 raise Exception("unknown attack type")
 
@@ -32,3 +29,16 @@ class AttackEntityManager:
         self._objects_created += 1
 
         return na
+    
+    def _special_ranged_attack(self, dmg: int, m: int) -> SpecialRangedAttack:
+        Logger.log_object_creation("SpecialRangedAttack", "AttackEntityManager")
+        
+        a = SpecialRangedAttack()
+        a.set_damage(dmg)
+        a.set_mana_cost(m)
+        
+        self._objects_created += 1
+        
+        return a
+
+    
