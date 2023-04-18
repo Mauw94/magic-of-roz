@@ -29,13 +29,13 @@ class RangedAttack(arcade.Sprite):
         if self.sound is not None:
             self.sound_manager.play_sound(self.sound)
 
-    def mana_cost(self) -> int:
+    def get_mana_cost(self) -> int:
         return self._mana_cost
 
     def set_mana_cost(self, cost) -> None:
         self._mana_cost = cost
 
-    def damage(self) -> int:
+    def get_damage(self) -> int:
         return self._damage
 
     def set_damage(self, d) -> None:
