@@ -6,6 +6,7 @@ from entities.player.player import Player
 from helpers.consts import Consts
 from managers.data_managers.characters_manager import CharactersManager
 from helpers.logging.logger import Logger
+from data.mongodb_connector import get_database
 
 
 class CharacterCreationView(arcade.View):
@@ -13,7 +14,8 @@ class CharacterCreationView(arcade.View):
         self.screen_width = screen_width
         self.screen_height = screen_height
 
-        self.characters_manager = CharactersManager()
+        chars_collection = get_database()[Consts.CHARACTERS_COLLECTION]
+        self.characters_manager = CharactersManager(chars_collection)
         self.player_character_class_type = None
         self.player_character_name = ""
 

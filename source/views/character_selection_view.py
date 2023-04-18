@@ -40,8 +40,9 @@ class CharacterSelectionView(arcade.View):
 
         self.screen_width = screen_w
         self.screen_height = screen_h
-
-        self.characters_manager = CharactersManager()
+        
+        chars_collection = get_database()[Consts.CHARACTERS_COLLECTION]
+        self.characters_manager = CharactersManager(chars_collection)
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
 

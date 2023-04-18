@@ -27,3 +27,6 @@ class Consts:
     PLAYER_ATTACK_PARTICLE_SPEED = 12
 
     MAX_ENEMY_HEALTH = 100
+    
+    # DB collections
+    CHARACTERS_COLLECTION = "characters"

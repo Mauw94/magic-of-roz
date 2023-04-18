@@ -5,14 +5,10 @@ from entities.player.character_info import CharacterInfo
 from managers.data_managers.characters_stat_manager import CharactersStatManager
 from entities.classes.necromancer import Necromancer
 
-CHARACTERS_COLLECTION = "characters"
-
-
 class CharactersManager():
 
-    def __init__(self):
-        self.db = get_database()
-        self.collection = self.db[CHARACTERS_COLLECTION]
+    def __init__(self, collection):
+        self.collection = collection
         self.c_stat_manager = CharactersStatManager()
 
         # test stuff
