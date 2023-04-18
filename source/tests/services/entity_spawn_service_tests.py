@@ -4,7 +4,7 @@ from services.entity_spawn_service import EntitySpawnService
 from entities.enemies.zombie_enemy import ZombieEnemy
 
 
-class EntitySpawnServiceTest(unittest.TestCase):
+class EntitySpawnServiceTests(unittest.TestCase):
 
     def test_spawn_zombie_enemy_wave_2_waves(self):
         st = 50

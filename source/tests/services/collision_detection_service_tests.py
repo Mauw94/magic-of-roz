@@ -5,7 +5,7 @@ from arcade import Sprite
 from services.collision_detection_service import CollisionDetectionService
 
 
-class CollisionDetectionServiceTest(unittest.TestCase):
+class CollisionDetectionServiceTests(unittest.TestCase):
 
     def test_coins_collision_detection_increases_score(self):
         c = []

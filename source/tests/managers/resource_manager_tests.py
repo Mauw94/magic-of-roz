@@ -3,7 +3,7 @@ import unittest
 from managers.resource_managers.resource_manager import ResourceManager
 
 
-class ResourceManagerTest(unittest.TestCase):
+class ResourceManagerTests(unittest.TestCase):
     def test_setting_max_mana(self):
         m = 100
         self.rm.set_max_mana(m)
@@ -31,6 +31,31 @@ class ResourceManagerTest(unittest.TestCase):
         assert self.rm.mana_is_full == False
         assert self.rm.cur_mana == 91
 
+    def test_regen_hp(self):
+        hp_regen_interval = 50
+        self.rm.set_hp_regen_values(hp_regen_interval)
+        self.rm.set_max_hp(100)
+        self.rm.cur_hp -= 10
+        i = 0
+        while i < hp_regen_interval:
+            self.rm.regen_hp()
+            i += 1
+            
+        assert self.rm.hp_is_full == False
+        assert self.rm.cur_hp == 91
+    
+    def test_get_cur_hp(self):
+        self.rm.set_max_hp(100)
+        self.rm.cur_hp -= 50
+        
+        assert self.rm.get_cur_hp() == 50
+        
+    def test_get_cur_mana(self):
+        self.rm.set_max_mana(100)
+        self.rm.cur_mana -= 50
+        
+        assert self.rm.get_cur_mana() == 50
+    
     def setUp(self) -> None:
         self.rm = ResourceManager()
 

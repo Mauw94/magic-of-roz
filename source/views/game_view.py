@@ -36,7 +36,7 @@ class GameView(arcade.View):
             "CollisionDetectionService", "Game_View")
 
         self.entity_spawn_service = EntitySpawnService()
-        self.entity_spawn_service.set_spawn_timer(250)
+        self.entity_spawn_service.set_spawn_timer(500)
         self.entity_spawn_service.set_zombies_to_spawn_in_wave(3)
         Logger.log_object_creation(
             "EntitySpawnService", "Game_View")
