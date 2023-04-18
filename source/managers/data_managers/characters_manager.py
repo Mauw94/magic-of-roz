@@ -33,7 +33,7 @@ class CharactersManager():
         c_type = self._get_player_class_from_str(c_info["class"])
         match c_type:
             case ClassType.NECROMANCER:
-                p = Necromancer(c_info)
+                return Necromancer(c_info)
             case ClassType.DRUID:
                 pass
             case ClassType.WARRIOR:
@@ -42,8 +42,6 @@ class CharactersManager():
                 pass
             case _:
                 raise Exception("unknown class type")
-
-        return p
 
     def _get_player_class_from_str(self, c: str) -> ClassType:
         match c.upper():
