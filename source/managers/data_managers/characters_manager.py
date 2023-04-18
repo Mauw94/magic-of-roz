@@ -4,6 +4,9 @@ from entities.classes.class_type import ClassType
 from entities.player.character_info import CharacterInfo
 from managers.data_managers.characters_stat_manager import CharactersStatManager
 from entities.classes.necromancer import Necromancer
+from entities.classes.druid import Druid
+from entities.classes.warrior import Warrior
+from entities.classes.wizard import Wizard
 
 class CharactersManager():
 
@@ -35,11 +38,11 @@ class CharactersManager():
             case ClassType.NECROMANCER:
                 return Necromancer(c_info)
             case ClassType.DRUID:
-                pass
+                return Druid(c_info)
             case ClassType.WARRIOR:
-                pass
+                return Warrior(c_info)
             case ClassType.WIZARD:
-                pass
+                return Wizard(c_info)
             case _:
                 raise Exception("unknown class type")
 

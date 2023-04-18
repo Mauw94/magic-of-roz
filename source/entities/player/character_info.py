@@ -13,6 +13,7 @@ class CharacterInfo():
         self.set_name(c_info["name"])
         self.set_level(c_info["level"])
         self.set_stats(c_info["stats"])
+        self.set_class_type(self._get_player_class_from_str(c_info["class"]))
 
     def get_normal_damage(self) -> int:
         return self.stats["ap"]
@@ -35,6 +36,9 @@ class CharacterInfo():
     def get_stats(self) -> dict:
         return self.stats
 
+    def get_class(self) -> ClassType:
+        return self.class_type
+    
     def get_all_char_info(self) -> dict:
         return {
             "stats": self.get_stats(),
@@ -42,3 +46,16 @@ class CharacterInfo():
             "name": self.name,
             "class": self.class_type.name
         }
+
+    def _get_player_class_from_str(self, c: str) -> ClassType:
+        match c.upper():
+            case "DRUID":
+                return ClassType.DRUID
+            case "WARRIOR":
+                return ClassType.WARRIOR
+            case "NECROMANCER":
+                return ClassType.NECROMANCER
+            case "WIZARD":
+                return ClassType.WIZARD
+            case _:
+                raise Exception("unkown class type")

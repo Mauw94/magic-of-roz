@@ -3,11 +3,11 @@ from helpers.logging.logger import Logger
 from entities.player.character_info import CharacterInfo
 
 
-class Necromancer(Player):
+class Wizard(Player):
     def __init__(self, c_info: dict):
         super().__init__()
 
-        Logger.log_object_creation("Creating a Necromancer", "NecromancerClass")
+        Logger.log_object_creation("Creating a Wizard", "WizardClass")
 
         self.character_info = self._create_char_stats(c_info)
 

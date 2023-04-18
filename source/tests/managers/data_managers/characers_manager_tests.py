@@ -14,15 +14,15 @@ class CharactersManagerTests(unittest.TestCase):
         assert characters[0]["name"] == "test123"
         
     def test_loading_player_object(self):
-        # TODO implement other classes
         n = "Player1"
-        self.manager.save_player_character_info(n, ClassType.NECROMANCER)
+        self.manager.save_player_character_info(n, ClassType.DRUID)
         chars = self.manager.get_player_characters()
         p = self.manager.load_player_object(chars[0])
         
         assert p.character_info.name == n
         assert p.character_info.get_name() == n
-        assert p.character_info.class_type == ClassType.NECROMANCER
+        assert p.character_info.class_type == ClassType.DRUID
+        assert p.character_info.get_class() == ClassType.DRUID
     
     def setUp(self):
         self.manager = CharactersManager(self.__mock_collection())
