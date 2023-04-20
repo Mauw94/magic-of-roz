@@ -16,7 +16,7 @@ import arcade
 
 class Player(Entity):
     def __init__(self):
-        super().__init__("male_person", "malePerson")
+        super().__init__("male_adventurer", "maleAdventurer")
 
         # TODO: items
         # TODO: inventory

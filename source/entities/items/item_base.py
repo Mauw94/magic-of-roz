@@ -1,6 +1,7 @@
 import arcade
 from entities.items.item_type import ItemTypeEnum
 from helpers.texture_loader import TextureLoader
+from helpers.consts import Consts
 
 class ItemBase(arcade.Sprite):
     texture_loader = TextureLoader("ItemBaseClass")
@@ -12,6 +13,7 @@ class ItemBase(arcade.Sprite):
         
         path = f":resources:images/{folder}/{file}.png"
         
+        self.scale = Consts.SPRITE_SCALING_PLAYER
         self.texture = self.texture_loader.load_texture(path)
         self.set_hit_box(self.texture.hit_box_points)
     

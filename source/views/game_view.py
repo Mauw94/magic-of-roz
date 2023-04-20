@@ -92,6 +92,7 @@ class GameView(arcade.View):
         self.scene.add_sprite_list("Items")
         
         # Add test items
+        # TODO: scale
         self.scene["Items"].append(HealthGlobe(self.screen_width // 2, self.screen_height // 2))
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, None)
@@ -191,6 +192,7 @@ class GameView(arcade.View):
     def on_draw(self):
         self.clear()
 
+        # TODO: items aren't drawing/scaling
         with self.light_layer:
             self.scene.draw()
 
