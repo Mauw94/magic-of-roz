@@ -1,15 +1,12 @@
 import arcade
-from entities.items.item_type import ItemTypeEnum
 from helpers.texture_loader import TextureLoader
 from helpers.consts import Consts
 
 class ItemBase(arcade.Sprite):
     texture_loader = TextureLoader("ItemBaseClass")
     
-    def __init__(self, type: ItemTypeEnum, folder, file):
+    def __init__(self, folder, file):
         super().__init__()
-        
-        self.type = type
         
         path = f":resources:images/{folder}/{file}.png"
         

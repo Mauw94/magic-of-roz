@@ -2,6 +2,6 @@ from enum import Enum
 
 
 class ItemTypeEnum(Enum):
-    CONSUMABLE = 1,
-    WEARABLE = 2
+    CONSUMABLE = 0,
+    WEARABLE = 1
     
