@@ -1,4 +1,4 @@
-from entities.classes.class_type import ClassType
+from entities.classes.class_type import ClassTypeEnum
 
 
 class CharactersStatManager():
@@ -7,7 +7,7 @@ class CharactersStatManager():
         pass
     
     # TODO: figure out some proper algorythm
-    def mutate_stats_off_level(self, class_type: ClassType, level: int) -> dict:
+    def mutate_stats_off_level(self, class_type: ClassTypeEnum, level: int) -> dict:
         stats = self.get_base_stats_for_class(class_type)
         for x in stats:
             if x[0] == 'a':
@@ -22,15 +22,15 @@ class CharactersStatManager():
         print(stats)
         return stats
     
-    def get_base_stats_for_class(self, c: ClassType) -> dict:
+    def get_base_stats_for_class(self, c: ClassTypeEnum) -> dict:
         match c:
-            case ClassType.NECROMANCER:
+            case ClassTypeEnum.NECROMANCER:
                 return self.necromancer_base_stats()
-            case ClassType.WARRIOR:
+            case ClassTypeEnum.WARRIOR:
                 return self.warrior_base_stats()
-            case ClassType.DRUID:
+            case ClassTypeEnum.DRUID:
                 return self.druid_base_stats()
-            case ClassType.WIZARD:
+            case ClassTypeEnum.WIZARD:
                 return self.wizard_base_stats()
             case _:
                 raise Exception("unkown class type")

@@ -1,5 +1,5 @@
 from typing import Any
-from entities.classes.class_type import ClassType
+from entities.classes.class_type import ClassTypeEnum
 
 
 class CharacterInfo():
@@ -30,13 +30,13 @@ class CharacterInfo():
     def set_stats(self, stats: dict) -> None:
         self.stats = stats
 
-    def set_class_type(self, class_t: ClassType):
+    def set_class_type(self, class_t: ClassTypeEnum):
         self.class_type = class_t
 
     def get_stats(self) -> dict:
         return self.stats
 
-    def get_class(self) -> ClassType:
+    def get_class(self) -> ClassTypeEnum:
         return self.class_type
     
     def get_all_char_info(self) -> dict:
@@ -47,15 +47,15 @@ class CharacterInfo():
             "class": self.class_type.name
         }
 
-    def _get_player_class_from_str(self, c: str) -> ClassType:
+    def _get_player_class_from_str(self, c: str) -> ClassTypeEnum:
         match c.upper():
             case "DRUID":
-                return ClassType.DRUID
+                return ClassTypeEnum.DRUID
             case "WARRIOR":
-                return ClassType.WARRIOR
+                return ClassTypeEnum.WARRIOR
             case "NECROMANCER":
-                return ClassType.NECROMANCER
+                return ClassTypeEnum.NECROMANCER
             case "WIZARD":
-                return ClassType.WIZARD
+                return ClassTypeEnum.WIZARD
             case _:
                 raise Exception("unkown class type")

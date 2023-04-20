@@ -1,7 +1,7 @@
 import arcade
 import arcade.gui
 import arcade.experimental.uistyle
-from entities.classes.class_type import ClassType
+from entities.classes.class_type import ClassTypeEnum
 from entities.player.player import Player
 from helpers.consts import Consts
 from managers.data_managers.characters_manager import CharactersManager
@@ -106,19 +106,19 @@ class CharacterCreationView(arcade.View):
 
     def on_click_necro(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Necromancer"
-        self.set_player_class_type(ClassType.NECROMANCER)
+        self.set_player_class_type(ClassTypeEnum.NECROMANCER)
 
     def on_click_druid(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Druid"
-        self.set_player_class_type(ClassType.DRUID)
+        self.set_player_class_type(ClassTypeEnum.DRUID)
 
     def on_click_warrior(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Warrior"
-        self.set_player_class_type(ClassType.WARRIOR)
+        self.set_player_class_type(ClassTypeEnum.WARRIOR)
 
     def on_click_wizard(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Wizard"
-        self.set_player_class_type(ClassType.WIZARD)
+        self.set_player_class_type(ClassTypeEnum.WIZARD)
 
     def on_back(self, event) -> None:
         from views.main_menu import MainMenu

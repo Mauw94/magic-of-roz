@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class ClassType(Enum):
+class ClassTypeEnum(Enum):
     WARRIOR = 1
     NECROMANCER = 2
     WIZARD = 3

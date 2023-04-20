@@ -4,7 +4,7 @@ import arcade.gui
 from data.mongodb_connector import get_database
 from entities.player.player import Player
 from helpers.consts import Consts
-from entities.classes.class_type import ClassType
+from entities.classes.class_type import ClassTypeEnum
 from managers.data_managers.characters_manager import CharactersManager
 from helpers.logging.logger import Logger
 from entities.classes.necromancer import Necromancer

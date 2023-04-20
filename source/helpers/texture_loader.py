@@ -12,3 +12,6 @@ class TextureLoader:
             arcade.load_texture(filename),
             arcade.load_texture(filename, flipped_horizontally=True)
         ]
+
+    def load_texture(self, filename):
+        return arcade.load_texture(filename)

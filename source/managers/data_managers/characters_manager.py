@@ -1,6 +1,6 @@
 from data.mongodb_connector import get_database
 from entities.player.player import Player
-from entities.classes.class_type import ClassType
+from entities.classes.class_type import ClassTypeEnum
 from entities.player.character_info import CharacterInfo
 from managers.data_managers.characters_stat_manager import CharactersStatManager
 from entities.classes.necromancer import Necromancer
@@ -20,7 +20,7 @@ class CharactersManager():
     def get_player_characters(self) -> list:
         return list(self.collection.find())
 
-    def save_player_character_info(self, name: str, class_type: ClassType) -> None:
+    def save_player_character_info(self, name: str, class_type: ClassTypeEnum) -> None:
         base_stats = self.c_stat_manager.get_base_stats_for_class(class_type)
 
         c = CharacterInfo()
@@ -35,26 +35,26 @@ class CharactersManager():
     def load_player_object(self, c_info: dict) -> Player:
         c_type = self._get_player_class_from_str(c_info["class"])
         match c_type:
-            case ClassType.NECROMANCER:
+            case ClassTypeEnum.NECROMANCER:
                 return Necromancer(c_info)
-            case ClassType.DRUID:
+            case ClassTypeEnum.DRUID:
                 return Druid(c_info)
-            case ClassType.WARRIOR:
+            case ClassTypeEnum.WARRIOR:
                 return Warrior(c_info)
-            case ClassType.WIZARD:
+            case ClassTypeEnum.WIZARD:
                 return Wizard(c_info)
             case _:
                 raise Exception("unknown class type")
 
-    def _get_player_class_from_str(self, c: str) -> ClassType:
+    def _get_player_class_from_str(self, c: str) -> ClassTypeEnum:
         match c.upper():
             case "DRUID":
-                return ClassType.DRUID
+                return ClassTypeEnum.DRUID
             case "WARRIOR":
-                return ClassType.WARRIOR
+                return ClassTypeEnum.WARRIOR
             case "NECROMANCER":
-                return ClassType.NECROMANCER
+                return ClassTypeEnum.NECROMANCER
             case "WIZARD":
-                return ClassType.WIZARD
+                return ClassTypeEnum.WIZARD
             case _:
                 raise Exception("unkown class type")

@@ -10,6 +10,7 @@ from services.collision_detection_service import CollisionDetectionService
 from services.entity_spawn_service import EntitySpawnService
 from entities.attacks.normal_ranged_attack import NormalRangedAttack
 from helpers.logging.logger import Logger
+from entities.items.consumables.health_globe import HealthGlobe
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
@@ -88,6 +89,10 @@ class GameView(arcade.View):
         self.scene.add_sprite("Player", self.player)
         self.scene.add_sprite_list("Attacks")
         self.scene.add_sprite_list("Enemies")
+        self.scene.add_sprite_list("Items")
+        
+        # Add test items
+        self.scene["Items"].append(HealthGlobe(self.screen_width // 2, self.screen_height // 2))
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, None)
 
