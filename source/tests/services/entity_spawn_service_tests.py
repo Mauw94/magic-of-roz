@@ -36,9 +36,8 @@ class EntitySpawnServiceTests(unittest.TestCase):
                 zs = self.s.spawn_zombie_wave()
                 if zs is not None:
                     xs = [z.center_x for z in zs]
-                    
 
-        pass
+        assert (len(set(xs)) == len(xs)) == True
 
     def test_spawn_zombie_enemy_wave_returns_none(self):
         self.s.set_spawn_timer(50)
