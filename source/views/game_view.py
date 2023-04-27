@@ -90,9 +90,10 @@ class GameView(arcade.View):
         self.scene.add_sprite_list("Attacks")
         self.scene.add_sprite_list("Enemies")
         self.scene.add_sprite_list("Items")
-        
+
         # Add test items
-        self.scene["Items"].append(HealthGlobe(self.screen_width // 2, self.screen_height // 2))
+        self.scene["Items"].append(HealthGlobe(
+            self.screen_width // 2, self.screen_height // 2))
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, None)
 
@@ -159,7 +160,7 @@ class GameView(arcade.View):
 
         # attack enemies hit detection
         self.collision_detection_service.bullet_collision_detection(
-            self.player, self.scene["Attacks"], self.scene["Enemies"])
+            self.player, self.scene["Attacks"], self.scene["Enemies"], self.scene["Items"])
 
         # enemy attacks hit detection
         self.collision_detection_service.enemy_attack_collision_detection(
