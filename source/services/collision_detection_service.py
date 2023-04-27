@@ -45,6 +45,8 @@ class CollisionDetectionService:
                         hp_bar[0].remove_from_sprite_lists()
                         hp_bar[1].remove_from_sprite_lists()
                         e.remove_from_sprite_lists()
+                        # TODO move this logic somewhere else with random seed
+                        # not every enemy drops an item when dies
                         # decide what item drops from enemy
                         if e.can_drop_item:
                             print("#Dropping item")
