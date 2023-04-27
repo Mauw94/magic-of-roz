@@ -24,8 +24,9 @@ class Enemy(Entity):
 
         self.center_x = x
         self.center_y = y
-        
+
         self.can_drop_item = False
+        self.drop_chance_range = (0, 0)
 
     def get_hp_bar(self) -> Tuple[arcade.SpriteSolidColor, arcade.SpriteSolidColor]:
         return self.health_bar.get_hp_bar()
@@ -60,6 +61,8 @@ class Enemy(Entity):
     def hit(self, damage):
         self.__play_hit_sound()
         self.health -= damage
+        if self.health < 0:
+            self.health = 0
         self.health_bar.fullness = self.health / Consts.MAX_ENEMY_HEALTH
 
     def __play_hit_sound(self):
