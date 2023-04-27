@@ -24,6 +24,8 @@ class Enemy(Entity):
 
         self.center_x = x
         self.center_y = y
+        
+        self.can_drop_item = False
 
     def get_hp_bar(self) -> Tuple[arcade.SpriteSolidColor, arcade.SpriteSolidColor]:
         return self.health_bar.get_hp_bar()

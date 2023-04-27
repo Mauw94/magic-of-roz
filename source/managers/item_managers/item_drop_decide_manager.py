@@ -14,14 +14,14 @@ class ItemDropDecideManager:
         self.y_drop_loc = y
         match self.__item_type_to_generate():
             case ItemTypeEnum.CONSUMABLE:
-                return self.generate_consumable()
+                return self.__generate_consumable()
             case ItemTypeEnum.WEARABLE:
-                return self.generate_wearable()
+                return self.__generate_wearable()
 
-    def generate_consumable(self) -> ItemBase:
+    def __generate_consumable(self) -> ItemBase:
         return self._item_generator.determine_consumable_item(self.x_drop_loc, self.y_drop_loc)
 
-    def generate_wearable(self) -> ItemBase:
+    def __generate_wearable(self) -> ItemBase:
         return self._item_generator.determine_wearable_item(self.x_drop_loc, self.y_drop_loc)
 
     def __item_type_to_generate(self) -> ItemTypeEnum:

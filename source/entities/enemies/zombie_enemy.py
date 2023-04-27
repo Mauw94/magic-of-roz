@@ -27,6 +27,8 @@ class ZombieEnemy(Enemy):
         self.attack_timer = 0
         self.__attack_interval = random.randrange(200, 550)
         self.attack = None
+        
+        self.can_drop_item = True
 
     def update(self):
         self.__move_n_steps_horizontal(self.max_move_x)

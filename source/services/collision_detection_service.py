@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, List
 from managers.resource_managers.sound_manager import SoundManager
 from helpers.static_data import COIN_COLLECT_SOUND
 from entities.player.player import Player
+from managers.item_managers.item_drop_decide_manager import ItemDropDecideManager
 if TYPE_CHECKING:
     from views.game_view import GameView
 
@@ -13,6 +14,7 @@ class CollisionDetectionService:
     def __init__(self):
         self.sound_manager = SoundManager()
         self.sound_manager.set_preferred_sound_volume(0.1)
+        self.item_manager = ItemDropDecideManager()
 
     def collision_detection(self, game: 'GameView'):
         pass
@@ -36,13 +38,20 @@ class CollisionDetectionService:
                     return
                 a.remove_from_sprite_lists()
                 for e in attack_hit_list:
-                    e.hit(a.damage())
+                    e.hit(a.get_damage())
                     if e.health <= 0:
                         player.kill_counter += 1
                         hp_bar = e.get_hp_bar()
                         hp_bar[0].remove_from_sprite_lists()
                         hp_bar[1].remove_from_sprite_lists()
                         e.remove_from_sprite_lists()
+                        # decide what item drops from enemy
+                        if e.can_drop_item:
+                            print("#Dropping item")
+                            item = self.item_manager.drop(
+                                e.center_x, e.center_y)
+                            print("#Dropped item: ")
+                            print(item)
 
     # enemies attacks collision with player
     def enemy_attack_collision_detection(self, attacks: List[arcade.Sprite], players: List[arcade.Sprite], player: Player) -> None:

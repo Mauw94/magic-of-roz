@@ -1,7 +1,6 @@
 import unittest
 
 from managers.item_managers.item_drop_decide_manager import ItemDropDecideManager
-from entities.items.item_base import ItemBase
 
 
 class ItemDropDecideManagerTests(unittest.TestCase):
