@@ -1,9 +1,19 @@
 import unittest
 
 from managers.item_managers.item_drop_decide_manager import ItemDropDecideManager
+from entities.enemies.zombie_enemy import ZombieEnemy
 
 
 class ItemDropDecideManagerTests(unittest.TestCase):
+
+    def test_decide_if_item_can_drop(self):
+        x, y = 10, 10
+        z = ZombieEnemy(x, y)
+        z.drop_chance_range = (50, 100)
+        self.manager.set_random_drop_chance_seed(50, 100)
+        r = self.manager.decide_if_item_can_drop(z)
+
+        assert r == True
 
     def test_drop(self):
         x_loc = 100

@@ -48,12 +48,19 @@ class CollisionDetectionService:
                         # TODO move this logic somewhere else with random seed
                         # not every enemy drops an item when dies
                         # decide what item drops from enemy
-                        if e.can_drop_item:
-                            print("#Dropping item")
-                            item = self.item_manager.drop(
-                                e.center_x, e.center_y)
-                            print("#Dropped item: ")
-                            print(item)
+
+                        # first check if enemy can drop item
+                        # random seed of dropchances
+                        # seed within enemy drop chance range
+                        # drop an item
+                        r = self.item_manager.decide_if_item_can_drop(e)
+                        print(r)
+                        # if e.can_drop_item:
+                        #     print("#Dropping item")
+                        #     item = self.item_manager.drop(
+                        #         e.center_x, e.center_y)
+                        #     print("#Dropped item: ")
+                        #     print(item)
 
     # enemies attacks collision with player
     def enemy_attack_collision_detection(self, attacks: List[arcade.Sprite], players: List[arcade.Sprite], player: Player) -> None:

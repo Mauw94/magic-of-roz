@@ -3,11 +3,30 @@ from helpers.random import get_random
 from entities.items.item_type import ItemTypeEnum
 from managers.item_managers.item_generator import ItemGenerator
 from helpers.logging.logger import Logger
+from entities.enemy import Enemy
 
 
 class ItemDropDecideManager:
     def __init__(self):
         self._item_generator = ItemGenerator()
+        self.min_drop_chance_seed = None
+        self.max_drop_chance_seed = None
+
+    def set_random_drop_chance_seed(self, min, max) -> None:
+        self.min_drop_chance_seed = min
+        self.max_drop_chance_seed = max
+
+    def decide_if_item_can_drop(self, enemy: Enemy) -> bool:
+        if enemy.can_drop_item == False:
+            return False
+        
+        if self.min_drop_chance_seed is not None and self.max_drop_chance_seed is not None:
+            chance = get_random(self.min_drop_chance_seed,
+                                self.max_drop_chance_seed)
+        else:
+            chance = get_random(0, 1000)
+
+        return enemy.drop_chance_range[1] >= chance and enemy.drop_chance_range[0] <= chance
 
     def drop(self, x, y) -> ItemBase:
         self.x_drop_loc = x

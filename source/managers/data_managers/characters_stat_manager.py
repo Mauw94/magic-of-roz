@@ -38,7 +38,7 @@ class CharactersStatManager():
     def necromancer_base_stats(self) -> dict:
         return {
             "hp": 90,
-            "ap": 5,
+            "ap": 50,
             "as": 1.1,
             "mana": 120,
             "intelligence_stat": 11,
@@ -52,7 +52,7 @@ class CharactersStatManager():
     def druid_base_stats(self) -> dict:
         return {
             "hp": 95,
-            "ap": 7,
+            "ap": 70,
             "as": 0.8,
             "mana": 70,
             "intelligence_stat": 8,
@@ -66,7 +66,7 @@ class CharactersStatManager():
     def wizard_base_stats(self) -> dict:
         return {
             "hp": 80,
-            "ap": 9,
+            "ap": 90,
             "as": 0.8,
             "mana": 110,
             "intelligence_stat": 12,
@@ -80,7 +80,7 @@ class CharactersStatManager():
     def warrior_base_stats(self) -> dict:
         return {
             "hp": 110,
-            "ap": 7,
+            "ap": 70,
             "as": 1,
             "mana": 60,
             "intelligence_stat": 3,
