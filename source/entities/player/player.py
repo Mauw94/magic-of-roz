@@ -13,6 +13,8 @@ if TYPE_CHECKING:
     from views.game_view import GameView
 import arcade
 
+# when modifying stats, always call resourcemanager first on the player obj
+
 
 class Player(Entity):
     def __init__(self):
