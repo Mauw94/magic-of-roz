@@ -1,5 +1,7 @@
 --- plan ---
 * l o o t 
+    - write service that determines which enhances or stats the player gets per item when picked up
+    
 * define constants for each level (enemies to spawn, spawnrate, enemies to slay before next levle)
 * keep state of player (level, stats etc => mongodb?)
 * periodically spawn enemies

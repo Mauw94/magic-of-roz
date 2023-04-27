@@ -11,6 +11,7 @@ from services.entity_spawn_service import EntitySpawnService
 from entities.attacks.normal_ranged_attack import NormalRangedAttack
 from helpers.logging.logger import Logger
 from entities.items.consumables.health_globe import HealthGlobe
+from services.apply_item_effect_service import ApplyItemEffectService
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
@@ -41,6 +42,9 @@ class GameView(arcade.View):
         self.entity_spawn_service.set_zombies_to_spawn_in_wave(3)
         Logger.log_object_creation(
             "EntitySpawnService", "Game_View")
+
+        self.apply_item_effect_service = ApplyItemEffectService()
+        Logger.log_object_creation("ApplyItemEffectService", "Game_View")
 
         self.left_pressed = False
         self.right_pressed = False
@@ -165,6 +169,13 @@ class GameView(arcade.View):
         # enemy attacks hit detection
         self.collision_detection_service.enemy_attack_collision_detection(
             self.scene["Attacks"], self.scene["Player"], self.player)
+
+        # check for item collision with player
+        item_list = arcade.check_for_collision_with_list(
+            self.player, self.scene["Items"])
+
+        self.apply_item_effect_service.apply_item_effect(
+            item_list, self.player)
 
         # spawn periodically
         self.__spawn_zombies()

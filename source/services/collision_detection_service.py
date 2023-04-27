@@ -6,7 +6,6 @@ from managers.resource_managers.sound_manager import SoundManager
 from helpers.static_data import COIN_COLLECT_SOUND
 from entities.player.player import Player
 from managers.item_managers.item_drop_decide_manager import ItemDropDecideManager
-from entities.items.item_base import ItemBase
 if TYPE_CHECKING:
     from views.game_view import GameView
 
