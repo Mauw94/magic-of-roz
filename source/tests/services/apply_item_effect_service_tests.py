@@ -17,9 +17,9 @@ class ApplyItemEffectServiceTests(unittest.TestCase):
         p = self.chars_manager.load_player_object(chars[0])
         p.setup()
 
-        print(p.resource_manager._max_hp)
         assert p is not None
         assert p.resource_manager.get_cur_hp() == 110
+        
         p.resource_manager.cur_hp -= 20
         assert p.resource_manager.get_cur_hp() == 90
 
