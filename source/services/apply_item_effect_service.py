@@ -16,6 +16,6 @@ class ApplyItemEffectService:
     def apply_item_effect(self, items: List[arcade.Sprite], player: Player) -> None:
         for item in items:
             if type(item) is HealthGlobe:
-                player.resource_manager.cur_hp += item.add_life
+                player.resource_manager.add_hp(item.add_life)
             elif type(item) is ManaGlobe:
-                player.resource_manager.cur_mana += item.add_mana
+                player.resource_manager.add_mana(item.add_mana)
