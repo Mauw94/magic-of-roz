@@ -3,6 +3,7 @@ import unittest
 from arcade import Sprite
 
 from services.collision_detection_service import CollisionDetectionService
+from entities.attacks.enemy_attacks.zombie_attack import ZombieAttack
 
 
 class CollisionDetectionServiceTests(unittest.TestCase):
@@ -18,7 +19,8 @@ class CollisionDetectionServiceTests(unittest.TestCase):
         assert score == t
 
     def test_player_getting_hit_by_enemy(self):
-        pass
+        a = ZombieAttack()
+        
     
     def setUp(self):
         self.s = CollisionDetectionService()
