@@ -17,5 +17,8 @@ class CollisionDetectionServiceTests(unittest.TestCase):
 
         assert score == t
 
+    def test_player_getting_hit_by_enemy(self):
+        pass
+    
     def setUp(self):
         self.s = CollisionDetectionService()

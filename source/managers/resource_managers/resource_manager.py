@@ -27,7 +27,12 @@ class ResourceManager:
     def add_hp(self, hp) -> None:
         self.cur_hp += hp
         if self.cur_hp + hp > self._max_hp:
-            self.cur_hp = self._max_hp        
+            self.cur_hp = self._max_hp      
+    
+    def decrease_hp(self, hp) -> None:
+        self.cur_hp -= hp
+        if self.cur_hp < 0:
+            self.cur_hp = 0  
 
     def regen_hp(self) -> None:
         if self.cur_hp >= self._max_hp:
@@ -55,7 +60,12 @@ class ResourceManager:
         self.cur_mana += m
         if self.cur_mana > self._max_mana:
             self.cur_mana = self._max_mana
-            
+    
+    def decrease_mana(self, m) -> None:
+        self.cur_mana -= m
+        if self.cur_mana < 0:
+            self.cur_mana = 0
+                        
     def regen_mana(self) -> None:
         if self.cur_mana >= self._max_mana:
             self.mana_is_full = True

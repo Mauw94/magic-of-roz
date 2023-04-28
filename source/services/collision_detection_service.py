@@ -59,5 +59,5 @@ class CollisionDetectionService:
             if attack_hit_list:
                 if type(a) is ZombieAttack:
                     a.remove_from_sprite_lists()
-                    player.resource_manager.cur_hp -= a.get_damage()
+                    player.resource_manager.decrease_hp(a.get_damage())
                     player.play_hit_sound()
