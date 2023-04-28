@@ -1,4 +1,0 @@
-creation: 30/03/2023 14:47:22
-player_character_class: NECROMANCER
-player_character_name: test
-
