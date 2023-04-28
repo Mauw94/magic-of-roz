@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING
 
 from entities.player.character_info import CharacterInfo
 from managers.entity_managers.attack_entity_manager import AttackEntityManager
-from managers.entity_managers.attack_entity_type import AttackEntityType
 from managers.resource_managers.resource_manager import ResourceManager
+from managers.entity_managers.attack_entity_manager import AttackEntityType
 if TYPE_CHECKING:
     from views.game_view import GameView
 import arcade

@@ -2,8 +2,8 @@ import unittest
 
 from managers.entity_managers.attack_entity_manager import AttackEntityManager
 from entities.attacks.normal_ranged_attack import NormalRangedAttack
-from managers.entity_managers.attack_entity_type import AttackEntityType
 from entities.attacks.special_ranged_attack import SpecialRangedAttack
+from managers.entity_managers.attack_entity_manager import AttackEntityType
 
 
 class AttackEntityManagerTests(unittest.TestCase):
