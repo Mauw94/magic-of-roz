@@ -13,8 +13,8 @@ class ApplyItemEffectServiceTests(unittest.TestCase):
 
         assert p is not None
         assert p.resource_manager.get_cur_hp() == 110
-        
-        p.resource_manager.cur_hp -= 10
+
+        p.resource_manager.decrease_hp(10)
         assert p.resource_manager.get_cur_hp() == 100
 
         item = HealthGlobe(10, 10)  # base healthglobe adds 15 life
@@ -24,18 +24,17 @@ class ApplyItemEffectServiceTests(unittest.TestCase):
 
     def test_apply_item_effect_mana_globe(self):
         p = create_mock_character()
-        
+
         assert p is not None
         assert p.resource_manager.get_cur_mana() == 60
-        
-        p.resource_manager.cur_mana -= 20
+
+        p.resource_manager.decrease_mana(20)
         assert p.resource_manager.get_cur_mana() == 40
-        
+
         i = ManaGlobe(10, 10)
         self.service.apply_item_effect([i], p)
 
         assert p.resource_manager.get_cur_mana() == 60
-    
+
     def setUp(self):
         self.service = ApplyItemEffectService()
-

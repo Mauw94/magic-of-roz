@@ -189,7 +189,6 @@ class GameView(arcade.View):
         self.__scroll_screen()
 
         if self.escape_pressed:
-            # TODO: bug -> screen moves with the player -> reset position?
             Logger.log_game_event("Returning to main menu")
             from views.main_menu import MainMenu
             arcade.set_viewport(0,
