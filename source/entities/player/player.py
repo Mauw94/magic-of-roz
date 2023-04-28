@@ -120,7 +120,7 @@ class Player(Entity):
                 Logger.log_game_event("Performing normal ranged attack")
                 bullet = self.attack_entity_manager.create_attack(
                     AttackEntityType.NORMAL_RANGED, self.character_info.get_normal_damage(), 7)
-                self.resource_manager.cur_mana -= bullet.get_mana_cost()
+                self.resource_manager.decrease_mana(bullet.get_mana_cost())
                 bullet.play_shooting_sound()
                 if self.facing_direction == Consts.RIGHT_FACING:
                     bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
@@ -144,7 +144,8 @@ class Player(Entity):
         if self.can_shoot_special_ranged_attack:
             if self.special_ranged_attack_pressed:
                 Logger.log_game_event("Performing special ranged attack")
-                bullet = SpecialRangedAttack()
+                bullet = SpecialRangedAttack() # TODO use attack entity manager to create attack
+                # TODO decrease mana
                 bullet.play_shooting_sound()
                 if self.facing_direction == Consts.RIGHT_FACING:
                     bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
