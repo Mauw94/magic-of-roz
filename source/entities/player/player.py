@@ -1,3 +1,4 @@
+from engine_extensions.drawing_engine import DrawingEngine
 from helpers.consts import Consts
 from entities.entity import Entity
 from entities.attacks.normal_ranged_attack import NormalRangedAttack
@@ -61,16 +62,17 @@ class Player(Entity):
     def draw(self):
 
         # draw hp
-        arcade.draw_text(
+        DrawingEngine.draw_text(
             f"Health: {self.resource_manager.get_cur_hp()}",
             self.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
-            self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            self.center_y -
+            (Consts.SCREEN_HEIGHT / 2) + 10,
             arcade.csscolor.RED,
             18
         )
 
         # draw mana
-        arcade.draw_text(
+        DrawingEngine.draw_text(
             f"Mana: {self.resource_manager.get_cur_mana()}",
             self.center_x + (Consts.SCREEN_WIDTH / 2) - 130,
             self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
@@ -79,8 +81,9 @@ class Player(Entity):
         )
 
         # draw name above player
-        offset = self._get_name_offset(self.character_info.get_name())
-        arcade.draw_text(
+        offset = DrawingEngine.calcuate_offset_text_center_above_entity(
+            self.character_info.get_name())
+        DrawingEngine.draw_text(
             f"{self.character_info.get_name()}",
             self.center_x - offset,
             self.center_y + 20,
@@ -89,7 +92,7 @@ class Player(Entity):
         )
 
         # draw kill counter
-        arcade.draw_text(
+        DrawingEngine.draw_text(
             f"kills: {self.kill_counter}",
             self.center_x + (Consts.SCREEN_WIDTH / 2) - 150,
             self.center_y + (Consts.SCREEN_HEIGHT / 2) - 100,
@@ -144,7 +147,7 @@ class Player(Entity):
         if self.can_shoot_special_ranged_attack:
             if self.special_ranged_attack_pressed:
                 Logger.log_game_event("Performing special ranged attack")
-                bullet = SpecialRangedAttack() # TODO use attack entity manager to create attack
+                bullet = SpecialRangedAttack()  # TODO use attack entity manager to create attack
                 # TODO decrease mana
                 bullet.play_shooting_sound()
                 if self.facing_direction == Consts.RIGHT_FACING:
