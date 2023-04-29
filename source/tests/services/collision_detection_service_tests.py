@@ -23,7 +23,11 @@ class CollisionDetectionServiceTests(unittest.TestCase):
         a = ZombieAttack()
         p = create_mock_character()
 
-        p.resource_manager.decrease_hp(a.get_damage())
+        cur_hp = p.resource_manager.cur_hp
+        d = a.get_damage()
+        p.resource_manager.decrease_hp(d)
+        
+        assert p.resource_manager.cur_hp == cur_hp - d
 
     def setUp(self):
         self.s = CollisionDetectionService()
