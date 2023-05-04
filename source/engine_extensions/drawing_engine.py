@@ -1,4 +1,5 @@
 import arcade
+from PIL import ImageFont
 
 
 class DrawingEngine:
@@ -8,21 +9,16 @@ class DrawingEngine:
     def draw_text(text: str, x: int, y: int, color: arcade.csscolor, font_size: int) -> None:
         arcade.draw_text(text, x, y, color, font_size)
 
-    def calcuate_offset_text_center_above_entity(text: str) -> int:
-        o = len(text)
-        if o >= 19:
-            return 95
-        elif o >= 17:
-            return 87
-        elif o >= 15:
-            return 75
-        elif o >= 12:
-            return 70
-        elif o >= 10:
-            return 63
-        elif o >= 7:
-            return 50
-        elif o >= 5:
-            return 20
+    def calcuate_offset_text_center_above_entity(
+            text: str, font_size: int, entity_width: int
+    ) -> tuple[int, int]:
+        font = ImageFont.truetype("calibri", font_size)
+        size = font.getsize(text)
+        x = DrawingEngine.__calc_x_offset(size[0], entity_width)
+        return [x, size[1]]
+
+    def __calc_x_offset(font_width: int, entity_width: int) -> int:
+        if font_width < entity_width:
+            return font_width - (entity_width // 4)
         else:
-            return 15
+            return font_width - (entity_width // 2)

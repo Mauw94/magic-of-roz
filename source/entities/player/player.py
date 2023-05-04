@@ -82,11 +82,11 @@ class Player(Entity):
 
         # draw name above player
         offset = DrawingEngine.calcuate_offset_text_center_above_entity(
-            self.character_info.get_name())
+            self.character_info.get_name(), 14, self.width)  # returns a tuple[int, int]
         DrawingEngine.draw_text(
             f"{self.character_info.get_name()}",
-            self.center_x - offset,
-            self.center_y + 20,
+            self.center_x - offset[0],
+            self.center_y + 20 + offset[1],
             arcade.csscolor.WHITE,
             14
         )
