@@ -3,29 +3,25 @@
     - write service that determines which enhances or stats the player gets per item when picked up
     
 * drawing engine
+* implement damage numbers when hitting an enemy
+* implement loading/saving
 
 * define constants for each level (enemies to spawn, spawnrate, enemies to slay before next levle)
 * keep state of player (level, stats etc => mongodb?)
 * periodically spawn enemies
 * killing an enemy grants xp
 * level up increases stats
-* show more stats on screen
-* spend mana when attacking
-
 * be able to use potions
 * some sort of login
 * code testing
 * implement player classes
 * implement character creation screen; choose player class and enter character name
 * implement save game; save player class + name
-* implement load game; load player
+
 * implement items; base items and some variation of them
 * implement item rarities
 * implement item stats
-
-
 * implement a star pathfinding algo
-* implement damage numbers when hitting an enemy
 * implement basic loottable when enemy dies
 * implement melee attack for enemy
 * fire player attacks at mouse pos
