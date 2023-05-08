@@ -2,6 +2,7 @@
 * l o o t 
     - write service that determines which enhances or stats the player gets per item when picked up
     
+* pathfinding algo/engine (random new x,y -> move to coord; repeat)
 * drawing engine
 * implement damage numbers when hitting an enemy
 * implement loading/saving
