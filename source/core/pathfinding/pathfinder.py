@@ -45,6 +45,14 @@ class Pathfinding:
 
         return visited
 
+    def find_next_coord(self, start: Tuple[int, int], end: Tuple[int, int]) -> List[int]:
+        # safe coord so no other entity can move to that coord
+        # set can_find_new_coord to false until moved to that coord
+        # when arrive at coord, find next coord
+        # check saved moves, and/or find other coord
+        # check up, down, left, right
+        pass
+
     def __neighbours(self, x, y) -> List[int]:
         n = []
         n.append((x - 1, y))
