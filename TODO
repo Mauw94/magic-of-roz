@@ -1,10 +1,16 @@
 --- plan ---
+* implement damage numbers when hitting an enemy
+* show text when enhancement is used or picked up
+* create inventory for player and be able to use items and select them
+* 
+
+
 * l o o t 
     - write service that determines which enhances or stats the player gets per item when picked up
     
 * pathfinding algo/engine (random new x,y -> move to coord; repeat)
 * drawing engine
-* implement damage numbers when hitting an enemy
+
 * implement loading/saving
 
 * define constants for each level (enemies to spawn, spawnrate, enemies to slay before next levle)

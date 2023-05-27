@@ -15,7 +15,7 @@ class WearableItemsEnum(Enum):
 class ConsumableItemsEnum(Enum):
     HEALTH_GLOBE = 0,
     MANA_GLOBE = 1,
-    ATTACK_SPEED_GLOBE = 2  # TODO: write logic
+    # ATTACK_SPEED_GLOBE = 2  # TODO: write logic
 
 
 class ItemGenerator:
@@ -33,8 +33,8 @@ class ItemGenerator:
                 return self.gen_health_globe(x, y)
             case 1:
                 return self.gen_mana_globe(x, y)
-            case 2:
-                return self.gen_attack_speed_globe(x, y)
+            # case 2:
+            #     return self.gen_attack_speed_globe(x, y)
             case _:
                 Logger.log_error(
                     "Tried to generate item type that does not exist")

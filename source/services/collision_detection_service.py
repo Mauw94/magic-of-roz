@@ -48,6 +48,8 @@ class CollisionDetectionService:
                         if self.item_manager.decide_if_item_can_drop(e):
                             item = self.item_manager.drop(
                                 e.center_x, e.center_y)
+                            print("item dropped")
+                            print(item)
                             dropped_items_list.append(item)
 
                         e.remove_from_sprite_lists()
