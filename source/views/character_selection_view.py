@@ -1,7 +1,6 @@
 from typing import Any
 import arcade
 import arcade.gui
-from data.mongodb_connector import get_database
 from entities.player.player import Player
 from helpers.consts import Consts
 from entities.classes.class_type import ClassTypeEnum
@@ -41,8 +40,8 @@ class CharacterSelectionView(arcade.View):
         self.screen_width = screen_w
         self.screen_height = screen_h
         
-        chars_collection = get_database()[Consts.CHARACTERS_COLLECTION]
-        self.characters_manager = CharactersManager(chars_collection)
+        # chars_collection = get_database()[Consts.CHARACTERS_COLLECTION]
+        self.characters_manager = CharactersManager([])
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
 

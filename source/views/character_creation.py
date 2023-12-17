@@ -6,7 +6,6 @@ from entities.player.player import Player
 from helpers.consts import Consts
 from managers.data_managers.characters_manager import CharactersManager
 from helpers.logging.logger import Logger
-from data.mongodb_connector import get_database
 
 
 class CharacterCreationView(arcade.View):
@@ -14,8 +13,10 @@ class CharacterCreationView(arcade.View):
         self.screen_width = screen_width
         self.screen_height = screen_height
 
-        chars_collection = get_database()[Consts.CHARACTERS_COLLECTION]
-        self.characters_manager = CharactersManager(chars_collection)
+        # TODO: rewrite to local files instead of db
+        # chars_collection = get_database()[Consts.CHARACTERS_COLLECTION]
+        
+        self.characters_manager = CharactersManager([])
         self.player_character_class_type = None
         self.player_character_name = ""
 
@@ -23,22 +24,22 @@ class CharacterCreationView(arcade.View):
         self.manager.enable()
 
         arcade.set_background_color(arcade.color.DARK_BLUE_GRAY)
-
+        
         self.v_box = arcade.gui.UIBoxLayout(vertical=False)
         self.h_box = arcade.gui.UIBoxLayout()
 
-        self.ui_error_label = arcade.gui.UILabel(text="",
-                                                 width=600,
-                                                 height=40,
-                                                 font_size=24,
-                                                 font_name="Kenney Future")
+        self.ui_error_label = arcade.gui.UILabel(
+            text="", width=600, height=40, font_size=24, font_name="Kenney Future"
+        )
         self.h_box.add(self.ui_error_label.with_space_around(bottom=50))
 
-        self.ui_text_label = arcade.gui.UILabel(text="Chosen class: ",
-                                                width=650,
-                                                height=40,
-                                                font_size=24,
-                                                font_name="Kenney Future")
+        self.ui_text_label = arcade.gui.UILabel(
+            text="Chosen class: ",
+            width=650,
+            height=40,
+            font_size=24,
+            font_name="Kenney Future",
+        )
         self.h_box.add(self.ui_text_label.with_space_around(bottom=50))
 
         n_button = arcade.gui.UIFlatButton(text="Necromancer", width=150)
@@ -56,14 +57,14 @@ class CharacterCreationView(arcade.View):
             width=600,
             height=40,
             font_size=24,
-            font_name="Kenney Future")
+            font_name="Kenney Future",
+        )
 
         self.input_name = arcade.gui.UIInputText(font_size=24, width=450)
         self.h_box.add(self.label)
         self.h_box.add(self.input_name)
 
-        create_button = arcade.gui.UIFlatButton(
-            text="Create character", width=150)
+        create_button = arcade.gui.UIFlatButton(text="Create character", width=150)
         self.h_box.add(create_button.with_space_around(top=200))
 
         back_button = arcade.gui.UIFlatButton(text="Back", width=75)
@@ -76,17 +77,17 @@ class CharacterCreationView(arcade.View):
         create_button.on_click = self.on_click_create
         back_button.on_click = self.on_back
 
-        self.manager.add(arcade.gui.UIAnchorWidget(
-            anchor_x="center_x",
-            anchor_y="center_y",
-            child=self.v_box
-        ))
+        self.manager.add(
+            arcade.gui.UIAnchorWidget(
+                anchor_x="center_x", anchor_y="center_y", child=self.v_box
+            )
+        )
 
-        self.manager.add(arcade.gui.UIAnchorWidget(
-            anchor_x="center_x",
-            anchor_y="center_y",
-            child=self.h_box
-        ))
+        self.manager.add(
+            arcade.gui.UIAnchorWidget(
+                anchor_x="center_x", anchor_y="center_y", child=self.h_box
+            )
+        )
 
         super().__init__()
 
@@ -96,8 +97,10 @@ class CharacterCreationView(arcade.View):
             if self.player_character_class_type is not None:
                 self.create()
                 from views.character_selection_view import CharacterSelectionView
+
                 game_view = CharacterSelectionView(
-                    self.screen_width, self.screen_height)
+                    self.screen_width, self.screen_height
+                )
                 self.window.show_view(game_view)
             else:
                 self.ui_error_label.text = "Choose a class!"
@@ -122,8 +125,8 @@ class CharacterCreationView(arcade.View):
 
     def on_back(self, event) -> None:
         from views.main_menu import MainMenu
-        game_view = MainMenu(
-            self.screen_width, self.screen_height)
+
+        game_view = MainMenu(self.screen_width, self.screen_height)
         self.window.show_view(game_view)
 
     def on_draw(self):
@@ -139,4 +142,5 @@ class CharacterCreationView(arcade.View):
     def create(self) -> None:
         Logger.log_info("Creating new character")
         self.characters_manager.save_player_character_info(
-            self.player_character_name, self.player_character_class_type)
+            self.player_character_name, self.player_character_class_type
+        )

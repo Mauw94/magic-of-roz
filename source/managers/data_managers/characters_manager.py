@@ -1,4 +1,3 @@
-from data.mongodb_connector import get_database
 from entities.player.player import Player
 from entities.classes.class_type import ClassTypeEnum
 from entities.player.character_info import CharacterInfo

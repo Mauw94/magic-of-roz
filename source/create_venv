@@ -1,4 +1,10 @@
-python -m venv "path"
-cd into Scripts, run activate.*
+# install arcade: pip install arcade
+# upgrade arcade: pip install --upgrade arcade
+
+# create venv folder: python -m venv venv
+# windows .\venv\Scripts\activate
+# linux.mac source venv/bin/activate
+# pip install package_name
+# check python interperter (needs to point to venv folder)
 
 running on mac: python3-intel64 main.py
