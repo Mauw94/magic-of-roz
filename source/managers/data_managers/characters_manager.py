@@ -6,21 +6,18 @@ from entities.classes.necromancer import Necromancer
 from entities.classes.druid import Druid
 from entities.classes.warrior import Warrior
 from entities.classes.wizard import Wizard
-from managers.data_managers.file_save_manager import save_character_info
+from managers.data_managers.file_save_manager import save_new_character_info
 
-class CharactersManager():
 
-    def __init__(self, collection: list):
-        self.collection = collection
+class CharactersManager:
+    def __init__(self, characters: list):
+        self.characters = characters
         self.c_stat_manager = CharactersStatManager()
 
-        # test stuff
-        # self.c_stat_manager.mutate_stats_off_level(ClassType.NECROMANCER, 3)
-
     def get_player_characters(self) -> list:
-        return self.collection
+        return self.characters
 
-    def save_player_character_info(self, name: str, class_type: ClassTypeEnum) -> None:
+    def save_new_character_info(self, name: str, class_type: ClassTypeEnum) -> None:
         base_stats = self.c_stat_manager.get_base_stats_for_class(class_type)
 
         c = CharacterInfo()
@@ -29,21 +26,21 @@ class CharactersManager():
         c.set_level(1)
         c.set_class_type(class_type)
 
-        c_info = c.get_all_char_info()
-        self.collection.append(c_info)
-        save_character_info(c_info)
+        char_info = c.get_all_char_info()
+        self.characters.append(char_info)
+        save_new_character_info(char_info)
 
-    def load_player_object(self, c_info: dict) -> Player:
-        c_type = self._get_player_class_from_str(c_info["class"])
+    def load_player_object(self, char_info: dict) -> Player:
+        c_type = self._get_player_class_from_str(char_info["class"])
         match c_type:
             case ClassTypeEnum.NECROMANCER:
-                return Necromancer(c_info)
+                return Necromancer(char_info)
             case ClassTypeEnum.DRUID:
-                return Druid(c_info)
+                return Druid(char_info)
             case ClassTypeEnum.WARRIOR:
-                return Warrior(c_info)
+                return Warrior(char_info)
             case ClassTypeEnum.WIZARD:
-                return Wizard(c_info)
+                return Wizard(char_info)
             case _:
                 raise Exception("unknown class type")
 

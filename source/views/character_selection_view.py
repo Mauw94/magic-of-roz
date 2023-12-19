@@ -7,17 +7,41 @@ from entities.classes.class_type import ClassTypeEnum
 from managers.data_managers.characters_manager import CharactersManager
 from helpers.logging.logger import Logger
 from entities.classes.necromancer import Necromancer
-from managers.data_managers.file_save_manager import load_character_info
+from managers.data_managers.file_save_manager import load_all_saves
+
 
 class CharSelectButton(arcade.gui.UIFlatButton):
-    def __init__(self, x: float = 0, y: float = 0, width: float = 100, height: float = 50, text="", size_hint=None, size_hint_min=None, size_hint_max=None, style=None, **kwargs):
-        super().__init__(x, y, width, height, text, size_hint,
-                         size_hint_min, size_hint_max, style, **kwargs)
+    def __init__(
+        self,
+        x: float = 0,
+        y: float = 0,
+        width: float = 100,
+        height: float = 50,
+        text="",
+        size_hint=None,
+        size_hint_min=None,
+        size_hint_max=None,
+        style=None,
+        **kwargs
+    ):
+        super().__init__(
+            x,
+            y,
+            width,
+            height,
+            text,
+            size_hint,
+            size_hint_min,
+            size_hint_max,
+            style,
+            **kwargs
+        )
 
     def on_click(self, event: arcade.gui.UIOnClickEvent):
         Logger.log_info("Loading player object with character info: ")
         p = self.characters_manager.load_player_object(self.character_info)
         from views.game_view import GameView
+
         game_view = GameView(self.s_w, self.s_h, p)
         self.game_window.show_view(game_view)
 
@@ -39,11 +63,9 @@ class CharacterSelectionView(arcade.View):
 
         self.screen_width = screen_w
         self.screen_height = screen_h
-        
-        self.all_characters = []
-        char_info = load_character_info()
-        self.all_characters.append(char_info)
-        
+
+        self.all_characters = load_all_saves()
+
         self.characters_manager = CharactersManager(self.all_characters)
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
@@ -53,20 +75,25 @@ class CharacterSelectionView(arcade.View):
 
         if len(characters) > 0:
             for c in characters:
+                print(c)
                 button = CharSelectButton(
-                    text=c["name"] + " - " + c["class"].lower(), width=200)
+                    text=c["name"] + " - " + c["class"].lower(), width=200
+                )
                 button.set_characters_manager(self.characters_manager)
                 button.set_char_info(c)
                 button.set_game_window(
-                    self.window, self.screen_width, self.screen_height)
+                    self.window, self.screen_width, self.screen_height
+                )
                 self.v_box.add(button.with_space_around(bottom=20))
 
         else:
-            ui_error_label = arcade.gui.UILabel(text="No characters found",
-                                                     width=450,
-                                                     height=40,
-                                                     font_size=24,
-                                                     font_name="Kenney Future")
+            ui_error_label = arcade.gui.UILabel(
+                text="No characters found",
+                width=450,
+                height=40,
+                font_size=24,
+                font_name="Kenney Future",
+            )
 
             self.v_box.add(ui_error_label.with_space_around(bottom=20))
             back_button = arcade.gui.UIFlatButton(text="Back", width=200)
@@ -74,17 +101,18 @@ class CharacterSelectionView(arcade.View):
 
             back_button.on_click = self.on_click_back
 
-        self.manager.add(arcade.gui.UIAnchorWidget(
-            anchor_x="center_x",
-            anchor_y="center_y",
-            child=self.v_box
-        ))
+        self.manager.add(
+            arcade.gui.UIAnchorWidget(
+                anchor_x="center_x", anchor_y="center_y", child=self.v_box
+            )
+        )
         arcade.set_background_color(arcade.color.DARK_BLUE_GRAY)
 
     def on_click_back(self, event):
         from views.main_menu import MainMenu
-        game_view = MainMenu(
-            self.screen_width, self.screen_height)
+
+        game_view = MainMenu(self.screen_width, self.screen_height)
+        self.manager.disable()
         self.window.show_view(game_view)
 
     def on_draw(self):

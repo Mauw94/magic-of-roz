@@ -1,2 +1,3 @@
 GAME_FOLDER = "mor"
-SAVE_FILE = "saves.txt"
+SAVE_FILE = "saves"
+SAVE_FILE_EXTENSION = ".txt"

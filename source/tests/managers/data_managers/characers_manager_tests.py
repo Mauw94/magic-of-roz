@@ -7,7 +7,7 @@ from entities.classes.class_type import ClassTypeEnum
 class CharactersManagerTests(unittest.TestCase):
 
     def test_saving_player_character_info(self):
-        self.manager.save_player_character_info(
+        self.manager.save_new_character_info(
             "test123", ClassTypeEnum.NECROMANCER)
         characters = self.manager.get_player_characters()
 
@@ -16,7 +16,7 @@ class CharactersManagerTests(unittest.TestCase):
 
     def test_loading_player_object(self):
         n = "Player1"
-        self.manager.save_player_character_info(n, ClassTypeEnum.DRUID)
+        self.manager.save_new_character_info(n, ClassTypeEnum.DRUID)
         chars = self.manager.get_player_characters()
         p = self.manager.load_player_object(chars[0])
 

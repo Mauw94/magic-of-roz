@@ -138,6 +138,6 @@ class CharacterCreationView(arcade.View):
 
     def create(self) -> None:
         Logger.log_info("Creating new character")
-        self.characters_manager.save_player_character_info(
+        self.characters_manager.save_new_character_info(
             self.player_character_name, self.player_character_class_type
         )

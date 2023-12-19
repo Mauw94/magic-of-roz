@@ -9,7 +9,7 @@ from entities.classes.class_type import ClassTypeEnum
 
 def create_mock_character() -> Player:
     chars_manager = CharactersManager(__mock_collection())
-    chars_manager.save_player_character_info("test1", ClassTypeEnum.WARRIOR)
+    chars_manager.save_new_character_info("test1", ClassTypeEnum.WARRIOR)
     c = chars_manager.get_player_characters()
     p = chars_manager.load_player_object(c[0])
     p.setup()
