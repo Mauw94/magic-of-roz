@@ -6,10 +6,11 @@ from entities.classes.necromancer import Necromancer
 from entities.classes.druid import Druid
 from entities.classes.warrior import Warrior
 from entities.classes.wizard import Wizard
+from managers.data_managers.file_save_manager import save_character_info
 
 class CharactersManager():
 
-    def __init__(self, collection):
+    def __init__(self, collection: list):
         self.collection = collection
         self.c_stat_manager = CharactersStatManager()
 
@@ -17,7 +18,7 @@ class CharactersManager():
         # self.c_stat_manager.mutate_stats_off_level(ClassType.NECROMANCER, 3)
 
     def get_player_characters(self) -> list:
-        return list(self.collection.find())
+        return self.collection
 
     def save_player_character_info(self, name: str, class_type: ClassTypeEnum) -> None:
         base_stats = self.c_stat_manager.get_base_stats_for_class(class_type)
@@ -29,7 +30,8 @@ class CharactersManager():
         c.set_class_type(class_type)
 
         c_info = c.get_all_char_info()
-        self.collection.insert_one(c_info)
+        self.collection.append(c_info)
+        save_character_info(c_info)
 
     def load_player_object(self, c_info: dict) -> Player:
         c_type = self._get_player_class_from_str(c_info["class"])

@@ -7,7 +7,7 @@ from entities.classes.class_type import ClassTypeEnum
 from managers.data_managers.characters_manager import CharactersManager
 from helpers.logging.logger import Logger
 from entities.classes.necromancer import Necromancer
-
+from managers.data_managers.file_save_manager import load_character_info
 
 class CharSelectButton(arcade.gui.UIFlatButton):
     def __init__(self, x: float = 0, y: float = 0, width: float = 100, height: float = 50, text="", size_hint=None, size_hint_min=None, size_hint_max=None, style=None, **kwargs):
@@ -40,8 +40,11 @@ class CharacterSelectionView(arcade.View):
         self.screen_width = screen_w
         self.screen_height = screen_h
         
-        # chars_collection = get_database()[Consts.CHARACTERS_COLLECTION]
-        self.characters_manager = CharactersManager([])
+        self.all_characters = []
+        char_info = load_character_info()
+        self.all_characters.append(char_info)
+        
+        self.characters_manager = CharactersManager(self.all_characters)
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
 

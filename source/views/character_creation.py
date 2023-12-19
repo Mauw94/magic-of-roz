@@ -13,9 +13,6 @@ class CharacterCreationView(arcade.View):
         self.screen_width = screen_width
         self.screen_height = screen_height
 
-        # TODO: rewrite to local files instead of db
-        # chars_collection = get_database()[Consts.CHARACTERS_COLLECTION]
-        
         self.characters_manager = CharactersManager([])
         self.player_character_class_type = None
         self.player_character_name = ""
