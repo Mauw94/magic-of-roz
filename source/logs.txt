@@ -697,3 +697,5 @@
 21:44:36[94mINFO:Physicsengingecreated
 21:44:36[94mINFO:Lightscreated
 21:44:36[94mINFO:Spritesintialized
+21:46:27[96mOBJECT_CREATION:TextureLoaderIN:EntityClass
+21:46:27[96mOBJECT_CREATION:TextureLoaderIN:RangedAttackClass
