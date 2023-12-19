@@ -1,6 +1,6 @@
 import arcade
 import arcade.gui
-from views.character_creation import CharacterCreationView
+from views.character_creation_view import CharacterCreationView
 from views.character_selection_view import CharacterSelectionView
 
 

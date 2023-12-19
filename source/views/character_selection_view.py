@@ -22,8 +22,10 @@ class CharSelectButton(arcade.gui.UIFlatButton):
         size_hint_min=None,
         size_hint_max=None,
         style=None,
-        **kwargs
+        UIManager: arcade.gui.UIManager = None,
+        **kwargs,
     ):
+        self.UIManager = UIManager
         super().__init__(
             x,
             y,
@@ -34,7 +36,7 @@ class CharSelectButton(arcade.gui.UIFlatButton):
             size_hint_min,
             size_hint_max,
             style,
-            **kwargs
+            **kwargs,
         )
 
     def on_click(self, event: arcade.gui.UIOnClickEvent):
@@ -42,6 +44,7 @@ class CharSelectButton(arcade.gui.UIFlatButton):
         p = self.characters_manager.load_player_object(self.character_info)
         from views.game_view import GameView
 
+        self.UIManager.disable()
         game_view = GameView(self.s_w, self.s_h, p)
         self.game_window.show_view(game_view)
 
@@ -75,9 +78,10 @@ class CharacterSelectionView(arcade.View):
 
         if len(characters) > 0:
             for c in characters:
-                print(c)
                 button = CharSelectButton(
-                    text=c["name"] + " - " + c["class"].lower(), width=200
+                    text=c["name"] + " - " + c["class"].lower(),
+                    width=200,
+                    UIManager=self.manager,
                 )
                 button.set_characters_manager(self.characters_manager)
                 button.set_char_info(c)

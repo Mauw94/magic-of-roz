@@ -2,8 +2,6 @@ import arcade
 import arcade.gui
 import arcade.experimental.uistyle
 from entities.classes.class_type import ClassTypeEnum
-from entities.player.player import Player
-from helpers.consts import Consts
 from managers.data_managers.characters_manager import CharactersManager
 from helpers.logging.logger import Logger
 
