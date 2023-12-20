@@ -15,24 +15,31 @@ def get_documents_path() -> str:
 
 
 def save_new_character_info(char_info: dict) -> None:
+    Logger.log_info("Saving..")
     u_id = str(uuid.uuid1())
     game_folder = _make_game_folder_dir_if_not_exists()
     file_path = os.path.join(game_folder, u_id + SAVE_FILE_EXTENSION)
 
     with open(file_path, "w") as file:
         json.dump(char_info, file, indent=4)
+        file.flush()
+        file.close()
 
 
 def load_all_saves() -> list:
+    Logger.log_info("Loading all save files.")
     game_folder_path = Path(_make_game_folder_dir_if_not_exists())
-    files = [f for f in game_folder_path.iterdir() if f.is_file()]
+    file_paths = [f for f in game_folder_path.iterdir() if f.is_file()]
     all_chars = []
 
-    for file in files:
-        with open(file, "r") as f:
-            char: dict = json.load(f)
+    for path in file_paths:
+        with open(path, "r") as file:
+            char: dict = json.load(file)
             all_chars.append(char)
+            file.close()
 
+    Logger.log_info("Save files successfully loaded")
+    
     return all_chars
 
 

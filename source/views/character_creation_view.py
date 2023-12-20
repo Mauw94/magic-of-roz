@@ -105,22 +105,18 @@ class CharacterCreationView(arcade.View):
     def on_click_necro(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Necromancer"
         self.set_player_class_type(ClassTypeEnum.NECROMANCER)
-        self.manager.disable()
 
     def on_click_druid(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Druid"
         self.set_player_class_type(ClassTypeEnum.DRUID)
-        self.manager.disable()
 
     def on_click_warrior(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Warrior"
         self.set_player_class_type(ClassTypeEnum.WARRIOR)
-        self.manager.disable()
 
     def on_click_wizard(self, event) -> None:
         self.ui_text_label.text = "Chosen class: Wizard"
         self.set_player_class_type(ClassTypeEnum.WIZARD)
-        self.manager.disable()
 
     def on_back(self, event) -> None:
         from views.main_menu import MainMenu
