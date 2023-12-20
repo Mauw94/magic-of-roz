@@ -28,5 +28,5 @@ class Consts:
 
     MAX_ENEMY_HEALTH = 100
     
-    # DB collections
-    CHARACTERS_COLLECTION = "characters"
+    NORMAL_ATTACK_MANA_COST = 3
+    SPECIAL_ATTACK_MANA_COST = 12

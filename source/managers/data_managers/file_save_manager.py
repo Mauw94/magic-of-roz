@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 import json
-import uuid
 from core.constants import GAME_FOLDER, SAVE_FILE, SAVE_FILE_EXTENSION
 from helpers.logging.logger import Logger
 
@@ -16,9 +15,8 @@ def get_documents_path() -> str:
 
 def save_new_character_info(char_info: dict) -> None:
     Logger.log_info("Saving..")
-    u_id = str(uuid.uuid1())
     game_folder = _make_game_folder_dir_if_not_exists()
-    file_path = os.path.join(game_folder, u_id + SAVE_FILE_EXTENSION)
+    file_path = os.path.join(game_folder, char_info["u_id"] + SAVE_FILE_EXTENSION)
 
     with open(file_path, "w") as file:
         json.dump(char_info, file, indent=4)
@@ -39,14 +37,36 @@ def load_all_saves() -> list:
             file.close()
 
     Logger.log_info("Save files successfully loaded")
-    
+
     return all_chars
+
+
+def save_character(u_id: str, char_info: dict) -> None:
+    Logger.log_game_event("Saving character info")
+    game_folder = _make_game_folder_dir_if_not_exists()
+    file_path = os.path.join(game_folder, u_id + SAVE_FILE_EXTENSION)
+
+    with open(file_path, "w") as file:
+        json.dump(char_info, file, indent=4)
+        file.flush()
+        file.close()
+
+
+def load_character_save(u_id: str) -> dict:
+    Logger.log_game_event("Loading character info")
+    game_folder = _make_game_folder_dir_if_not_exists()
+    file_path = os.path.join(game_folder, u_id + SAVE_FILE_EXTENSION)
+    char_info: dict = {}
+    with open(file_path, "r") as file:
+        char_info = json.load(file)
+        file.close()
+
+    return char_info
 
 
 def _make_game_folder_dir_if_not_exists() -> str:
     docs_folder = get_documents_path()
     game_path = Path(docs_folder + "/" + GAME_FOLDER)
     game_path.mkdir(parents=True, exist_ok=True)
-    Logger.log_info("Game directory successfully created or initialized.")
 
     return str(game_path)

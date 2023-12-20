@@ -7,6 +7,7 @@ from entities.classes.druid import Druid
 from entities.classes.warrior import Warrior
 from entities.classes.wizard import Wizard
 from managers.data_managers.file_save_manager import save_new_character_info
+import uuid
 
 
 class CharactersManager:
@@ -24,7 +25,9 @@ class CharactersManager:
         c.set_stats(base_stats)
         c.set_name(name)
         c.set_level(1)
+        c.set_current_experience(0)
         c.set_class_type(class_type)
+        c.set_u_id(str(uuid.uuid1()))
 
         char_info = c.get_all_char_info()
         self.characters.append(char_info)

@@ -46,7 +46,7 @@ class CharactersStatManager():
             "dexterity_stat": 5,
             "fire_res": 15,
             "cold_res": 15,
-            "lightning_res": 15
+            "lightning_res": 15,
         }
     
     def druid_base_stats(self) -> dict:
@@ -60,7 +60,7 @@ class CharactersStatManager():
             "dexterity_stat": 5,
             "fire_res": 15,
             "cold_res": 15,
-            "lightning_res": 15
+            "lightning_res": 15,
         }
     
     def wizard_base_stats(self) -> dict:
@@ -74,7 +74,7 @@ class CharactersStatManager():
             "dexterity_stat": 4,
             "fire_res": 15,
             "cold_res": 15,
-            "lightning_res": 15
+            "lightning_res": 15,
         }
     
     def warrior_base_stats(self) -> dict:

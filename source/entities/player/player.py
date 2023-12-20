@@ -10,6 +10,8 @@ from entities.player.character_info import CharacterInfo
 from managers.entity_managers.attack_entity_manager import AttackEntityManager
 from managers.resource_managers.resource_manager import ResourceManager
 from managers.entity_managers.attack_entity_manager import AttackEntityType
+from managers.data_managers.file_save_manager import save_character
+
 if TYPE_CHECKING:
     from views.game_view import GameView
 import arcade
@@ -53,6 +55,7 @@ class Player(Entity):
         self.resource_manager.set_mana_regen_values(30)
         self.resource_manager.set_max_hp(self.health)
         self.resource_manager.set_hp_regen_values(50)
+        self.resource_manager.set_cur_exp(self.character_info.get_current_experience())
 
     def update(self):
         self.update_animation()
@@ -60,15 +63,13 @@ class Player(Entity):
         self.resource_manager.regen_hp()
 
     def draw(self):
-
         # draw hp
         DrawingEngine.draw_text(
             f"Health: {self.resource_manager.get_cur_hp()}",
             self.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
-            self.center_y -
-            (Consts.SCREEN_HEIGHT / 2) + 10,
+            self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
             arcade.csscolor.RED,
-            18
+            18,
         )
 
         # draw mana
@@ -77,18 +78,28 @@ class Player(Entity):
             self.center_x + (Consts.SCREEN_WIDTH / 2) - 130,
             self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
             arcade.csscolor.BLUE,
-            18
+            18,
+        )
+
+        # draw experience
+        DrawingEngine.draw_text(
+            f"Exp: {self.resource_manager.get_cur_exp()} / 100%",
+            self.center_x + (Consts.SCREEN_WIDTH / 2) - (Consts.SCREEN_WIDTH / 2) - 70,
+            self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            arcade.csscolor.WHITE,
+            18,
         )
 
         # draw name above player
         offset = DrawingEngine.calcuate_offset_text_center_above_entity(
-            self.character_info.get_name(), 14, self.width)  # returns a tuple[int, int]
+            self.character_info.get_name(), 14, self.width
+        )  # returns a tuple[int, int]
         DrawingEngine.draw_text(
             f"{self.character_info.get_name()}",
             self.center_x - offset[0],
             self.center_y + 20 + offset[1],
             arcade.csscolor.WHITE,
-            14
+            14,
         )
 
         # draw kill counter
@@ -97,7 +108,7 @@ class Player(Entity):
             self.center_x + (Consts.SCREEN_WIDTH / 2) - 150,
             self.center_y + (Consts.SCREEN_HEIGHT / 2) - 100,
             arcade.csscolor.WHITE,
-            14
+            14,
         )
 
     def update_animation(self, delta_time: float = 1 / 60):
@@ -115,60 +126,76 @@ class Player(Entity):
             self.cur_texture = 0
         self.texture = self.walk_textures[self.cur_texture][self.facing_direction]
 
-    # TODO spend mana; regen mana
     # normal ranged attack when pressing Q
-    def normal_ranged_attack(self, game: 'GameView'):
-        if self.can_shoot_normal_ranged_attack:
-            if self.normal_ranged_attack_pressed:
-                Logger.log_game_event("Performing normal ranged attack")
-                bullet = self.attack_entity_manager.create_attack(
-                    AttackEntityType.NORMAL_RANGED, self.character_info.get_normal_damage(), 7)
-                self.resource_manager.decrease_mana(bullet.get_mana_cost())
-                bullet.play_shooting_sound()
-                if self.facing_direction == Consts.RIGHT_FACING:
-                    bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
-                else:
-                    bullet.change_x = -Consts.PLAYER_ATTACK_PARTICLE_SPEED
+    def normal_ranged_attack(self, game: "GameView"):
+        if self.resource_manager.cur_mana >= Consts.NORMAL_ATTACK_MANA_COST:
+            if self.can_shoot_normal_ranged_attack:
+                if self.normal_ranged_attack_pressed:
+                    Logger.log_game_event("Performing normal ranged attack")
+                    bullet = self.attack_entity_manager.create_attack(
+                        AttackEntityType.NORMAL_RANGED,
+                        self.character_info.get_normal_damage(),
+                        Consts.NORMAL_ATTACK_MANA_COST,
+                    )
+                    self.resource_manager.decrease_mana(bullet.get_mana_cost())
+                    bullet.play_shooting_sound()
+                    if self.facing_direction == Consts.RIGHT_FACING:
+                        bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
+                    else:
+                        bullet.change_x = -Consts.PLAYER_ATTACK_PARTICLE_SPEED
 
-                bullet.center_x = self.center_x
-                bullet.center_y = self.center_y
+                    bullet.center_x = self.center_x
+                    bullet.center_y = self.center_y
 
-                game.scene.add_sprite("Attacks", bullet)
-                self.can_shoot_normal_ranged_attack = False
-        else:
-            self.special_shoot_timer += 1
-            if self.special_shoot_timer == Consts.PLAYER_ATTACK_SPEED:
-                self.can_shoot_normal_ranged_attack = True
-                self.special_shoot_timer = 0
+                    game.scene.add_sprite("Attacks", bullet)
+                    self.can_shoot_normal_ranged_attack = False
+            else:
+                self.special_shoot_timer += 1
+                if self.special_shoot_timer == Consts.PLAYER_ATTACK_SPEED:
+                    self.can_shoot_normal_ranged_attack = True
+                    self.special_shoot_timer = 0
 
     # a lot of duplicate code from normal_ranged_attack
     # -> better way of doing this?
-    def special_ranged_attack(self, game: 'GameView'):
-        if self.can_shoot_special_ranged_attack:
-            if self.special_ranged_attack_pressed:
-                Logger.log_game_event("Performing special ranged attack")
-                bullet = SpecialRangedAttack()  # TODO use attack entity manager to create attack
-                # TODO decrease mana
-                bullet.play_shooting_sound()
-                if self.facing_direction == Consts.RIGHT_FACING:
-                    bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
-                else:
-                    bullet.change_x = -Consts.PLAYER_ATTACK_PARTICLE_SPEED
+    def special_ranged_attack(self, game: "GameView"):
+        if self.resource_manager.cur_mana >= Consts.SPECIAL_ATTACK_MANA_COST:
+            if self.can_shoot_special_ranged_attack:
+                if self.special_ranged_attack_pressed:
+                    Logger.log_game_event("Performing special ranged attack")
+                    bullet = self.attack_entity_manager.create_attack(
+                        AttackEntityType.SPECIAL_RANGED,
+                        self.character_info.get_special_damage(),
+                        Consts.SPECIAL_ATTACK_MANA_COST,
+                    )
+                    self.resource_manager.decrease_mana(bullet.get_mana_cost())
+                    bullet.play_shooting_sound()
+                    if self.facing_direction == Consts.RIGHT_FACING:
+                        bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
+                    else:
+                        bullet.change_x = -Consts.PLAYER_ATTACK_PARTICLE_SPEED
 
-                bullet.center_x = self.center_x
-                bullet.center_y = self.center_y
+                    bullet.center_x = self.center_x
+                    bullet.center_y = self.center_y
 
-                game.scene.add_sprite("Attacks", bullet)
-                self.can_shoot_special_ranged_attack = False
-        else:
-            self.special_shoot_timer += 1
-            if self.special_shoot_timer == Consts.PLAYER_ATTACK_SPEED:
-                self.can_shoot_special_ranged_attack = True
-                self.special_shoot_timer = 0
+                    game.scene.add_sprite("Attacks", bullet)
+                    self.can_shoot_special_ranged_attack = False
+            else:
+                self.special_shoot_timer += 1
+                if self.special_shoot_timer == Consts.PLAYER_ATTACK_SPEED:
+                    self.can_shoot_special_ranged_attack = True
+                    self.special_shoot_timer = 0
 
     def play_hit_sound(self):
         if self.hit_sound is not None:
             self.sound_manager.play_sound(self.hit_sound)
+
+    def add_experience(self, experience: int):
+        self.resource_manager.add_experience(experience)
+        self.character_info.set_current_experience(self.resource_manager.get_cur_exp())
+        save_character(
+            self.character_info.get_uid(), self.character_info.get_all_char_info()
+        )
+        # TODO: when experience is 100, increase level and set cur_xp back to 0
 
     def _get_name_offset(self, name: str) -> int:
         # TODO: decent algo this is dogwater
