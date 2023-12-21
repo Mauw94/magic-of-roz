@@ -65,6 +65,14 @@ class CharacterInfo:
         Logger.log_info("Updating player experience")
         self.current_experience = cur_exp
 
+    def add_experience(self, experience: int) -> None:
+        Logger.log_info("Player gains experience: {experience}")
+        self.current_experience += experience
+        if self.current_experience >= 100:
+            self.level += 1
+            temp_xp = self.current_experience
+            self.current_experience = 100 - temp_xp
+
     def set_stats(self, stats: dict) -> None:
         self.stats = stats
 
@@ -89,6 +97,9 @@ class CharacterInfo:
             "current_experience": self.current_experience,
             "u_id": self.u_id,
         }
+
+    def get_level(self) -> int:
+        return self.level
 
     def _get_player_class_from_str(self, c: str) -> ClassTypeEnum:
         match c.upper():

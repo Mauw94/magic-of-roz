@@ -55,7 +55,6 @@ class Player(Entity):
         self.resource_manager.set_mana_regen_values(30)
         self.resource_manager.set_max_hp(self.health)
         self.resource_manager.set_hp_regen_values(50)
-        self.resource_manager.set_cur_exp(self.character_info.get_current_experience())
 
     def update(self):
         self.update_animation()
@@ -81,10 +80,19 @@ class Player(Entity):
             18,
         )
 
+        # draw level
+        DrawingEngine.draw_text(
+            f"Level: {self.character_info.get_level()}",
+            self.center_x + (Consts.SCREEN_WIDTH / 2) - (Consts.SCREEN_WIDTH / 2) - 250,
+            self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            arcade.csscolor.WHITE,
+            18,
+        )
+        
         # draw experience
         DrawingEngine.draw_text(
-            f"Exp: {self.resource_manager.get_cur_exp()} / 100%",
-            self.center_x + (Consts.SCREEN_WIDTH / 2) - (Consts.SCREEN_WIDTH / 2) - 70,
+            f"Exp: {self.character_info.get_current_experience()} / 100",
+            self.center_x + (Consts.SCREEN_WIDTH / 2) - (Consts.SCREEN_WIDTH / 2) - 20,
             self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
             arcade.csscolor.WHITE,
             18,
@@ -190,12 +198,10 @@ class Player(Entity):
             self.sound_manager.play_sound(self.hit_sound)
 
     def add_experience(self, experience: int):
-        self.resource_manager.add_experience(experience)
-        self.character_info.set_current_experience(self.resource_manager.get_cur_exp())
+        self.character_info.add_experience(experience)
         save_character(
             self.character_info.get_uid(), self.character_info.get_all_char_info()
         )
-        # TODO: when experience is 100, increase level and set cur_xp back to 0
 
     def _get_name_offset(self, name: str) -> int:
         # TODO: decent algo this is dogwater

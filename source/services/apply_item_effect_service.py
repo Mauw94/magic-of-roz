@@ -15,5 +15,7 @@ class ApplyItemEffectService:
         for item in items:
             if type(item) is HealthGlobe:
                 player.resource_manager.add_hp(item.add_life)
+                item.remove_from_sprite_lists()
             elif type(item) is ManaGlobe:
                 player.resource_manager.add_mana(item.add_mana)
+                item.remove_from_sprite_lists()

@@ -97,7 +97,7 @@ class GameView(arcade.View):
 
         # Add test items
         self.scene["Items"].append(HealthGlobe(
-            self.screen_width // 2, self.screen_height // 2))
+            self.screen_width // 2 - 150, self.screen_height // 2 + 200))
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, None)
 
@@ -136,6 +136,8 @@ class GameView(arcade.View):
 
         self.view_left = 0
         self.view_bottom = 0
+        
+        Logger.log_info("GameView is setup")
 
     def process_keychange(self):
         self.handle_input.process_keychange(self)

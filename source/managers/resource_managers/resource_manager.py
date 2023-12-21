@@ -6,8 +6,6 @@ class ResourceManager:
         self.cur_mana = 0
         self.cur_hp = 0
 
-        self.cur_exp = 0
-
         self._mana_regen_interval = 0
         self._mana_regen_timer = 0
         self._max_mana = 0
@@ -26,12 +24,6 @@ class ResourceManager:
     def set_hp_regen_values(self, regen_interval) -> None:
         self._hp_regen_interval = regen_interval
 
-    def set_cur_exp(self, exp: int) -> None:
-        self.cur_exp = exp
-
-    def get_cur_exp(self) -> int:
-        return self.cur_exp
-
     def get_cur_hp(self) -> int:
         return self.cur_hp
 
@@ -40,10 +32,6 @@ class ResourceManager:
         self.cur_hp += hp
         if self.cur_hp + hp > self._max_hp:
             self.cur_hp = self._max_hp
-
-    def add_experience(self, xp) -> None:
-        Logger.log_game_event("Player gains experience")
-        self.cur_exp += xp
 
     def decrease_hp(self, hp) -> None:
         self.cur_hp -= hp
