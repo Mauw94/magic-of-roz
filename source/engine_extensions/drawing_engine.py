@@ -10,7 +10,7 @@ class DrawingEngine:
         arcade.draw_text(text, x, y, color, font_size)
 
     def draw_damage_text(text: str, x: int, y: int) -> None:
-        pass
+        arcade.draw_text(text, x, y)
 
     def calcuate_offset_text_center_above_entity(
             text: str, font_size: int, entity_width: int

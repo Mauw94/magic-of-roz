@@ -30,6 +30,8 @@ class ZombieEnemy(Enemy):
 
         self.can_drop_item = True
         self.drop_chance_range = (250, 600)
+        
+        self.experience_yield = 12
 
     def update(self):
         self.__move_n_steps_horizontal(self.max_move_x)
