@@ -12,7 +12,7 @@ from entities.attacks.normal_ranged_attack import NormalRangedAttack
 from helpers.logging.logger import Logger
 from entities.items.consumables.health_globe import HealthGlobe
 from services.apply_item_effect_service import ApplyItemEffectService
-from services.event_service import DamageEventService
+from source.services.damage_event_service import DamageEventService
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
