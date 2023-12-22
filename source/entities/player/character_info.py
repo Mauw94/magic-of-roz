@@ -66,7 +66,7 @@ class CharacterInfo:
         self.current_experience = cur_exp
 
     def add_experience(self, experience: int) -> None:
-        Logger.log_info("Player gains experience: {experience}")
+        Logger.log_info("Player gains experience: " + str(experience))
         self.current_experience += experience
         if self.current_experience >= 100:
             self.level += 1

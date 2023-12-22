@@ -8,11 +8,10 @@ from arcade.experimental.lights import Light, LightLayer
 from entities.enemies.zombie_enemy import ZombieEnemy
 from services.collision_detection_service import CollisionDetectionService
 from services.entity_spawn_service import EntitySpawnService
-from entities.attacks.normal_ranged_attack import NormalRangedAttack
 from helpers.logging.logger import Logger
 from entities.items.consumables.health_globe import HealthGlobe
 from services.apply_item_effect_service import ApplyItemEffectService
-from source.services.damage_event_service import DamageEventService
+from services.damage_event_service import DamageEventService
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
