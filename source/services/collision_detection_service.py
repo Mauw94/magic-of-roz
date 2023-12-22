@@ -11,16 +11,18 @@ from helpers.static_data import COIN_COLLECT_SOUND
 from entities.player.player import Player
 from managers.item_managers.item_drop_decide_manager import ItemDropDecideManager
 from engine_extensions.drawing_engine import DrawingEngine
+from services.event_service import DamageEvent, DamageEventService
 
 if TYPE_CHECKING:
     from views.game_view import GameView
 
 
 class CollisionDetectionService:
-    def __init__(self):
+    def __init__(self, event_service: DamageEventService):
         self.sound_manager = SoundManager()
         self.sound_manager.set_preferred_sound_volume(0.1)
         self.item_manager = ItemDropDecideManager()
+        self.event_service = event_service
 
     def collision_detection(self, game: "GameView"):
         pass
@@ -57,11 +59,16 @@ class CollisionDetectionService:
                             or NormalRangedAttack
                         ):
                             enemy.hit(attack.get_damage())
-                        if enemy.health <= 0:
-                            # BUG not showing any text
-                            DrawingEngine.draw_damage_text(
-                                str(attack.get_damage()), enemy.center_x, enemy.center_y
+                            self.event_service.add_to_queue(
+                                DamageEvent(
+                                    str(attack.get_damage()),
+                                    enemy.center_x,
+                                    enemy.center_y + 50,
+                                    arcade.csscolor.RED,
+                                    18,
+                                )
                             )
+                        if enemy.health <= 0:
                             player.kill_counter += 1
                             player.add_experience(enemy.experience_yield)
                             hp_bar = enemy.get_hp_bar()

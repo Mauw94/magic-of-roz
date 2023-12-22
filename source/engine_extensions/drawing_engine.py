@@ -1,4 +1,5 @@
 import arcade
+from helpers.logging.logger import Logger
 from PIL import ImageFont
 
 
@@ -6,14 +7,18 @@ class DrawingEngine:
     def __init__(self):
         pass
 
-    def draw_text(text: str, x: int, y: int, color: arcade.csscolor, font_size: int) -> None:
+    def draw_text(
+        text: str, x: int, y: int, color: arcade.csscolor, font_size: int
+    ) -> None:
         arcade.draw_text(text, x, y, color, font_size)
 
-    def draw_damage_text(text: str, x: int, y: int) -> None:
-        arcade.draw_text(text, x, y)
+    def draw_damage_text(
+        text: str, x: int, y: int, color: arcade.csscolor, font_size: int
+    ) -> None:
+        arcade.draw_text(text, x, y, color, font_size)
 
     def calcuate_offset_text_center_above_entity(
-            text: str, font_size: int, entity_width: int
+        text: str, font_size: int, entity_width: int
     ) -> tuple[int, int]:
         font = ImageFont.truetype("calibri", font_size)
         size = font.getsize(text)

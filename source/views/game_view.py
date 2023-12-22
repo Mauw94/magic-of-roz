@@ -12,6 +12,7 @@ from entities.attacks.normal_ranged_attack import NormalRangedAttack
 from helpers.logging.logger import Logger
 from entities.items.consumables.health_globe import HealthGlobe
 from services.apply_item_effect_service import ApplyItemEffectService
+from services.event_service import DamageEventService
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
@@ -33,18 +34,20 @@ class GameView(arcade.View):
         # os.chdir(file_path)
 
         self.handle_input = Keys()
-        self.collision_detection_service = CollisionDetectionService()
-        Logger.log_object_creation(
-            "CollisionDetectionService", "Game_View")
 
         self.entity_spawn_service = EntitySpawnService()
         self.entity_spawn_service.set_spawn_timer(500)
         self.entity_spawn_service.set_zombies_to_spawn_in_wave(3)
-        Logger.log_object_creation(
-            "EntitySpawnService", "Game_View")
+        Logger.log_object_creation("EntitySpawnService", "Game_View")
 
         self.apply_item_effect_service = ApplyItemEffectService()
         Logger.log_object_creation("ApplyItemEffectService", "Game_View")
+
+        self.event_service = DamageEventService()
+        Logger.log_object_creation("EventSerivce", "Game_View")
+
+        self.collision_detection_service = CollisionDetectionService(self.event_service)
+        Logger.log_object_creation("CollisionDetectionService", "Game_View")
 
         self.left_pressed = False
         self.right_pressed = False
@@ -64,8 +67,7 @@ class GameView(arcade.View):
         self.view_bottom = 0
         self.score = 0
 
-        self.coin_collect_sound = arcade.load_sound(
-            ":resources:sounds/coin1.wav")
+        self.coin_collect_sound = arcade.load_sound(":resources:sounds/coin1.wav")
 
         self.enemy_attack_timer = 0
 
@@ -75,12 +77,9 @@ class GameView(arcade.View):
     def setup(self):  # TODO: clean this method up
         Logger.log_info("Initializing tilemap")
 
-        map_path = os.path.abspath(
-            "./tile-map/maps/town/town.json")
+        map_path = os.path.abspath("./tile-map/maps/town/town.json")
         # map_path = ":resources:tiled_maps/test_map_7.json"
-        self.tile_map = arcade.load_tilemap(
-            map_path, Consts.MAP_SCALING
-        )
+        self.tile_map = arcade.load_tilemap(map_path, Consts.MAP_SCALING)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
         Logger.log_info("Setting up game")
@@ -96,15 +95,15 @@ class GameView(arcade.View):
         self.scene.add_sprite_list("Items")
 
         # Add test items
-        self.scene["Items"].append(HealthGlobe(
-            self.screen_width // 2 - 150, self.screen_height // 2 + 200))
+        self.scene["Items"].append(
+            HealthGlobe(self.screen_width // 2 - 150, self.screen_height // 2 + 200)
+        )
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, None)
 
         Logger.log_info("Physics enginge created")
 
-        self.light_layer = LightLayer(
-            Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT)
+        self.light_layer = LightLayer(Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT)
         self.light_layer.set_background_color(arcade.color.BLACK)
 
         radius = 970
@@ -120,7 +119,8 @@ class GameView(arcade.View):
         self.coins = arcade.SpriteList()
         for _ in range(30):
             coin = arcade.Sprite(
-                ":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_PLAYER)
+                ":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_PLAYER
+            )
             coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
             coin.center_y = random.randrange(Consts.SCREEN_HEIGHT)
             self.coins.append(coin)
@@ -136,7 +136,7 @@ class GameView(arcade.View):
 
         self.view_left = 0
         self.view_bottom = 0
-        
+
         Logger.log_info("GameView is setup")
 
     def process_keychange(self):
@@ -158,26 +158,36 @@ class GameView(arcade.View):
         self.scene.update_animation(delta_time, ["Coins"])
         self.collision_detection_service.collision_detection(self)
 
+        # event service
+        self.event_service.update()
+
         # coins hit detection
         coin_hit_list = arcade.check_for_collision_with_list(
-            self.player, self.scene["Coins"])
+            self.player, self.scene["Coins"]
+        )
         self.score += self.collision_detection_service.coins_collision_detection(
-            coin_hit_list)
+            coin_hit_list
+        )
 
         # attack enemies hit detection
         self.collision_detection_service.bullet_collision_detection(
-            self.player, self.scene["Attacks"], self.scene["Enemies"], self.scene["Items"])
+            self.player,
+            self.scene["Attacks"],
+            self.scene["Enemies"],
+            self.scene["Items"],
+        )
 
         # enemy attacks hit detection
         self.collision_detection_service.enemy_attack_collision_detection(
-            self.scene["Attacks"], self.scene["Player"], self.player)
+            self.scene["Attacks"], self.scene["Player"], self.player
+        )
 
         # check for item collision with player
         item_list = arcade.check_for_collision_with_list(
-            self.player, self.scene["Items"])
+            self.player, self.scene["Items"]
+        )
 
-        self.apply_item_effect_service.apply_item_effect(
-            item_list, self.player)
+        self.apply_item_effect_service.apply_item_effect(item_list, self.player)
 
         # spawn periodically
         self.__spawn_zombies()
@@ -193,12 +203,9 @@ class GameView(arcade.View):
         if self.escape_pressed:
             Logger.log_game_event("Returning to main menu")
             from views.main_menu import MainMenu
-            arcade.set_viewport(0,
-                                self.screen_width,
-                                0,
-                                self.screen_height)
-            game_view = MainMenu(
-                self.screen_width, self.screen_height)
+
+            arcade.set_viewport(0, self.screen_width, 0, self.screen_height)
+            game_view = MainMenu(self.screen_width, self.screen_height)
             self.window.show_view(game_view)
 
     def on_draw(self):
@@ -210,6 +217,7 @@ class GameView(arcade.View):
         self.light_layer.draw(ambient_color=AMBIENT_COLOR)
 
         self.player.draw()
+        self.event_service.draw()
 
     def __scroll_screen(self):
         # Scroll left
@@ -218,14 +226,12 @@ class GameView(arcade.View):
             self.view_left -= left_boundary - self.player.left
 
         # Scroll right
-        right_boundary = self.view_left + \
-            self.window.width - (self.window.width / 2)
+        right_boundary = self.view_left + self.window.width - (self.window.width / 2)
         if self.player.right > right_boundary:
             self.view_left += self.player.right - right_boundary
 
         # Scroll up
-        top_boundary = self.view_bottom + \
-            self.window.height - (self.window.height / 2)
+        top_boundary = self.view_bottom + self.window.height - (self.window.height / 2)
         if self.player.top > top_boundary:
             self.view_bottom += self.player.top - top_boundary
 
@@ -237,10 +243,12 @@ class GameView(arcade.View):
         self.view_left = int(self.view_left)
         self.view_bottom = int(self.view_bottom)
 
-        arcade.set_viewport(self.view_left,
-                            self.window.width + self.view_left,
-                            self.view_bottom,
-                            self.window.height + self.view_bottom)
+        arcade.set_viewport(
+            self.view_left,
+            self.window.width + self.view_left,
+            self.view_bottom,
+            self.window.height + self.view_bottom,
+        )
 
     def __enemies_attack(self):
         for enemy in self.scene["Enemies"]:

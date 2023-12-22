@@ -37,14 +37,15 @@ class EntitySpawnService:
             if self._cur_wave % 3 == 0:
                 self._zombies_to_spawn *= 1.5
                 self._zombies_to_spawn = int(self._zombies_to_spawn)
-            
+
             # spawn zombies
-            z = []
+            zombies = []
             for _ in range(self._zombies_to_spawn):
                 x, y = self.__determine_x_y()
-                z.append(ZombieEnemy(x, y))
+                zombies.append(ZombieEnemy(x, y))
+                Logger.log_object_creation("Spawning a zombie", "EntitySpawnService")
 
-            return z
+            return zombies
         else:
             return None
 

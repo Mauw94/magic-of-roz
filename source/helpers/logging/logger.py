@@ -1,5 +1,6 @@
 from helpers.logging.bcolors import bcolors
 from datetime import datetime
+
 # import traceback
 # import sys
 # traceback.print_stack(file=sys.stdout)
@@ -18,6 +19,11 @@ class Logger:
     # log info
     def log_info(msg) -> None:
         log = f"{Logger.__print_time()} {bcolors.OKBLUE}INFO: {msg}"
+        print(log, bcolors.ENDC)
+        Logger.__log_to_file(log)
+
+    def log_debug(msg) -> None:
+        log = f"{Logger.__print_time()} {bcolors.UNDERLINE}DEBUG: {msg}"
         print(log, bcolors.ENDC)
         Logger.__log_to_file(log)
 
