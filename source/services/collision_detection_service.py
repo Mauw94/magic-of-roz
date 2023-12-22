@@ -92,5 +92,14 @@ class CollisionDetectionService:
             if attack_hit_list:
                 if type(a) is ZombieAttack:
                     a.remove_from_sprite_lists()
+                    self.event_service.add_to_queue(
+                        DamageEvent(
+                            str(-a.get_damage()),
+                            player.center_x - 15,
+                            player.center_y + 60,
+                            arcade.csscolor.RED,
+                            24,
+                        )
+                    )
                     player.resource_manager.decrease_hp(a.get_damage())
                     player.play_hit_sound()
