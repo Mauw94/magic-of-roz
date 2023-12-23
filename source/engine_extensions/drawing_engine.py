@@ -20,7 +20,7 @@ class DrawingEngine:
     def calcuate_offset_text_center_above_entity(
         text: str, font_size: int, entity_width: int
     ) -> tuple[int, int]:
-        font = ImageFont.truetype("calibri", font_size)
+        font = ImageFont.load_default()
         size = font.getsize(text)
         x = DrawingEngine.__calc_x_offset(size[0], entity_width)
         return [x, size[1]]

@@ -1,8 +1,9 @@
 import arcade
+import random
 from helpers.texture_loader import TextureLoader
 from helpers.consts import Consts
 from managers.resource_managers.sound_manager import SoundManager
-
+from helpers.logging.logger import Logger
 
 class RangedAttack(arcade.Sprite):
     texture_loader = TextureLoader("RangedAttackClass")
@@ -36,7 +37,23 @@ class RangedAttack(arcade.Sprite):
         self._mana_cost = cost
 
     def get_damage(self) -> int:
-        return self._damage
+        # keep some variance in the damage numbers so it isn't always the same.
+        max_variance = self._damage // 10
+
+        if max_variance == 0:
+            max_variance += 2
+        elif max_variance == 1:
+            max_variance += 1
+            
+        offset = random.randint(1, max_variance)
+        sign = random.randint(1, 2)
+        
+        if sign == 1:
+            return self._damage + offset
+        elif sign == 2:
+            return self._damage - offset
+        else:
+            return self._damage
 
     def set_damage(self, d) -> None:
         self._damage = d

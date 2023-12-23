@@ -64,9 +64,9 @@ class Player(Entity):
     def draw(self):
         # draw hp
         DrawingEngine.draw_text(
-            f"Health: {self.resource_manager.get_cur_hp()}",
+            f"HP: {self.resource_manager.get_cur_hp()}",
             self.center_x - (Consts.SCREEN_WIDTH / 2) + 50,
-            self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            self.center_y - (Consts.SCREEN_HEIGHT / 2) - 20,
             arcade.csscolor.RED,
             18,
         )
@@ -75,7 +75,7 @@ class Player(Entity):
         DrawingEngine.draw_text(
             f"Mana: {self.resource_manager.get_cur_mana()}",
             self.center_x + (Consts.SCREEN_WIDTH / 2) - 130,
-            self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            self.center_y - (Consts.SCREEN_HEIGHT / 2) - 20,
             arcade.csscolor.BLUE,
             18,
         )
@@ -83,8 +83,8 @@ class Player(Entity):
         # draw level
         DrawingEngine.draw_text(
             f"Level: {self.character_info.get_level()}",
-            self.center_x + (Consts.SCREEN_WIDTH / 2) - (Consts.SCREEN_WIDTH / 2) - 250,
-            self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            self.center_x + (Consts.SCREEN_WIDTH / 2) - (Consts.SCREEN_WIDTH / 2) - 200,
+            self.center_y - (Consts.SCREEN_HEIGHT / 2) - 20,
             arcade.csscolor.WHITE,
             18,
         )
@@ -93,7 +93,7 @@ class Player(Entity):
         DrawingEngine.draw_text(
             f"Exp: {self.character_info.get_current_experience()} / 100",
             self.center_x + (Consts.SCREEN_WIDTH / 2) - (Consts.SCREEN_WIDTH / 2) - 20,
-            self.center_y - (Consts.SCREEN_HEIGHT / 2) + 10,
+            self.center_y - (Consts.SCREEN_HEIGHT / 2) - 20,
             arcade.csscolor.WHITE,
             18,
         )
@@ -113,8 +113,8 @@ class Player(Entity):
         # draw kill counter
         DrawingEngine.draw_text(
             f"kills: {self.kill_counter}",
-            self.center_x + (Consts.SCREEN_WIDTH / 2) - 150,
-            self.center_y + (Consts.SCREEN_HEIGHT / 2) - 100,
+            self.center_x + (Consts.SCREEN_WIDTH / 2) - 60,
+            self.center_y + (Consts.SCREEN_HEIGHT / 2) - 60,
             arcade.csscolor.WHITE,
             14,
         )

@@ -87,19 +87,19 @@ class CollisionDetectionService:
     def enemy_attack_collision_detection(
         self, attacks: List[arcade.Sprite], players: List[arcade.Sprite], player: Player
     ) -> None:
-        for a in attacks:
-            attack_hit_list = arcade.check_for_collision_with_list(a, players)
+        for attack in attacks:
+            attack_hit_list = arcade.check_for_collision_with_list(attack, players)
             if attack_hit_list:
-                if type(a) is ZombieAttack:
-                    a.remove_from_sprite_lists()
+                if type(attack) is ZombieAttack:
+                    attack.remove_from_sprite_lists()
                     self.event_service.add_to_queue(
                         DamageEvent(
-                            str(-a.get_damage()),
+                            str(-attack.get_damage()),
                             player.center_x - 15,
                             player.center_y + 60,
                             arcade.csscolor.RED,
                             24,
                         )
                     )
-                    player.resource_manager.decrease_hp(a.get_damage())
+                    player.resource_manager.decrease_hp(attack.get_damage())
                     player.play_hit_sound()
