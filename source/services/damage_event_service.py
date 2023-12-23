@@ -3,6 +3,13 @@ from engine_extensions.drawing_engine import DrawingEngine
 from helpers.logging.logger import Logger
 
 
+# TODO: keep track of the lifetime inside the DamageEvent object
+# when lifetime expires the object can be removed
+# this way we don't need a queue to store events,
+# but multiple events can happen at the same time
+# give an event also a slight different x and y value
+# so they don't all overlap at the same position
+
 class DamageEvent:
     def __init__(
         self, text: str, x: int, y: int, color: arcade.csscolor, font_size: int
