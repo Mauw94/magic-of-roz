@@ -68,7 +68,6 @@ class CollisionDetectionService:
                                 )
                             )
                         if enemy.health <= 0:
-                            player.kill_counter += 1
                             player.add_experience(enemy.experience_yield)
                             hp_bar = enemy.get_hp_bar()
                             hp_bar[0].remove_from_sprite_lists()

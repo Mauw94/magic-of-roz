@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from views.game_view import GameView
 import arcade
 
-# when modifying stats, always call resourcemanager first on the player obj
+# NOTE: when modifying stats, always call resourcemanager first on the player obj
 
 
 class Player(Entity):
@@ -42,9 +42,8 @@ class Player(Entity):
         self.normal_shoot_timer = 0
         self.special_shoot_timer = 0
 
-        self.kill_counter = 0
-
         self.hit = False
+        # TODO move to static data
         self.hit_sound = arcade.load_sound(":resources:sounds/hit2.wav")
 
     def setup(self):
@@ -88,7 +87,7 @@ class Player(Entity):
             arcade.csscolor.WHITE,
             18,
         )
-        
+
         # draw experience
         DrawingEngine.draw_text(
             f"Exp: {self.character_info.get_current_experience()} / 100",
@@ -110,12 +109,12 @@ class Player(Entity):
             14,
         )
 
-        # draw kill counter
+        # draw gold counter
         DrawingEngine.draw_text(
-            f"kills: {self.kill_counter}",
+            f"Gold: {self.character_info.get_gold()}",
             self.center_x + (Consts.SCREEN_WIDTH / 2) - 60,
             self.center_y + (Consts.SCREEN_HEIGHT / 2) - 60,
-            arcade.csscolor.WHITE,
+            arcade.csscolor.YELLOW,
             14,
         )
 
@@ -199,6 +198,12 @@ class Player(Entity):
 
     def add_experience(self, experience: int):
         self.character_info.add_experience(experience)
+        save_character(
+            self.character_info.get_uid(), self.character_info.get_all_char_info()
+        )
+
+    def add_gold(self, gold: int):
+        self.character_info.add_gold(gold)
         save_character(
             self.character_info.get_uid(), self.character_info.get_all_char_info()
         )

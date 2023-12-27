@@ -20,30 +20,37 @@ class ApplyItemEffectService:
         for item in items:
             if type(item) is HealthGlobe:
                 self.sound_manager.play_sound(HP_ADD_SOUND)
+                added_hp = player.resource_manager.add_hp(item.add_life)
+
                 self.text_event_service.add_to_events(
                     TextEvent(
-                        "+" + str(item.add_life) + " hp",
+                        "+" + str(added_hp) + " hp",
                         player.center_x,
                         player.center_y + 60,
                         arcade.csscolor.GREEN,
                         18,
                     )
                 )
-                player.resource_manager.add_hp(item.add_life)
+
             elif type(item) is ManaGlobe:
                 self.sound_manager.play_sound(MANA_ADD_SOUND)
+                added_mana = player.resource_manager.add_mana(item.add_mana)
+
                 self.text_event_service.add_to_events(
                     TextEvent(
-                        "+" + str(item.add_mana) + " mana",
+                        "+" + str(added_mana) + " mana",
                         player.center_x,
                         player.center_y + 60,
                         arcade.csscolor.BLUE,
                         18,
                     )
                 )
-                player.resource_manager.add_mana(item.add_mana)
+
             elif type(item) is GoldCoin:
                 self.sound_manager.play_sound(COIN_COLLECT_SOUND)
+                # TODO: get amount from item.value
+                player.add_gold(1)
+
                 self.text_event_service.add_to_events(
                     TextEvent(
                         "+" + str(1),

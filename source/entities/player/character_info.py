@@ -1,26 +1,6 @@
 from typing import Any
 from entities.classes.class_type import ClassTypeEnum
 from helpers.logging.logger import Logger
-import uuid
-
-## EXAMPLE OF HOW STATS CAN LOOK LIKE
-# "stats": {
-#         "hp": 80,
-#         "ap": 90,
-#         "as": 0.8,
-#         "mana": 110,
-#         "intelligence_stat": 12,
-#         "strength_stat": 3,
-#         "dexterity_stat": 4,
-#         "fire_res": 15,
-#         "cold_res": 15,
-#         "lightning_res": 15
-#     },
-#     "level": 1,
-#     "current_experience": 0,
-#     "name": "wewewe",
-#     "class": "WIZARD"
-#     "u_id": "dsaddasd"
 
 
 class CharacterInfo:
@@ -30,6 +10,7 @@ class CharacterInfo:
         self.current_experience: int = None
         self.name: str = None
         self.class_type: ClassTypeEnum = None
+        self.gold: int = 0
         self.u_id: str = None
 
     def set_info(self, character_info: dict) -> None:
@@ -39,6 +20,7 @@ class CharacterInfo:
         self.set_stats(character_info["stats"])
         self.set_class_type(self._get_player_class_from_str(character_info["class"]))
         self.set_u_id(character_info["u_id"])
+        self.set_gold(character_info["gold"])
 
     def get_normal_damage(self) -> int:
         return self.stats["ap"]
@@ -55,11 +37,17 @@ class CharacterInfo:
     def get_uid(self) -> str:
         return self.u_id
 
+    def get_gold(self) -> int:
+        return self.gold
+
     def set_name(self, n: str) -> None:
         self.name = n
 
     def set_level(self, l: int) -> None:
         self.level = l
+
+    def set_gold(self, gold: int) -> None:
+        self.gold = gold
 
     def set_current_experience(self, cur_exp: int) -> None:
         Logger.log_info("Updating player experience")
@@ -72,6 +60,10 @@ class CharacterInfo:
             self.level += 1
             temp_xp = self.current_experience
             self.current_experience = 100 - temp_xp
+
+    def add_gold(self, gold: int) -> None:
+        Logger.log_info("Player gains gold: " + str(gold))
+        self.gold += gold
 
     def set_stats(self, stats: dict) -> None:
         self.stats = stats
@@ -96,6 +88,7 @@ class CharacterInfo:
             "class": self.class_type.name,
             "current_experience": self.current_experience,
             "u_id": self.u_id,
+            "gold": self.gold,
         }
 
     def get_level(self) -> int:

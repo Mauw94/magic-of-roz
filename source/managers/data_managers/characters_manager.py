@@ -21,15 +21,16 @@ class CharactersManager:
     def save_new_character_info(self, name: str, class_type: ClassTypeEnum) -> None:
         base_stats = self.c_stat_manager.get_base_stats_for_class(class_type)
 
-        c = CharacterInfo()
-        c.set_stats(base_stats)
-        c.set_name(name)
-        c.set_level(1)
-        c.set_current_experience(0)
-        c.set_class_type(class_type)
-        c.set_u_id(str(uuid.uuid1()))
+        character_info = CharacterInfo()
+        character_info.set_stats(base_stats)
+        character_info.set_name(name)
+        character_info.set_level(1)
+        character_info.set_current_experience(0)
+        character_info.set_class_type(class_type)
+        character_info.set_u_id(str(uuid.uuid1()))
+        character_info.set_gold(0)
 
-        char_info = c.get_all_char_info()
+        char_info = character_info.get_all_char_info()
         self.characters.append(char_info)
         save_new_character_info(char_info)
 
