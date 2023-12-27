@@ -1,37 +1,10 @@
 --- plan ---
-* only show specific amount of mana or hp that got added when value reaches fullq
 * add droppable items that enhance stats for x amount of time
 * create inventory for player and be able to use items and select them
 * picking up coins adds gold
 * can buy items or enhancements in between rounds with gold picked up
 * implement attacks that deal a lot of damage very fast, but in small amounts (eg 50 dmg in 1.5 sec with small bursts)
-
-* l o o t 
-    - write service that determines which enhances or stats the player gets per item when picked up
-    
-* pathfinding algo/engine (random new x,y -> move to coord; repeat)
-* drawing engine
-
-* implement loading/saving
-
+* fire player attacks at mouse pos
 * define constants for each level (enemies to spawn, spawnrate, enemies to slay before next levle)
-* keep state of player (level, stats etc => mongodb?)
-* periodically spawn enemies
-* killing an enemy grants xp
 * level up increases stats
 * be able to use potions
-* some sort of login
-* code testing
-* implement player classes
-* implement character creation screen; choose player class and enter character name
-* implement save game; save player class + name
-
-* implement items; base items and some variation of them
-* implement item rarities
-* implement item stats
-* implement a star pathfinding algo
-* implement basic loottable when enemy dies
-* implement melee attack for enemy
-* fire player attacks at mouse pos
-* show flickering when hit by enemy
-* add town

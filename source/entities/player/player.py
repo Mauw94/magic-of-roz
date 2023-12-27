@@ -11,6 +11,7 @@ from managers.entity_managers.attack_entity_manager import AttackEntityManager
 from managers.resource_managers.resource_manager import ResourceManager
 from managers.entity_managers.attack_entity_manager import AttackEntityType
 from managers.data_managers.file_save_manager import save_character
+from helpers.static_data import ENEMY_HIT_SOUND
 
 if TYPE_CHECKING:
     from views.game_view import GameView
@@ -43,8 +44,7 @@ class Player(Entity):
         self.special_shoot_timer = 0
 
         self.hit = False
-        # TODO move to static data
-        self.hit_sound = arcade.load_sound(":resources:sounds/hit2.wav")
+        self.hit_sound = ENEMY_HIT_SOUND
 
     def setup(self):
         self.health = self.character_info.get_stats()["hp"]

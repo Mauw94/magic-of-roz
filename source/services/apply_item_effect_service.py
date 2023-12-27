@@ -52,7 +52,7 @@ class ApplyItemEffectService:
 
                 self.text_event_service.add_to_events(
                     TextEvent(
-                        "+" + str(1),
+                        "+" + str(item.value),
                         player.center_x - 15,
                         player.center_y + 60,
                         arcade.csscolor.YELLOW,
@@ -60,5 +60,4 @@ class ApplyItemEffectService:
                     )
                 )
 
-                # TODO: increase gold count for player, also save this stat
             item.remove_from_sprite_lists()

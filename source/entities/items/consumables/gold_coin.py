@@ -8,4 +8,4 @@ class GoldCoin(ItemBase):
         self.center_x = x
         self.center_y = y
 
-        self.value = 1
+        self.value = 10

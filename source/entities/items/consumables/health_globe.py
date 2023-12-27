@@ -1,7 +1,5 @@
 from entities.items.item_base import ItemBase
 
-# adds n to life
-
 
 class HealthGlobe(ItemBase):
     def __init__(self, x, y):

@@ -1,6 +1,5 @@
 import os
 import arcade
-import random
 from helpers.consts import Consts
 from entities.player.player import Player
 from input.keys import Keys
@@ -42,9 +41,11 @@ class GameView(arcade.View):
         self.text_event_service = TextEventService()
         Logger.log_object_creation("TextEventSerivce", "Game_View")
 
-        self.collision_detection_service = CollisionDetectionService(self.text_event_service)
+        self.collision_detection_service = CollisionDetectionService(
+            self.text_event_service
+        )
         Logger.log_object_creation("CollisionDetectionService", "Game_View")
-        
+
         self.apply_item_effect_service = ApplyItemEffectService(self.text_event_service)
         Logger.log_object_creation("ApplyItemEffectService", "Game_View")
 
@@ -110,24 +111,10 @@ class GameView(arcade.View):
         color = arcade.color.WHITE
         self.player_light = Light(0, 0, radius, color, mode)
         self.light_layer.add(self.player_light)
-
         Logger.log_info("Lights created")
-
-        # TODO move coins and enemies creation to seperate functions
-        # Add some random coins just for the sake of it for now
-        # self.coins = arcade.SpriteList()
-        # for _ in range(30):
-        #     coin = arcade.Sprite(
-        #         ":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_PLAYER
-        #     )
-        #     coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
-        #     coin.center_y = random.randrange(Consts.SCREEN_HEIGHT)
-        #     self.coins.append(coin)
-        # self.scene.add_sprite_list("Coins", True, self.coins)
 
         self.bar_list = arcade.SpriteList()
         self.scene.add_sprite_list("Bars", self.bar_list)
-
         Logger.log_info("Sprites intialized")
 
         if self.tile_map.background_color:
@@ -159,14 +146,6 @@ class GameView(arcade.View):
 
         # event service
         self.text_event_service.update()
-
-        # coins hit detection
-        # coin_hit_list = arcade.check_for_collision_with_list(
-        #     self.player, self.scene["Coins"]
-        # )
-        # self.score += self.collision_detection_service.coins_collision_detection(
-        #     coin_hit_list
-        # )
 
         # attack enemies hit detection
         self.collision_detection_service.bullet_collision_detection(
@@ -251,7 +230,8 @@ class GameView(arcade.View):
 
     def __enemies_attack(self):
         for enemy in self.scene["Enemies"]:
-            enemy.ranged_attack(self)
+            if type(enemy) is ZombieEnemy:
+                enemy.ranged_attack(self)
 
     def __spawn_zombies(self):
         zombies = self.entity_spawn_service.spawn_zombie_wave()
