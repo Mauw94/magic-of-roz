@@ -115,15 +115,15 @@ class GameView(arcade.View):
 
         # TODO move coins and enemies creation to seperate functions
         # Add some random coins just for the sake of it for now
-        self.coins = arcade.SpriteList()
-        for _ in range(30):
-            coin = arcade.Sprite(
-                ":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_PLAYER
-            )
-            coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
-            coin.center_y = random.randrange(Consts.SCREEN_HEIGHT)
-            self.coins.append(coin)
-        self.scene.add_sprite_list("Coins", True, self.coins)
+        # self.coins = arcade.SpriteList()
+        # for _ in range(30):
+        #     coin = arcade.Sprite(
+        #         ":resources:images/items/coinGold.png", Consts.SPRITE_SCALING_PLAYER
+        #     )
+        #     coin.center_x = random.randrange(Consts.SCREEN_WIDTH)
+        #     coin.center_y = random.randrange(Consts.SCREEN_HEIGHT)
+        #     self.coins.append(coin)
+        # self.scene.add_sprite_list("Coins", True, self.coins)
 
         self.bar_list = arcade.SpriteList()
         self.scene.add_sprite_list("Bars", self.bar_list)
@@ -154,19 +154,19 @@ class GameView(arcade.View):
     def on_update(self, delta_time):
         self.physics_engine.update()
         self.player_light.position = self.player.position
-        self.scene.update_animation(delta_time, ["Coins"])
+        # self.scene.update_animation(delta_time, ["Coins"])
         self.collision_detection_service.collision_detection(self)
 
         # event service
         self.text_event_service.update()
 
         # coins hit detection
-        coin_hit_list = arcade.check_for_collision_with_list(
-            self.player, self.scene["Coins"]
-        )
-        self.score += self.collision_detection_service.coins_collision_detection(
-            coin_hit_list
-        )
+        # coin_hit_list = arcade.check_for_collision_with_list(
+        #     self.player, self.scene["Coins"]
+        # )
+        # self.score += self.collision_detection_service.coins_collision_detection(
+        #     coin_hit_list
+        # )
 
         # attack enemies hit detection
         self.collision_detection_service.bullet_collision_detection(

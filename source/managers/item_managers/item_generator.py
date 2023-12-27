@@ -6,6 +6,7 @@ from entities.items.consumables.mana_globe import ManaGlobe
 from helpers.logging.logger import Logger
 from entities.items.item_base import ItemBase
 from entities.items.wearables.test_armour import TestArmour
+from entities.items.consumables.gold_coin import GoldCoin
 
 
 class WearableItemsEnum(Enum):
@@ -13,8 +14,8 @@ class WearableItemsEnum(Enum):
 
 
 class ConsumableItemsEnum(Enum):
-    HEALTH_GLOBE = 0,
-    MANA_GLOBE = 1,
+    HEALTH_GLOBE = (0,)
+    MANA_GLOBE = (1,)
     # ATTACK_SPEED_GLOBE = 2  # TODO: write logic
 
 
@@ -36,8 +37,7 @@ class ItemGenerator:
             # case 2:
             #     return self.gen_attack_speed_globe(x, y)
             case _:
-                Logger.log_error(
-                    "Tried to generate item type that does not exist")
+                Logger.log_error("Tried to generate item type that does not exist")
 
     def gen_health_globe(self, x, y) -> HealthGlobe:
         Logger.log_object_creation("HealthGlobe", "ItemGenerator")
@@ -46,6 +46,10 @@ class ItemGenerator:
     def gen_mana_globe(self, x, y) -> ManaGlobe:
         Logger.log_object_creation("ManaGlobe", "ItemGenerator")
         return ManaGlobe(x, y)
+
+    def gen_gold_coin(self, x, y) -> GoldCoin:
+        Logger.log_object_creation("GoldCoin", "ItemGenerator")
+        return GoldCoin(x, y)
 
     def gen_attack_speed_globe(self, x, y) -> None:
         # TODO create obj

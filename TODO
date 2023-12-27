@@ -1,8 +1,11 @@
 --- plan ---
 * show text when enhancement is used or picked up
+* only show specific amount of mana or hp that got added when value reaches fullq
 * add droppable items that enhance stats for x amount of time
 * create inventory for player and be able to use items and select them
-
+* picking up coins adds gold
+* can buy items or enhancements in between rounds with gold picked up
+* implement attacks that deal a lot of damage very fast, but in small amounts (eg 50 dmg in 1.5 sec with small bursts)
 
 * l o o t 
     - write service that determines which enhances or stats the player gets per item when picked up
