@@ -58,7 +58,7 @@ class CollisionDetectionService:
                             or NormalRangedAttack
                         ):
                             enemy.hit(attack.get_damage())
-                            self.event_service.add_to_queue(
+                            self.event_service.add_to_events(
                                 DamageEvent(
                                     str(attack.get_damage()),
                                     enemy.center_x,
@@ -92,7 +92,7 @@ class CollisionDetectionService:
             if attack_hit_list:
                 if type(attack) is ZombieAttack:
                     attack.remove_from_sprite_lists()
-                    self.event_service.add_to_queue(
+                    self.event_service.add_to_events(
                         DamageEvent(
                             str(-attack.get_damage()),
                             player.center_x - 15,
