@@ -10,18 +10,18 @@ from managers.resource_managers.sound_manager import SoundManager
 from helpers.static_data import COIN_COLLECT_SOUND
 from entities.player.player import Player
 from managers.item_managers.item_drop_decide_manager import ItemDropDecideManager
-from services.damage_event_service import DamageEvent, DamageEventService
+from services.damage_event_service import TextEvent, TextEventService
 
 if TYPE_CHECKING:
     from views.game_view import GameView
 
 
 class CollisionDetectionService:
-    def __init__(self, event_service: DamageEventService):
+    def __init__(self, event_service: TextEventService):
         self.sound_manager = SoundManager()
         self.sound_manager.set_preferred_sound_volume(0.1)
         self.item_manager = ItemDropDecideManager()
-        self.event_service = event_service
+        self.text_event_service = event_service
 
     def collision_detection(self, game: "GameView"):
         pass
@@ -58,8 +58,8 @@ class CollisionDetectionService:
                             or NormalRangedAttack
                         ):
                             enemy.hit(attack.get_damage())
-                            self.event_service.add_to_events(
-                                DamageEvent(
+                            self.text_event_service.add_to_events(
+                                TextEvent(
                                     str(attack.get_damage()),
                                     enemy.center_x,
                                     enemy.center_y + 50,
@@ -92,13 +92,13 @@ class CollisionDetectionService:
             if attack_hit_list:
                 if type(attack) is ZombieAttack:
                     attack.remove_from_sprite_lists()
-                    self.event_service.add_to_events(
-                        DamageEvent(
+                    self.text_event_service.add_to_events(
+                        TextEvent(
                             str(-attack.get_damage()),
                             player.center_x - 15,
                             player.center_y + 60,
                             arcade.csscolor.RED,
-                            24,
+                            16,
                         )
                     )
                     player.resource_manager.decrease_hp(attack.get_damage())

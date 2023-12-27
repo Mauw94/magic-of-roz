@@ -1,8 +1,7 @@
 --- plan ---
-* implement damage numbers when hitting an enemy
 * show text when enhancement is used or picked up
+* add droppable items that enhance stats for x amount of time
 * create inventory for player and be able to use items and select them
-* 
 
 
 * l o o t 

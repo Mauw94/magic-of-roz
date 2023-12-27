@@ -4,7 +4,7 @@ from engine_extensions.drawing_engine import DrawingEngine
 from helpers.logging.logger import Logger
 
 
-class DamageEvent:
+class TextEvent:
     def __init__(
         self, text: str, x: int, y: int, color: arcade.csscolor, font_size: int
     ):
@@ -51,15 +51,15 @@ class DamageEvent:
         self.y = y + y_variance
 
 
-class DamageEventService:
+class TextEventService:
     def __init__(self):
-        self.events: list[DamageEvent] = []
-        self.cur_event: DamageEvent = None
+        self.events: list[TextEvent] = []
+        self.cur_event: TextEvent = None
 
     def draw(self):
         self.update()
 
-    def add_to_events(self, event: DamageEvent):
+    def add_to_events(self, event: TextEvent):
         Logger.log_info("Add new event to EventService")
         self.events.append(event)
 

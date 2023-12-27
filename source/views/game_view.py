@@ -11,7 +11,7 @@ from services.entity_spawn_service import EntitySpawnService
 from helpers.logging.logger import Logger
 from entities.items.consumables.health_globe import HealthGlobe
 from services.apply_item_effect_service import ApplyItemEffectService
-from services.damage_event_service import DamageEventService
+from services.damage_event_service import TextEventService
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
@@ -39,14 +39,14 @@ class GameView(arcade.View):
         self.entity_spawn_service.set_zombies_to_spawn_in_wave(3)
         Logger.log_object_creation("EntitySpawnService", "Game_View")
 
-        self.apply_item_effect_service = ApplyItemEffectService()
-        Logger.log_object_creation("ApplyItemEffectService", "Game_View")
+        self.text_event_service = TextEventService()
+        Logger.log_object_creation("TextEventSerivce", "Game_View")
 
-        self.event_service = DamageEventService()
-        Logger.log_object_creation("EventSerivce", "Game_View")
-
-        self.collision_detection_service = CollisionDetectionService(self.event_service)
+        self.collision_detection_service = CollisionDetectionService(self.text_event_service)
         Logger.log_object_creation("CollisionDetectionService", "Game_View")
+        
+        self.apply_item_effect_service = ApplyItemEffectService(self.text_event_service)
+        Logger.log_object_creation("ApplyItemEffectService", "Game_View")
 
         self.left_pressed = False
         self.right_pressed = False
@@ -158,7 +158,7 @@ class GameView(arcade.View):
         self.collision_detection_service.collision_detection(self)
 
         # event service
-        self.event_service.update()
+        self.text_event_service.update()
 
         # coins hit detection
         coin_hit_list = arcade.check_for_collision_with_list(
@@ -216,7 +216,7 @@ class GameView(arcade.View):
         self.light_layer.draw(ambient_color=AMBIENT_COLOR)
 
         self.player.draw()
-        self.event_service.draw()
+        self.text_event_service.draw()
 
     def __scroll_screen(self):
         # Scroll left
