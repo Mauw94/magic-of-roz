@@ -29,11 +29,13 @@ class ResourceManager:
 
     def add_hp(self, hp) -> int:
         Logger.log_game_event("Player gains hp")
-        self.cur_hp += hp
-        added_hp = hp
+
         if self.cur_hp + hp > self._max_hp:
-            added_hp = (self.cur_hp + hp) - self._max_hp
+            added_hp = self._max_hp - self.cur_hp
             self.cur_hp = self._max_hp
+        else:
+            self.cur_hp += hp
+            added_hp = hp
 
         return added_hp
 
@@ -64,13 +66,15 @@ class ResourceManager:
     def get_cur_mana(self) -> int:
         return self.cur_mana
 
-    def add_mana(self, m) -> int:
+    def add_mana(self, mana) -> int:
         Logger.log_game_event("Player gains mana")
-        self.cur_mana += m
-        added_mana = m
-        if self.cur_mana > self._max_mana:
-            added_mana = (self.cur_mana + m) - self._max_mana
+
+        if self.cur_mana + mana > self._max_mana:
+            added_mana = self._max_mana - self.cur_mana
             self.cur_mana = self._max_mana
+        else:
+            self.cur_mana += mana
+            added_mana = mana
 
         return added_mana
 
