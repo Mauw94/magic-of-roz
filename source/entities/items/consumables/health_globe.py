@@ -10,4 +10,4 @@ class HealthGlobe(ItemBase):
         self.center_x = x
         self.center_y = y
 
-        self.add_life = 15
+        self.value = 15

@@ -18,8 +18,7 @@ if TYPE_CHECKING:
 
 class CollisionDetectionService:
     def __init__(self, event_service: TextEventService):
-        self.sound_manager = SoundManager()
-        self.sound_manager.set_preferred_sound_volume(0.1)
+        self.sound_manager = SoundManager(with_preferred_volume=True)
         self.item_manager = ItemDropDecideManager()
         self.text_event_service = event_service
 

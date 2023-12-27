@@ -10,8 +10,7 @@ class Entity(arcade.Sprite):
     def __init__(self, folder, file):
         super().__init__()
 
-        self.sound_manager = SoundManager()
-        self.sound_manager.set_preferred_sound_volume(0.1)
+        self.sound_manager = SoundManager(with_preferred_volume=True)
         self.facing_direction = Consts.RIGHT_FACING
         self.scale = Consts.SPRITE_SCALING_PLAYER
         self.cur_texture = 0
@@ -22,13 +21,12 @@ class Entity(arcade.Sprite):
         main_path = f":resources:images/animated_characters/{folder}/{file}"
 
         self.idle_texture_pair = self.texture_loader.load_texture_pair(
-            f"{main_path}_idle.png")
+            f"{main_path}_idle.png"
+        )
 
         self.walk_textures = []
         for i in range(8):
-            texture = self.texture_loader.load_texture_pair(
-                f"{main_path}_walk{i}.png"
-            )
+            texture = self.texture_loader.load_texture_pair(f"{main_path}_walk{i}.png")
             self.walk_textures.append(texture)
 
         self.texture = self.idle_texture_pair[0]

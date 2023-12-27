@@ -10,4 +10,4 @@ class ManaGlobe(ItemBase):
         self.center_x = x
         self.center_y = y
 
-        self.add_mana = 50
+        self.value = 50

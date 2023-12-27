@@ -1,5 +1,6 @@
 import arcade
 
+PREFERRED_SOUND_VOLUME = 0.3
 
 COIN_COLLECT_SOUND = arcade.load_sound(":resources:sounds/coin1.wav")
 HP_ADD_SOUND = arcade.load_sound(":resources:sounds/hurt4.wav")

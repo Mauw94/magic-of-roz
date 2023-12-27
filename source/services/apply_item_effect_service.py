@@ -14,13 +14,13 @@ from helpers.static_data import COIN_COLLECT_SOUND, HP_ADD_SOUND, MANA_ADD_SOUND
 class ApplyItemEffectService:
     def __init__(self, text_event_service: TextEventService):
         self.text_event_service = text_event_service
-        self.sound_manager = SoundManager()
+        self.sound_manager = SoundManager(with_preferred_volume=True)
 
     def apply_item_effect(self, items: List[arcade.Sprite], player: Player) -> None:
         for item in items:
             if type(item) is HealthGlobe:
                 self.sound_manager.play_sound(HP_ADD_SOUND)
-                added_hp = player.resource_manager.add_hp(item.add_life)
+                added_hp = player.resource_manager.add_hp(item.value)
 
                 self.text_event_service.add_to_events(
                     TextEvent(
@@ -34,7 +34,7 @@ class ApplyItemEffectService:
 
             elif type(item) is ManaGlobe:
                 self.sound_manager.play_sound(MANA_ADD_SOUND)
-                added_mana = player.resource_manager.add_mana(item.add_mana)
+                added_mana = player.resource_manager.add_mana(item.value)
 
                 self.text_event_service.add_to_events(
                     TextEvent(
@@ -48,8 +48,7 @@ class ApplyItemEffectService:
 
             elif type(item) is GoldCoin:
                 self.sound_manager.play_sound(COIN_COLLECT_SOUND)
-                # TODO: get amount from item.value
-                player.add_gold(1)
+                player.add_gold(item.value)
 
                 self.text_event_service.add_to_events(
                     TextEvent(
