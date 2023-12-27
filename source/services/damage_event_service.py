@@ -1,4 +1,5 @@
 import arcade
+import random
 from engine_extensions.drawing_engine import DrawingEngine
 from helpers.logging.logger import Logger
 
@@ -8,13 +9,14 @@ class DamageEvent:
         self, text: str, x: int, y: int, color: arcade.csscolor, font_size: int
     ):
         self.text = text
-        self.x = x
-        self.y = y
         self.color = color
         self.font_size = font_size
         self.time_to_show_text = 15
         self.cur_show_text = 0
         self.can_remove = False
+        self._max_x_variance = 15
+        self._max_y_variance = 20
+        self._set_x_y_variance(x, y)
 
     def update(self):
         self.cur_show_text += 1
@@ -35,6 +37,18 @@ class DamageEvent:
 
     def get_font_size(self) -> int:
         return self.font_size
+
+    def _set_x_y_variance(self, x: int, y: int):
+        x_variance = random.randint(1, self._max_x_variance)
+        y_variance = random.randint(1, self._max_y_variance)
+        plus_or_minus = random.randint(1, 2)
+
+        if plus_or_minus == 1:
+            self.x = x + x_variance
+        elif plus_or_minus == 2:
+            self.x = x - x_variance
+
+        self.y = y + y_variance
 
 
 class DamageEventService:
