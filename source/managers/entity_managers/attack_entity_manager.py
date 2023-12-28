@@ -11,6 +11,7 @@ class AttackEntityType(Enum):
     NORMAL_CLOSE = 2
     SPECIAL_CLOSE = 3
 
+
 # handles creating different kinds of attacks
 
 
@@ -19,7 +20,9 @@ class AttackEntityManager:
         self._objects_created = 0
 
     # pass attack type, damage it does and mana cost
-    def create_attack(self, attack_type: AttackEntityType, dmg: int, mana_cost: int) -> RangedAttack:
+    def create_attack(
+        self, attack_type: AttackEntityType, dmg: int, mana_cost: int
+    ) -> RangedAttack:
         match attack_type:
             case AttackEntityType.NORMAL_RANGED:
                 return self._normal_ranged_attack(dmg, mana_cost)
@@ -28,25 +31,20 @@ class AttackEntityManager:
             case _:
                 raise Exception("unknown attack type")
 
-    def _normal_ranged_attack(self, dmg: int, m: int) -> NormalRangedAttack:
+    def _normal_ranged_attack(self, damage: int, mana_cost: int) -> NormalRangedAttack:
         Logger.log_object_creation("NormalRangedAttack", "AttackEntityManager")
 
-        na = NormalRangedAttack()
-        na.set_damage(dmg)
-        na.set_mana_cost(m)
-
+        normal_ranged_attack = NormalRangedAttack(mana_cost=mana_cost, damage=damage)
         self._objects_created += 1
 
-        return na
+        return normal_ranged_attack
 
-    def _special_ranged_attack(self, dmg: int, m: int) -> SpecialRangedAttack:
-        Logger.log_object_creation(
-            "SpecialRangedAttack", "AttackEntityManager")
+    def _special_ranged_attack(
+        self, damage: int, mana_cost: int
+    ) -> SpecialRangedAttack:
+        Logger.log_object_creation("SpecialRangedAttack", "AttackEntityManager")
 
-        a = SpecialRangedAttack()
-        a.set_damage(dmg)
-        a.set_mana_cost(m)
-
+        special_ranged_attack = SpecialRangedAttack(mana_cost=mana_cost, damage=damage)
         self._objects_created += 1
 
-        return a
+        return special_ranged_attack

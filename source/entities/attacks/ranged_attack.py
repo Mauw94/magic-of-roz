@@ -9,13 +9,13 @@ from helpers.logging.logger import Logger
 class RangedAttack(arcade.Sprite):
     texture_loader = TextureLoader("RangedAttackClass")
 
-    def __init__(self, folder, file):
+    def __init__(self, folder, file, mana_cost, damage):
         super().__init__()
 
         self.sound_manager = SoundManager(with_preferred_volume=True)
 
-        self._mana_cost = 0
-        self._damage = 0
+        self._mana_cost = mana_cost
+        self._damage = damage
 
         self.mainPath = f":resources:images/{folder}/{file}"
         self.scale = Consts.SPRITE_SCALING_TILES
