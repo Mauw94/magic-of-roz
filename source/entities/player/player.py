@@ -21,16 +21,16 @@ import arcade
 
 
 class Player(Entity):
-    def __init__(self):
+    def __init__(self, character_info: dict):
         super().__init__("male_adventurer", "maleAdventurer")
 
         # TODO: items
         # TODO: inventory
 
+        self.character_info = self._create_char_stats(character_info=character_info)
         self.attack_entity_manager = AttackEntityManager()
         self.resource_manager = ResourceManager()
 
-        self.character_info = CharacterInfo()
         self.center_x = Consts.SCREEN_WIDTH // 2
         self.center_y = Consts.SCREEN_HEIGHT // 2
 
@@ -207,6 +207,12 @@ class Player(Entity):
         save_character(
             self.character_info.get_uid(), self.character_info.get_all_char_info()
         )
+
+    def _create_char_stats(self, character_info: dict) -> CharacterInfo:
+        info = CharacterInfo()
+        info.set_info(character_info)
+
+        return info
 
     def _get_name_offset(self, name: str) -> int:
         # TODO: decent algo this is dogwater
