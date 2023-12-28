@@ -12,11 +12,6 @@ class DrawingEngine:
     ) -> None:
         arcade.draw_text(text, x, y, color, font_size)
 
-    def draw_damage_text(
-        text: str, x: int, y: int, color: arcade.csscolor, font_size: int
-    ) -> None:
-        arcade.draw_text(text, x, y, color, font_size)
-
     def calcuate_offset_text_center_above_entity(
         text: str, font_size: int, entity_width: int
     ) -> tuple[int, int]:

@@ -71,7 +71,7 @@ class TextEventService:
 
     def draw(self):
         for event in self.events:
-            DrawingEngine.draw_damage_text(
+            DrawingEngine.draw_text(
                 event.get_text(),
                 event.get_x(),
                 event.get_y(),
