@@ -11,6 +11,7 @@ from helpers.static_data import COIN_COLLECT_SOUND
 from entities.player.player import Player
 from managers.item_managers.item_drop_decide_manager import ItemDropDecideManager
 from services.damage_event_service import TextEvent, TextEventService
+from helpers.consts import Consts
 
 if TYPE_CHECKING:
     from views.game_view import GameView
@@ -20,6 +21,13 @@ class CollisionDetectionService:
     def __init__(self, event_service: TextEventService):
         self.sound_manager = SoundManager(with_preferred_volume=True)
         self.item_manager = ItemDropDecideManager()
+        Consts
+        self.item_manager.set_drop_chance_seed(
+            Consts.LEVEL_1_DROP_CHANCE_SEED[0], Consts.LEVEL_1_DROP_CHANCE_SEED[1]
+        )
+        Logger.log_debug(
+            f"Drop chance seed: {self.item_manager.get_drop_chance_seeed()}"
+        )
         self.text_event_service = event_service
 
     def collision_detection(self, game: "GameView"):

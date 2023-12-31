@@ -12,9 +12,12 @@ class ItemDropDecideManager:
         self.min_drop_chance_seed = None
         self.max_drop_chance_seed = None
 
-    def set_random_drop_chance_seed(self, min, max) -> None:
+    def set_drop_chance_seed(self, min, max) -> None:
         self.min_drop_chance_seed = min
         self.max_drop_chance_seed = max
+
+    def get_drop_chance_seeed(self) -> ():
+        return (self.min_drop_chance_seed, self.max_drop_chance_seed)
 
     def decide_if_item_can_drop(self, enemy: Enemy) -> bool:
         if enemy.can_drop_item == False:

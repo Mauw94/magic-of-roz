@@ -10,7 +10,7 @@ class ItemDropDecideManagerTests(unittest.TestCase):
         x, y = 10, 10
         z = ZombieEnemy(x, y)
         z.drop_chance_range = (50, 100)
-        self.manager.set_random_drop_chance_seed(50, 100)
+        self.manager.set_drop_chance_seed(50, 100)
         r = self.manager.decide_if_item_can_drop(z)
 
         assert r == True

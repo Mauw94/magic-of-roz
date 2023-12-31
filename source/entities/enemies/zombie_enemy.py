@@ -3,6 +3,7 @@ from helpers.consts import Consts
 from entities.attacks.enemy_attacks.zombie_attack import ZombieAttack
 from helpers.logging.logger import Logger
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from views.game_view import GameView
 import random
@@ -29,17 +30,16 @@ class ZombieEnemy(Enemy):
         self.attack = None
 
         self.can_drop_item = True
-        self.drop_chance_range = (250, 600)
-        
+        self.drop_chance_range = Consts.LEVEL_1_DROP_CHANCE_SEED
+
         self.experience_yield = 12
 
     def update(self):
         self.__move_n_steps_horizontal(self.max_move_x)
         return super().update()
 
-    def ranged_attack(self, game: 'GameView'):
-        self.attack = ZombieAttack()
-        self.attack.set_damage(7)
+    def ranged_attack(self, game: "GameView"):
+        self.attack = ZombieAttack(0, 7)
         if self.attack_timer >= self.__attack_interval:
             self.attack_player(game)
             game.scene.add_sprite("Attacks", self.attack)
@@ -47,7 +47,7 @@ class ZombieEnemy(Enemy):
 
         self.attack_timer += 1
 
-    def attack_player(self, game: 'GameView'):
+    def attack_player(self, game: "GameView"):
         Logger.log_game_event(f"{self} Attacking player")
 
         curplayer_x = game.player.center_x

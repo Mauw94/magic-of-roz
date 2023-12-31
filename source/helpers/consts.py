@@ -1,4 +1,3 @@
-
 class Consts:
     SCREEN_TITLE = "Magic of Roz"
 
@@ -27,6 +26,8 @@ class Consts:
     PLAYER_ATTACK_PARTICLE_SPEED = 12
 
     MAX_ENEMY_HEALTH = 100
-    
+
     NORMAL_ATTACK_MANA_COST = 3
     SPECIAL_ATTACK_MANA_COST = 12
+
+    LEVEL_1_DROP_CHANCE_SEED = (0, 1000)
