@@ -10,6 +10,8 @@ class SoundManager:
         else:
             self._volume = 1
 
+        self.current_music: arcade.Sound = None
+
     def set_preferred_sound_volume(self) -> None:
         self._volume = PREFERRED_SOUND_VOLUME
 
@@ -21,3 +23,7 @@ class SoundManager:
 
     def play_sound(self, sound: arcade.Sound):
         arcade.play_sound(sound, volume=self._volume)
+
+    def play_music(self, music: arcade.Sound, looping: bool = False) -> None:
+        music.play(volume=self._volume, loop=looping)
+        self.current_music = music

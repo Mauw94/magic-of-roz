@@ -8,3 +8,7 @@ SPEED_ADD_SOUND = arcade.load_sound(":resources:sounds/hurt4.wav")
 MANA_ADD_SOUND = arcade.load_sound(":resources:sounds/hurt4.wav")
 LEVEL_UP_SOUND = arcade.load_sound(":resources:sounds/upgrade4.wav")
 ENEMY_HIT_SOUND = arcade.load_sound(":resources:sounds/hit2.wav")
+
+BACKGROUND_GAME_MUSIC = arcade.load_sound(
+    ":resources:music/funkyrobot.mp3", streaming=True
+)

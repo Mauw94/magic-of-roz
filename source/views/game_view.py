@@ -12,6 +12,8 @@ from entities.items.consumables.health_globe import HealthGlobe
 from entities.items.consumables.speed_globe import SpeedGlobe
 from services.apply_item_effect_service import ApplyItemEffectService
 from services.damage_event_service import TextEventService
+from managers.resource_managers.sound_manager import SoundManager
+from helpers.static_data import BACKGROUND_GAME_MUSIC
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
@@ -49,6 +51,10 @@ class GameView(arcade.View):
 
         self.apply_item_effect_service = ApplyItemEffectService(self.text_event_service)
         Logger.log_object_creation("ApplyItemEffectService", "Game_View")
+
+        self.sound_manager = SoundManager(with_preferred_volume=True)
+        self.sound_manager.play_music(BACKGROUND_GAME_MUSIC, looping=True)
+        Logger.log_object_creation("SoundManager", "Game_View")
 
         self.left_pressed = False
         self.right_pressed = False
