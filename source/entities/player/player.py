@@ -112,7 +112,7 @@ class Player(Entity):
         # draw gold counter
         DrawingEngine.draw_text(
             f"Gold: {self.character_info.get_gold()}",
-            self.center_x + (Consts.SCREEN_WIDTH / 2) - 60,
+            self.center_x + (Consts.SCREEN_WIDTH / 2) - 100,
             self.center_y + (Consts.SCREEN_HEIGHT / 2) - 60,
             arcade.csscolor.YELLOW,
             14,
