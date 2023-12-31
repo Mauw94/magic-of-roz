@@ -232,14 +232,17 @@ class Player(Entity):
         angle = math.atan2(y_diff, x_diff)
         bullet.angle = math.degrees(angle)
 
-        if type(bullet) is SpecialRangedAttack:
-            if bullet.angle < 0:
-                bullet.angle += 270
-            else:
-                bullet.angle += 90
-        elif type(bullet) is NormalRangedAttack:
-            if bullet.angle < 0:
-                bullet.angle += 360
+        match bullet:
+            case SpecialRangedAttack():
+                if bullet.angle < 0:
+                    bullet.angle += 270
+                else:
+                    bullet.angle += 90
+            case NormalRangedAttack():
+                if bullet.angle < 0:
+                    bullet.angle += 360
+            case _:
+                raise Exception("unknown bullet class type")
 
         bullet.change_x = math.cos(angle) * Consts.PLAYER_ATTACK_PARTICLE_SPEED
         bullet.change_y = math.sin(angle) * Consts.PLAYER_ATTACK_PARTICLE_SPEED
