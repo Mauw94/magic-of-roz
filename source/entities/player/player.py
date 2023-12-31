@@ -36,14 +36,13 @@ class Player(Entity):
         self.center_x = Consts.SCREEN_WIDTH // 2
         self.center_y = Consts.SCREEN_HEIGHT // 2
 
-        self.can_shoot_normal_ranged_attack = False
-        self.can_shoot_special_ranged_attack = False
+        self.can_use_ranged_attack = False
 
         self.normal_ranged_attack_pressed = False
         self.special_ranged_attack_pressed = False
 
         self.normal_shoot_timer = 0
-        self.special_shoot_timer = 0
+        self.ranged_attack_timer = 0
 
         self.hit = False
         self.hit_sound = ENEMY_HIT_SOUND
@@ -173,7 +172,7 @@ class Player(Entity):
     # normal ranged attack when pressing Q
     def normal_ranged_attack(self, game: "GameView"):
         if self.resource_manager.cur_mana >= Consts.NORMAL_ATTACK_MANA_COST:
-            if self.can_shoot_normal_ranged_attack:
+            if self.can_use_ranged_attack:
                 if self.normal_ranged_attack_pressed:
                     Logger.log_game_event("Performing normal ranged attack")
                     bullet = self.attack_entity_manager.create_attack(
@@ -187,18 +186,13 @@ class Player(Entity):
                     self.__calculate_and_x_y_change_for_bullet(bullet)
 
                     game.scene.add_sprite("Attacks", bullet)
-                    self.can_shoot_normal_ranged_attack = False
+                    self.can_use_ranged_attack = False
             else:
-                self.special_shoot_timer += 1
-                if self.special_shoot_timer == Consts.PLAYER_ATTACK_SPEED:
-                    self.can_shoot_normal_ranged_attack = True
-                    self.special_shoot_timer = 0
+                self.__increase_shoot_timer()
 
-    # a lot of duplicate code from normal_ranged_attack
-    # -> better way of doing this?
     def special_ranged_attack(self, game: "GameView"):
         if self.resource_manager.cur_mana >= Consts.SPECIAL_ATTACK_MANA_COST:
-            if self.can_shoot_special_ranged_attack:
+            if self.can_use_ranged_attack:
                 if self.special_ranged_attack_pressed:
                     Logger.log_game_event("Performing special ranged attack")
                     bullet = self.attack_entity_manager.create_attack(
@@ -212,12 +206,9 @@ class Player(Entity):
                     self.__calculate_and_x_y_change_for_bullet(bullet)
 
                     game.scene.add_sprite("Attacks", bullet)
-                    self.can_shoot_special_ranged_attack = False
+                    self.can_use_ranged_attack = False
             else:
-                self.special_shoot_timer += 1
-                if self.special_shoot_timer == Consts.PLAYER_ATTACK_SPEED:
-                    self.can_shoot_special_ranged_attack = True
-                    self.special_shoot_timer = 0
+                self.__increase_shoot_timer()
 
     def __calculate_and_x_y_change_for_bullet(self, bullet: RangedAttack) -> ():
         actual_x = Consts.SCREEN_WIDTH // 2
@@ -234,6 +225,8 @@ class Player(Entity):
 
         match bullet:
             case SpecialRangedAttack():
+                # always want to rotate a special ranged attack 90 degrees
+                # because the texture is loaded with a -90 degree angle
                 if bullet.angle < 0:
                     bullet.angle += 270
                 else:
@@ -246,6 +239,12 @@ class Player(Entity):
 
         bullet.change_x = math.cos(angle) * Consts.PLAYER_ATTACK_PARTICLE_SPEED
         bullet.change_y = math.sin(angle) * Consts.PLAYER_ATTACK_PARTICLE_SPEED
+
+    def __increase_shoot_timer(self) -> None:
+        self.ranged_attack_timer += 1
+        if self.ranged_attack_timer == Consts.PLAYER_ATTACK_SPEED:
+            self.can_use_ranged_attack = True
+            self.ranged_attack_timer = 0
 
     def set_mouse_pos(self, x: int, y: int) -> None:
         self.__mouse_pos = (x, y)
