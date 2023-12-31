@@ -54,7 +54,7 @@ class ApplyItemEffectService:
 
             elif type(item) is SpeedGlobe:
                 self.sound_manager.play_sound(SPEED_ADD_SOUND)
-                player.apply_item_effect_movement(item.value, 50)
+                player.apply_item_effect_movement(item.value, 100)
 
                 self.text_event_service.add_to_events(
                     TextEvent(

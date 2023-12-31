@@ -47,7 +47,6 @@ class Player(Entity):
         self.hit_sound = ENEMY_HIT_SOUND
 
         self.movement_speed = Consts.PLAYER_MOVEMENT_SPEED
-        self.__item_effect_timer = 0
         self.__movement_speed_increase_timer = 0
         self.__item_effect_movement_speed_applied = False
 
@@ -77,13 +76,24 @@ class Player(Entity):
         self.movement_speed += movement_speed_increase
 
     def __temp_increase_movement(self) -> None:
-        self.__item_effect_timer += 1
-        if self.__item_effect_timer >= self.__movement_speed_increase_timer:
-            self.__item_effect_timer = 0
+        self.__movement_speed_increase_timer -= 1
+
+        if self.__movement_speed_increase_timer <= 0:
+            Logger.log_game_event("Movement speed buff worn off")
             self.__item_effect_movement_speed_applied = False
             self.movement_speed = Consts.PLAYER_MOVEMENT_SPEED
 
     def draw(self):
+        # draw item effect
+        if self.__item_effect_movement_speed_applied:
+            DrawingEngine.draw_text(
+                f"Speed increase: {self.__movement_speed_increase_timer}",
+                self.center_x - (Consts.SCREEN_WIDTH / 2) + 30,
+                self.center_y + (Consts.SCREEN_HEIGHT / 2) - 50,
+                arcade.csscolor.YELLOW,
+                10,
+            )
+
         # draw hp
         DrawingEngine.draw_text(
             f"HP: {self.resource_manager.get_cur_hp()}",

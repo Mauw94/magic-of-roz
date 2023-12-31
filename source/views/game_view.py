@@ -9,6 +9,7 @@ from services.collision_detection_service import CollisionDetectionService
 from services.entity_spawn_service import EntitySpawnService
 from helpers.logging.logger import Logger
 from entities.items.consumables.health_globe import HealthGlobe
+from entities.items.consumables.speed_globe import SpeedGlobe
 from services.apply_item_effect_service import ApplyItemEffectService
 from services.damage_event_service import TextEventService
 
@@ -97,11 +98,13 @@ class GameView(arcade.View):
 
         # Add test items
         self.scene["Items"].append(
-            HealthGlobe(self.screen_width // 2 - 150, self.screen_height // 2 + 200)
+            SpeedGlobe(self.screen_width // 2 - 150, self.screen_height // 2 + 200)
+        )
+        self.scene["Items"].append(
+            SpeedGlobe(self.screen_width // 2 - 150, self.screen_height // 2 + 400)
         )
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, None)
-
         Logger.log_info("Physics enginge created")
 
         self.light_layer = LightLayer(Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT)
