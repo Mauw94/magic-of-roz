@@ -75,3 +75,12 @@ class Keys:
 
     def on_mouse_scroll(self, game, x, y, scroll_x, scroll_y):
         game.camera.zoom(-0.01 * scroll_y)
+
+    def on_mouse_press(self, game: "GameView", x, y, button, modifiers):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            game.player.normal_ranged_attack_pressed = True
+            game.player.set_mouse_pos(x, y)
+
+    def on_mouse_release(self, game: "GameView", x, y, button, modifiers):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            game.player.normal_ranged_attack_pressed = False

@@ -12,10 +12,12 @@ from managers.resource_managers.resource_manager import ResourceManager
 from managers.entity_managers.attack_entity_manager import AttackEntityType
 from managers.data_managers.file_save_manager import save_character
 from helpers.static_data import ENEMY_HIT_SOUND
+from entities.attacks.ranged_attack import RangedAttack
 
 if TYPE_CHECKING:
     from views.game_view import GameView
 import arcade
+import math
 
 # NOTE: when modifying stats, always call resourcemanager first on the player obj
 
@@ -49,6 +51,8 @@ class Player(Entity):
         self.movement_speed = Consts.PLAYER_MOVEMENT_SPEED
         self.__movement_speed_increase_timer = 0
         self.__item_effect_movement_speed_applied = False
+
+        self.__mouse_pos = (0, 0)
 
     def setup(self):
         self.health = self.character_info.get_stats()["hp"]
@@ -179,13 +183,8 @@ class Player(Entity):
                     )
                     self.resource_manager.decrease_mana(bullet.get_mana_cost())
                     bullet.play_shooting_sound()
-                    if self.facing_direction == Consts.RIGHT_FACING:
-                        bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
-                    else:
-                        bullet.change_x = -Consts.PLAYER_ATTACK_PARTICLE_SPEED
 
-                    bullet.center_x = self.center_x
-                    bullet.center_y = self.center_y
+                    self.__calculate_and_x_y_change_for_bullet(bullet)
 
                     game.scene.add_sprite("Attacks", bullet)
                     self.can_shoot_normal_ranged_attack = False
@@ -209,13 +208,8 @@ class Player(Entity):
                     )
                     self.resource_manager.decrease_mana(bullet.get_mana_cost())
                     bullet.play_shooting_sound()
-                    if self.facing_direction == Consts.RIGHT_FACING:
-                        bullet.change_x = Consts.PLAYER_ATTACK_PARTICLE_SPEED
-                    else:
-                        bullet.change_x = -Consts.PLAYER_ATTACK_PARTICLE_SPEED
 
-                    bullet.center_x = self.center_x
-                    bullet.center_y = self.center_y
+                    self.__calculate_and_x_y_change_for_bullet(bullet)
 
                     game.scene.add_sprite("Attacks", bullet)
                     self.can_shoot_special_ranged_attack = False
@@ -224,6 +218,34 @@ class Player(Entity):
                 if self.special_shoot_timer == Consts.PLAYER_ATTACK_SPEED:
                     self.can_shoot_special_ranged_attack = True
                     self.special_shoot_timer = 0
+
+    def __calculate_and_x_y_change_for_bullet(self, bullet: RangedAttack) -> ():
+        actual_x = Consts.SCREEN_WIDTH // 2
+        actual_y = Consts.SCREEN_HEIGHT // 2
+
+        bullet.center_x = self.center_x
+        bullet.center_y = self.center_y
+
+        x_diff = self.__mouse_pos[0] - actual_x
+        y_diff = self.__mouse_pos[1] - actual_y
+
+        angle = math.atan2(y_diff, x_diff)
+        bullet.angle = math.degrees(angle)
+
+        if type(bullet) is SpecialRangedAttack:
+            if bullet.angle < 0:
+                bullet.angle += 270
+            else:
+                bullet.angle += 90
+        elif type(bullet) is NormalRangedAttack:
+            if bullet.angle < 0:
+                bullet.angle += 360
+
+        bullet.change_x = math.cos(angle) * Consts.PLAYER_ATTACK_PARTICLE_SPEED
+        bullet.change_y = math.sin(angle) * Consts.PLAYER_ATTACK_PARTICLE_SPEED
+
+    def set_mouse_pos(self, x: int, y: int) -> None:
+        self.__mouse_pos = (x, y)
 
     def play_hit_sound(self):
         if self.hit_sound is not None:

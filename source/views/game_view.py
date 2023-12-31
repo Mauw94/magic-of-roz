@@ -138,6 +138,15 @@ class GameView(arcade.View):
     def on_key_release(self, key, modifiers):
         self.handle_input.on_key_release(self, key, modifiers)
 
+    def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
+        self.handle_input.on_mouse_press(self, x, y, button, modifiers)
+
+    def on_mouse_release(self, x: int, y: int, button: int, modifiers: int):
+        self.handle_input.on_mouse_release(self, x, y, button, modifiers)
+
+    def on_mouse_motion(self, x: int, y: int, dx: int, dy: int):
+        self.player.set_mouse_pos(x, y)
+
     # errors
     # def on_mouse_scroll(self, x: int, y: int, scroll_x: int, scroll_y: int):
     #     self.handle_input.on_mouse_scroll(self, x, y, scroll_x, scroll_y)
