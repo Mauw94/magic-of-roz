@@ -77,11 +77,12 @@ class GameView(arcade.View):
     def setup(self):  # TODO: clean this method up
         Logger.log_info("Initializing tilemap")
 
-        map_path = os.path.abspath("./tile-map/maps/town/town.json")
-        # map_path = ":resources:tiled_maps/test_map_7.json"
-        self.tile_map = arcade.load_tilemap(map_path, Consts.MAP_SCALING)
-        self.scene = arcade.Scene.from_tilemap(self.tile_map)
-
+        # map_path = os.path.abspath("./tile-map/maps/town/town.json")
+        # map_path = ":resources:tiled_maps/standard_tileset.json"
+        # self.tile_map = arcade.load_tilemap(map_path, Consts.MAP_SCALING)
+        # self.scene = arcade.Scene.from_tilemap(self.tile_map)
+        self.scene = arcade.Scene()
+        
         Logger.log_info("Setting up game")
 
         self.player.setup()
@@ -104,7 +105,7 @@ class GameView(arcade.View):
         Logger.log_info("Physics enginge created")
 
         self.light_layer = LightLayer(Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT)
-        self.light_layer.set_background_color(arcade.color.BLACK)
+        self.light_layer.set_background_color(arcade.color.BLUE_GRAY)
 
         radius = 970
         mode = "soft"
@@ -117,8 +118,8 @@ class GameView(arcade.View):
         self.scene.add_sprite_list("Bars", self.bar_list)
         Logger.log_info("Sprites intialized")
 
-        if self.tile_map.background_color:
-            arcade.set_background_color(self.tile_map.background_color)
+        # if self.tile_map.background_color:
+        #     arcade.set_background_color(self.tile_map.background_color)
 
         self.view_left = 0
         self.view_bottom = 0
