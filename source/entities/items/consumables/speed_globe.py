@@ -8,4 +8,4 @@ class SpeedGlobe(ItemBase):
         self.center_x = x
         self.center_y = y
 
-        self.value = 20
+        self.value = 10

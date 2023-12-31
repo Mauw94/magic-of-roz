@@ -7,15 +7,16 @@ if TYPE_CHECKING:
 
 
 class Keys:
-    def process_keychange(self, game: 'GameView'):
+    def process_keychange(self, game: "GameView"):
+        pass
         if game.right_pressed and not game.left_pressed:
-            game.player.change_x = Consts.PLAYER_MOVEMENT_SPEED
+            game.player.change_x = game.player.movement_speed
         elif game.left_pressed and not game.right_pressed:
-            game.player.change_x = -Consts.PLAYER_MOVEMENT_SPEED
+            game.player.change_x = -game.player.movement_speed
         elif game.up_pressed and not game.down_pressed:
-            game.player.change_y = Consts.PLAYER_MOVEMENT_SPEED
+            game.player.change_y = game.player.movement_speed
         elif game.down_pressed and not game.up_pressed:
-            game.player.change_y = -Consts.PLAYER_MOVEMENT_SPEED
+            game.player.change_y = -game.player.movement_speed
 
         # TODO fix for smoother movement
         # elif game.down_pressed and game.right_pressed and not game.up_pressed and not game.left_pressed:
@@ -25,7 +26,7 @@ class Keys:
             game.player.change_x = 0
             game.player.change_y = 0
 
-    def on_key_press(self, game: 'GameView', key, modifiers):
+    def on_key_press(self, game: "GameView", key, modifiers):
         if key == arcade.key.LEFT or key == arcade.key.A:
             game.left_pressed = True
         elif key == arcade.key.RIGHT or key == arcade.key.D:
@@ -51,7 +52,7 @@ class Keys:
 
         self.process_keychange(game)
 
-    def on_key_release(self, game: 'GameView', key, modifiers):
+    def on_key_release(self, game: "GameView", key, modifiers):
         if key == arcade.key.LEFT or key == arcade.key.A:
             game.left_pressed = False
         elif key == arcade.key.RIGHT or key == arcade.key.D:

@@ -46,6 +46,11 @@ class Player(Entity):
         self.hit = False
         self.hit_sound = ENEMY_HIT_SOUND
 
+        self.movement_speed = Consts.PLAYER_MOVEMENT_SPEED
+        self.__item_effect_timer = 0
+        self.__movement_speed_increase_timer = 0
+        self.__item_effect_movement_speed_applied = False
+
     def setup(self):
         self.health = self.character_info.get_stats()["hp"]
         self.mana = self.character_info.get_stats()["mana"]
@@ -59,6 +64,24 @@ class Player(Entity):
         self.update_animation()
         self.resource_manager.regen_mana()
         self.resource_manager.regen_hp()
+
+        if self.__item_effect_movement_speed_applied:
+            self.__temp_increase_movement()
+
+    def apply_item_effect_movement(
+        self, movement_speed_increase: int, timer: int
+    ) -> None:
+        Logger.log_game_event("Applying movement speed effect")
+        self.__item_effect_movement_speed_applied = True
+        self.__movement_speed_increase_timer = timer
+        self.movement_speed += movement_speed_increase
+
+    def __temp_increase_movement(self) -> None:
+        self.__item_effect_timer += 1
+        if self.__item_effect_timer >= self.__movement_speed_increase_timer:
+            self.__item_effect_timer = 0
+            self.__item_effect_movement_speed_applied = False
+            self.movement_speed = Consts.PLAYER_MOVEMENT_SPEED
 
     def draw(self):
         # draw hp

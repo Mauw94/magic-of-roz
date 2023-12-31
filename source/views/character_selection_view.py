@@ -110,7 +110,7 @@ class CharacterSelectionView(arcade.View):
                 anchor_x="center_x", anchor_y="center_y", child=self.v_box
             )
         )
-        arcade.set_background_color(arcade.color.DARK_BLUE_GRAY)
+        arcade.set_background_color(arcade.color.BLUE_GRAY)
 
     def on_click_back(self, event):
         from views.main_menu import MainMenu

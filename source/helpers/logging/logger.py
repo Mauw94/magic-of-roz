@@ -23,7 +23,7 @@ class Logger:
         Logger.__log_to_file(log)
 
     def log_debug(msg) -> None:
-        log = f"{Logger.__print_time()} {bcolors.WARNING}DEBUG: {msg}"
+        log = f"{Logger.__print_time()} {bcolors.FAIL}DEBUG: {msg}"
         print(log, bcolors.ENDC)
         Logger.__log_to_file(log)
 

@@ -18,7 +18,7 @@ class CharacterCreationView(arcade.View):
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
 
-        arcade.set_background_color(arcade.color.DARK_BLUE_GRAY)
+        arcade.set_background_color(arcade.color.BLUE_GRAY)
 
         self.v_box = arcade.gui.UIBoxLayout(vertical=False)
         self.h_box = arcade.gui.UIBoxLayout()

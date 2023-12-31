@@ -82,7 +82,7 @@ class GameView(arcade.View):
         # self.tile_map = arcade.load_tilemap(map_path, Consts.MAP_SCALING)
         # self.scene = arcade.Scene.from_tilemap(self.tile_map)
         self.scene = arcade.Scene()
-        
+
         Logger.log_info("Setting up game")
 
         self.player.setup()
