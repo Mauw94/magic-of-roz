@@ -18,12 +18,12 @@ class Logger:
 
     # log info
     def log_info(msg) -> None:
-        log = f"{Logger.__print_time()} {bcolors.OKBLUE}INFO: {msg}"
+        log = f"{Logger.__print_time()} {bcolors.OKCYAN}INFO: {msg}"
         print(log, bcolors.ENDC)
         Logger.__log_to_file(log)
 
     def log_debug(msg) -> None:
-        log = f"{Logger.__print_time()} {bcolors.UNDERLINE}DEBUG: {msg}"
+        log = f"{Logger.__print_time()} {bcolors.WARNING}DEBUG: {msg}"
         print(log, bcolors.ENDC)
         Logger.__log_to_file(log)
 
@@ -42,7 +42,7 @@ class Logger:
     # msg: class/object which will be created
     # creationIn: class/object in which the class/object will be created
     def log_object_creation(msg, creationIn) -> None:
-        log = f"{Logger.__print_time()} {bcolors.OKCYAN}OBJECT_CREATION: {msg} IN: {creationIn}"
+        log = f"{Logger.__print_time()} {bcolors.UNDERLINE}OBJECT_CREATION: {msg} IN: {creationIn}"
         print(log, bcolors.ENDC)
         Logger.__log_to_file(log)
 
