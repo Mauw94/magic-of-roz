@@ -28,9 +28,8 @@ class Player(Entity):
     def __init__(self, character_info: dict):
         super().__init__("male_adventurer", "maleAdventurer")
 
-        # TODO: items
-        # TODO: inventory
-
+        # TODO: be able to use inventory items using 1,2,3,4,5
+    
         self.character_info = self._create_char_stats(character_info=character_info)
         self.attack_entity_manager = AttackEntityManager()
         self.resource_manager = ResourceManager()

@@ -7,7 +7,7 @@ from services.apply_item_effect_service import ApplyItemEffectService
 
 
 class Inventory:
-    def __init__(self, player, apply_item_effect_service):
+    def __init__(self, player, apply_item_effect_service: ApplyItemEffectService):
         self.inventory: list[ItemBase] = []
         self.selected_item_index: int = 0
         self.player = player

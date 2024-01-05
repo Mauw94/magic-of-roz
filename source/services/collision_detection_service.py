@@ -18,10 +18,10 @@ if TYPE_CHECKING:
 
 
 class CollisionDetectionService:
-    def __init__(self, event_service: TextEventService):
-        self.sound_manager = SoundManager(with_preferred_volume=True)
+    def __init__(self, sound_manager: SoundManager, event_service: TextEventService):
+        self.sound_manager = sound_manager
         self.item_manager = ItemDropDecideManager()
-        Consts
+
         self.item_manager.set_drop_chance_seed(
             Consts.LEVEL_1_DROP_CHANCE_SEED[0], Consts.LEVEL_1_DROP_CHANCE_SEED[1]
         )

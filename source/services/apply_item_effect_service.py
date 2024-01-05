@@ -18,63 +18,71 @@ from entities.items.item_base import ItemBase
 
 
 class ApplyItemEffectService:
-    def __init__(self, sound_manager, text_event_service):
+    def __init__(
+        self, sound_manager: SoundManager, text_event_service: TextEventService
+    ):
         self.sound_manager = sound_manager
         self.text_event_service = text_event_service
 
-    def apply_item_effect_on_player(self, item: ItemBase, player) -> None:
-        if type(item) is HealthGlobe:
-            self.sound_manager.play_sound(HP_ADD_SOUND)
-            added_hp = player.resource_manager.add_hp(item.value)
+    def apply_item_effect_on_player(self, item: ItemBase, entity) -> None:
+        from entities.classes.druid import Druid
+        from entities.classes.necromancer import Necromancer
+        from entities.classes.warrior import Warrior
+        from entities.classes.wizard import Wizard
 
-            self.text_event_service.add_to_events(
-                TextEvent(
-                    "+" + str(added_hp) + " hp",
-                    player.center_x,
-                    player.center_y + 60,
-                    arcade.csscolor.GREEN,
-                    18,
+        if type(entity) is Wizard or Warrior or Necromancer or Druid:
+            if type(item) is HealthGlobe:
+                self.sound_manager.play_sound(HP_ADD_SOUND)
+                added_hp = entity.resource_manager.add_hp(item.value)
+
+                self.text_event_service.add_to_events(
+                    TextEvent(
+                        "+" + str(added_hp) + " hp",
+                        entity.center_x,
+                        entity.center_y + 60,
+                        arcade.csscolor.GREEN,
+                        18,
+                    )
                 )
-            )
 
-        elif type(item) is ManaGlobe:
-            self.sound_manager.play_sound(MANA_ADD_SOUND)
-            added_mana = player.resource_manager.add_mana(item.value)
+            elif type(item) is ManaGlobe:
+                self.sound_manager.play_sound(MANA_ADD_SOUND)
+                added_mana = entity.resource_manager.add_mana(item.value)
 
-            self.text_event_service.add_to_events(
-                TextEvent(
-                    "+" + str(added_mana) + " mana",
-                    player.center_x,
-                    player.center_y + 60,
-                    arcade.csscolor.BLUE,
-                    18,
+                self.text_event_service.add_to_events(
+                    TextEvent(
+                        "+" + str(added_mana) + " mana",
+                        entity.center_x,
+                        entity.center_y + 60,
+                        arcade.csscolor.BLUE,
+                        18,
+                    )
                 )
-            )
 
-        elif type(item) is SpeedGlobe:
-            self.sound_manager.play_sound(SPEED_ADD_SOUND)
-            player.apply_item_effect_movement(item.value, 100)
+            elif type(item) is SpeedGlobe:
+                self.sound_manager.play_sound(SPEED_ADD_SOUND)
+                entity.apply_item_effect_movement(item.value, 100)
 
-            self.text_event_service.add_to_events(
-                TextEvent(
-                    "+" + str(item.value),
-                    player.center_x,
-                    player.center_y + 60,
-                    arcade.csscolor.BLUE,
-                    18,
+                self.text_event_service.add_to_events(
+                    TextEvent(
+                        "+" + str(item.value) + " speed",
+                        entity.center_x,
+                        entity.center_y + 60,
+                        arcade.csscolor.YELLOW,
+                        18,
+                    )
                 )
-            )
 
-        elif type(item) is GoldCoin:
-            self.sound_manager.play_sound(COIN_COLLECT_SOUND)
-            player.add_gold(item.value)
+            elif type(item) is GoldCoin:
+                self.sound_manager.play_sound(COIN_COLLECT_SOUND)
+                entity.add_gold(item.value)
 
-            self.text_event_service.add_to_events(
-                TextEvent(
-                    "+" + str(item.value),
-                    player.center_x - 15,
-                    player.center_y + 60,
-                    arcade.csscolor.YELLOW,
-                    18,
+                self.text_event_service.add_to_events(
+                    TextEvent(
+                        "+" + str(item.value) + " gold",
+                        entity.center_x - 15,
+                        entity.center_y + 60,
+                        arcade.csscolor.YELLOW,
+                        18,
+                    )
                 )
-            )

@@ -44,16 +44,16 @@ class GameView(arcade.View):
         self.text_event_service = TextEventService()
         Logger.log_object_creation("TextEventSerivce", "Game_View")
 
-        self.collision_detection_service = CollisionDetectionService(
-            self.text_event_service
-        )
-        Logger.log_object_creation("CollisionDetectionService", "Game_View")
-
         self.sound_manager = SoundManager(with_preferred_volume=True)
         # NOTE for testing
         self.sound_manager.set_custom_voume(0)
         self.sound_manager.play_music(BACKGROUND_GAME_MUSIC, looping=True)
         Logger.log_object_creation("SoundManager", "Game_View")
+
+        self.collision_detection_service = CollisionDetectionService(
+            self.sound_manager, self.text_event_service
+        )
+        Logger.log_object_creation("CollisionDetectionService", "Game_View")
 
         self.apply_item_effect_service = ApplyItemEffectService(
             self.sound_manager, self.text_event_service
