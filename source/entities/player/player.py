@@ -13,6 +13,8 @@ from managers.entity_managers.attack_entity_manager import AttackEntityType
 from managers.data_managers.file_save_manager import save_character
 from helpers.static_data import ENEMY_HIT_SOUND
 from entities.attacks.ranged_attack import RangedAttack
+from entities.player.inventory import Inventory
+from entities.items.item_base import ItemBase
 
 if TYPE_CHECKING:
     from views.game_view import GameView
@@ -28,6 +30,8 @@ class Player(Entity):
 
         # TODO: items
         # TODO: inventory
+
+        self.inventory = Inventory()
 
         self.character_info = self._create_char_stats(character_info=character_info)
         self.attack_entity_manager = AttackEntityManager()
@@ -97,6 +101,23 @@ class Player(Entity):
                 10,
             )
 
+        # draw inventory
+        items = self.inventory.get_items()
+        if len(items) > 0:
+            for index, item in enumerate(items):
+                x = self.center_x + (Consts.SCREEN_WIDTH / 2) - (30 + index * 45)
+                y = self.center_y + (Consts.SCREEN_HEIGHT / 2) - 100
+                DrawingEngine.draw_item_texture(x, y, 0.3, item.texture)
+
+        # ## draw inventory size
+        # DrawingEngine.draw_text(
+        #     f"Inventory count: {len(self.inventory.get_items())}",
+        #     self.center_x + (Consts.SCREEN_WIDTH / 2) - 300,
+        #     self.center_y + (Consts.SCREEN_HEIGHT / 2) - 60,
+        #     arcade.csscolor.YELLOW,
+        #     14,
+        # )
+
         # draw hp
         DrawingEngine.draw_text(
             f"HP: {self.resource_manager.get_cur_hp()}",
@@ -154,6 +175,12 @@ class Player(Entity):
             14,
         )
 
+    def add_item_to_inventory(self, item: ItemBase) -> bool:
+        return self.inventory.add_item(item)
+
+    def use_item_in_inventory(self, index: int) -> None:
+        pass
+
     def update_animation(self, delta_time: float = 1 / 60):
         if self.change_x < 0 and self.facing_direction == Consts.RIGHT_FACING:
             self.facing_direction = Consts.LEFT_FACING
@@ -169,7 +196,6 @@ class Player(Entity):
             self.cur_texture = 0
         self.texture = self.walk_textures[self.cur_texture][self.facing_direction]
 
-    # normal ranged attack when pressing Q
     def normal_ranged_attack(self, game: "GameView"):
         if self.resource_manager.cur_mana >= Consts.NORMAL_ATTACK_MANA_COST:
             if self.can_use_ranged_attack:

@@ -53,6 +53,10 @@ class GameView(arcade.View):
         Logger.log_object_creation("ApplyItemEffectService", "Game_View")
 
         self.sound_manager = SoundManager(with_preferred_volume=True)
+
+        # NOTE for testing
+        self.sound_manager.set_custom_voume(0)
+
         self.sound_manager.play_music(BACKGROUND_GAME_MUSIC, looping=True)
         Logger.log_object_creation("SoundManager", "Game_View")
 
@@ -184,7 +188,12 @@ class GameView(arcade.View):
             self.player, self.scene["Items"]
         )
 
-        self.apply_item_effect_service.apply_item_effect(item_list, self.player)
+        for item in item_list:
+            if self.player.add_item_to_inventory(item):
+                item.remove_from_sprite_lists()
+
+        # TODO: apply items when selecting from inventory
+        # self.apply_item_effect_service.apply_item_effect(item_list, self.player)
 
         # spawn periodically
         self.__spawn_zombies()

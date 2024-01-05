@@ -2,6 +2,8 @@ import arcade
 from helpers.logging.logger import Logger
 from PIL import ImageFont
 
+from helpers.consts import Consts
+
 
 class DrawingEngine:
     def __init__(self):
@@ -11,6 +13,22 @@ class DrawingEngine:
         text: str, x: int, y: int, color: arcade.csscolor, font_size: int
     ) -> None:
         arcade.draw_text(text, x, y, color, font_size)
+
+    def draw_item_texture(
+        x: int, y: int, scale: float, texture: arcade.Texture
+    ) -> None:
+        arcade.draw_rectangle_outline(
+            x, y, texture.width * scale, texture.height * scale, arcade.csscolor.WHITE
+        )
+
+        arcade.draw_texture_rectangle(
+            x,
+            y,
+            texture.width * scale,
+            texture.height * scale,
+            texture,
+            0,
+        )
 
     def calcuate_offset_text_center_above_entity(
         text: str, font_size: int, entity_width: int
