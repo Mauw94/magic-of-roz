@@ -3,16 +3,19 @@ from entities.items.item_base import ItemBase
 from engine_extensions.drawing_engine import DrawingEngine
 from helpers.logging.logger import Logger
 from helpers.consts import Consts
+from services.apply_item_effect_service import ApplyItemEffectService
 
 
 class Inventory:
-    def __init__(self):
+    def __init__(self, player, apply_item_effect_service):
         self.inventory: list[ItemBase] = []
         self.selected_item_index: int = 0
+        self.player = player
 
         self.__space = 5
         self.__default_item_widht = Consts.SPRITE_IMAGE_SIZE
         self.__default_item_height = Consts.SPRITE_IMAGE_SIZE
+        self.__apply_item_effect_service = apply_item_effect_service
 
     def add_item(self, item: ItemBase) -> bool:
         if len(self.inventory) < 5:
@@ -36,6 +39,9 @@ class Inventory:
         )
         item = self.get_item(self.selected_item_index)
         if item is not None:
+            self.__apply_item_effect_service.apply_item_effect_on_player(
+                item, self.player
+            )
             self.remove_item(self.selected_item_index)
             Logger.log_game_event("Using item")
 

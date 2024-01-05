@@ -49,16 +49,16 @@ class GameView(arcade.View):
         )
         Logger.log_object_creation("CollisionDetectionService", "Game_View")
 
-        self.apply_item_effect_service = ApplyItemEffectService(self.text_event_service)
-        Logger.log_object_creation("ApplyItemEffectService", "Game_View")
-
         self.sound_manager = SoundManager(with_preferred_volume=True)
-
         # NOTE for testing
         self.sound_manager.set_custom_voume(0)
-
         self.sound_manager.play_music(BACKGROUND_GAME_MUSIC, looping=True)
         Logger.log_object_creation("SoundManager", "Game_View")
+
+        self.apply_item_effect_service = ApplyItemEffectService(
+            self.sound_manager, self.text_event_service
+        )
+        Logger.log_object_creation("ApplyItemEffectService", "Game_View")
 
         self.left_pressed = False
         self.right_pressed = False
@@ -68,6 +68,7 @@ class GameView(arcade.View):
 
         self.scene = None
         self.player = player
+        self.player.set_item_effect_service(self.apply_item_effect_service)
         self.tile_map = None
         self.physics_engine = None
 

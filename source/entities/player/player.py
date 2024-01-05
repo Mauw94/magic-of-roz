@@ -31,8 +31,6 @@ class Player(Entity):
         # TODO: items
         # TODO: inventory
 
-        self.inventory = Inventory()
-
         self.character_info = self._create_char_stats(character_info=character_info)
         self.attack_entity_manager = AttackEntityManager()
         self.resource_manager = ResourceManager()
@@ -56,6 +54,10 @@ class Player(Entity):
         self.__item_effect_movement_speed_applied = False
 
         self.__mouse_pos = (0, 0)
+
+    def set_item_effect_service(self, item_effect_service) -> None:
+        self.apply_item_effect_service = item_effect_service
+        self.inventory = Inventory(self, self.apply_item_effect_service)
 
     def setup(self):
         self.health = self.character_info.get_stats()["hp"]
