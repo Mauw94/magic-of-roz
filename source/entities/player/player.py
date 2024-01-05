@@ -102,12 +102,9 @@ class Player(Entity):
             )
 
         # draw inventory
-        items = self.inventory.get_items()
-        if len(items) > 0:
-            for index, item in enumerate(items):
-                x = self.center_x + (Consts.SCREEN_WIDTH / 2) - (30 + index * 45)
-                y = self.center_y + (Consts.SCREEN_HEIGHT / 2) - 100
-                DrawingEngine.draw_item_texture(x, y, 0.3, item.texture)
+        x = self.center_x + (Consts.SCREEN_WIDTH / 2)
+        y = self.center_y + (Consts.SCREEN_HEIGHT / 2) - 100
+        self.inventory.draw(x, y, 0.3)
 
         # ## draw inventory size
         # DrawingEngine.draw_text(
