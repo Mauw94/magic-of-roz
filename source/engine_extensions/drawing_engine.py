@@ -14,8 +14,10 @@ class DrawingEngine:
     ) -> None:
         arcade.draw_text(text, x, y, color, font_size)
 
-    def draw_inventory_space(x: int, y: int, width: int, height: int):
-        arcade.draw_rectangle_outline(x, y, width, height, arcade.csscolor.WHITE)
+    def draw_inventory_space(
+        x: int, y: int, width: int, height: int, color: arcade.csscolor
+    ):
+        arcade.draw_rectangle_outline(x, y, width, height, color)
 
     def draw_item_texture(
         x: int, y: int, scale: float, texture: arcade.Texture

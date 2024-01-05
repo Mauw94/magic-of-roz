@@ -27,13 +27,13 @@ class Keys:
             game.player.change_y = 0
 
     def on_key_press(self, game: "GameView", key, modifiers):
-        if key == arcade.key.LEFT or key == arcade.key.A:
+        if key == arcade.key.A:
             game.left_pressed = True
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
+        elif key == arcade.key.D:
             game.right_pressed = True
-        elif key == arcade.key.DOWN or key == arcade.key.S:
+        elif key == arcade.key.S:
             game.down_pressed = True
-        elif key == arcade.key.UP or key == arcade.key.W:
+        elif key == arcade.key.W:
             game.up_pressed = True
 
         if key == arcade.key.PLUS:
@@ -41,32 +41,40 @@ class Keys:
         elif key == arcade.key.MINUS:
             game.camera.zoom(-0.01)
 
-        if key == arcade.key.Q:
-            game.player.normal_ranged_attack_pressed = True
+        # if key == arcade.key.Q:
+        #     game.player.normal_ranged_attack_pressed = True
 
-        if key == arcade.key.E:
-            game.player.special_ranged_attack_pressed = True
+        # if key == arcade.key.E:
+        #     game.player.special_ranged_attack_pressed = True
 
         if key == arcade.key.ESCAPE:
             game.escape_pressed = True
 
+        if key == arcade.key.E:
+            game.player.inventory.move_left()
+        if key == arcade.key.Q:
+            game.player.inventory.move_right()
+
+        if key == arcade.key.F:
+            game.player.inventory.use_item()
+
         self.process_keychange(game)
 
     def on_key_release(self, game: "GameView", key, modifiers):
-        if key == arcade.key.LEFT or key == arcade.key.A:
+        if key == arcade.key.A:
             game.left_pressed = False
-        elif key == arcade.key.RIGHT or key == arcade.key.D:
+        elif key == arcade.key.D:
             game.right_pressed = False
-        elif key == arcade.key.DOWN or key == arcade.key.S:
+        elif key == arcade.key.S:
             game.down_pressed = False
-        elif key == arcade.key.UP or key == arcade.key.W:
+        elif key == arcade.key.W:
             game.up_pressed = False
 
-        if key == arcade.key.Q:
-            game.player.normal_ranged_attack_pressed = False
+        # if key == arcade.key.Q:
+        #     game.player.normal_ranged_attack_pressed = False
 
-        if key == arcade.key.E:
-            game.player.special_ranged_attack_pressed = False
+        # if key == arcade.key.E:
+        #     game.player.special_ranged_attack_pressed = False
 
         if key == arcade.key.ESCAPE:
             game.escape_pressed = False
