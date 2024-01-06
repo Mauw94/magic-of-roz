@@ -82,7 +82,6 @@ class Player(Entity):
     def apply_item_effect_movement(
         self, movement_speed_increase: int, timer: int
     ) -> None:
-        Logger.log_game_event("Applying movement speed effect")
         self.__item_effect_movement_speed_applied = True
         self.__movement_speed_increase_timer = timer
         self.movement_speed += movement_speed_increase
@@ -91,7 +90,6 @@ class Player(Entity):
         self.__movement_speed_increase_timer -= 1
 
         if self.__movement_speed_increase_timer <= 0:
-            Logger.log_game_event("Movement speed buff worn off")
             self.__item_effect_movement_speed_applied = False
             self.movement_speed = Consts.PLAYER_MOVEMENT_SPEED
 

@@ -13,6 +13,7 @@ from services.apply_item_effect_service import ApplyItemEffectService
 from services.damage_event_service import TextEventService
 from managers.resource_managers.sound_manager import SoundManager
 from helpers.static_data import BACKGROUND_GAME_MUSIC
+from entities.items.consumables.health_globe import HealthGlobe
 
 AMBIENT_COLOR = (10, 10, 10)
 VIEWPORT_MARGIN = 200
@@ -111,7 +112,7 @@ class GameView(arcade.View):
             SpeedGlobe(self.screen_width // 2 - 150, self.screen_height // 2 + 200)
         )
         self.scene["Items"].append(
-            SpeedGlobe(self.screen_width // 2 - 150, self.screen_height // 2 + 400)
+            HealthGlobe(self.screen_width // 2 - 150, self.screen_height // 2 + 400)
         )
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player, None)

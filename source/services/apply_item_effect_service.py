@@ -15,6 +15,7 @@ from helpers.static_data import (
     SPEED_ADD_SOUND,
 )
 from entities.items.item_base import ItemBase
+from helpers.logging.logger import Logger
 
 
 class ApplyItemEffectService:
@@ -32,6 +33,7 @@ class ApplyItemEffectService:
 
         if type(entity) is Wizard or Warrior or Necromancer or Druid:
             if type(item) is HealthGlobe:
+                Logger.log_game_event("Applying health globe")
                 self.sound_manager.play_sound(HP_ADD_SOUND)
                 added_hp = entity.resource_manager.add_hp(item.value)
 
@@ -46,6 +48,7 @@ class ApplyItemEffectService:
                 )
 
             elif type(item) is ManaGlobe:
+                Logger.log_game_event("Applying mana globe")
                 self.sound_manager.play_sound(MANA_ADD_SOUND)
                 added_mana = entity.resource_manager.add_mana(item.value)
 
@@ -60,6 +63,7 @@ class ApplyItemEffectService:
                 )
 
             elif type(item) is SpeedGlobe:
+                Logger.log_game_event("Applying speed globe")
                 self.sound_manager.play_sound(SPEED_ADD_SOUND)
                 entity.apply_item_effect_movement(item.value, 100)
 
@@ -74,6 +78,7 @@ class ApplyItemEffectService:
                 )
 
             elif type(item) is GoldCoin:
+                Logger.log_game_event("Picking up gold coin")
                 self.sound_manager.play_sound(COIN_COLLECT_SOUND)
                 entity.add_gold(item.value)
 

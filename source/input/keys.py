@@ -50,9 +50,9 @@ class Keys:
         if key == arcade.key.ESCAPE:
             game.escape_pressed = True
 
-        if key == arcade.key.E:
-            game.player.inventory.move_left()
         if key == arcade.key.Q:
+            game.player.inventory.move_left()
+        if key == arcade.key.E:
             game.player.inventory.move_right()
 
         if key == arcade.key.F:
