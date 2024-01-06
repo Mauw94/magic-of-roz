@@ -61,11 +61,10 @@ class Inventory:
         item = self.get_item(index)
         if item is not None:
             self.inventory.remove(item)
-            # rearrange item
+            # rearrange inventory
             inventory_clone: list[(ItemBase, int)] = []
             for index, item in enumerate(reversed(self.inventory)):
-                new_item = (item[0], index)
-                inventory_clone.insert(0, new_item)
+                inventory_clone.insert(0, (item[0], index))
             self.inventory = inventory_clone
             return True
         return False
