@@ -1,7 +1,4 @@
 --- plan ---
-* create inventory for player and be able to use items and select them
-
-* picking up coins adds gold
 * can buy items or enhancements in between rounds with gold picked up
 * implement attacks that deal a lot of damage very fast, but in small amounts (eg 50 dmg in 1.5 sec with small bursts)
 * fire player attacks at mouse pos

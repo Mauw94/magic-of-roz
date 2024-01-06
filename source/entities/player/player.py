@@ -15,6 +15,8 @@ from helpers.static_data import ENEMY_HIT_SOUND
 from entities.attacks.ranged_attack import RangedAttack
 from entities.player.inventory import Inventory
 from entities.items.item_base import ItemBase
+from entities.items.consumables.gold_coin import GoldCoin
+from services.apply_item_effect_service import ApplyItemEffectService
 
 if TYPE_CHECKING:
     from views.game_view import GameView
@@ -29,7 +31,7 @@ class Player(Entity):
         super().__init__("male_adventurer", "maleAdventurer")
 
         # TODO: be able to use inventory items using 1,2,3,4,5
-    
+
         self.character_info = self._create_char_stats(character_info=character_info)
         self.attack_entity_manager = AttackEntityManager()
         self.resource_manager = ResourceManager()
@@ -54,7 +56,9 @@ class Player(Entity):
 
         self.__mouse_pos = (0, 0)
 
-    def set_item_effect_service(self, item_effect_service) -> None:
+    def set_item_effect_service(
+        self, item_effect_service: ApplyItemEffectService
+    ) -> None:
         self.apply_item_effect_service = item_effect_service
         self.inventory = Inventory(self, self.apply_item_effect_service)
 
@@ -174,6 +178,10 @@ class Player(Entity):
         )
 
     def add_item_to_inventory(self, item: ItemBase) -> bool:
+        if type(item) is GoldCoin:
+            self.apply_item_effect_service.apply_item_effect_on_player(item, self)
+            return True
+
         return self.inventory.add_item(item)
 
     def use_item_in_inventory(self, index: int) -> None:

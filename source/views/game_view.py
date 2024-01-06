@@ -8,7 +8,6 @@ from entities.enemies.zombie_enemy import ZombieEnemy
 from services.collision_detection_service import CollisionDetectionService
 from services.entity_spawn_service import EntitySpawnService
 from helpers.logging.logger import Logger
-from entities.items.consumables.health_globe import HealthGlobe
 from entities.items.consumables.speed_globe import SpeedGlobe
 from services.apply_item_effect_service import ApplyItemEffectService
 from services.damage_event_service import TextEventService
@@ -192,9 +191,6 @@ class GameView(arcade.View):
         for item in item_list:
             if self.player.add_item_to_inventory(item):
                 item.remove_from_sprite_lists()
-
-        # TODO: apply items when selecting from inventory
-        # self.apply_item_effect_service.apply_item_effect(item_list, self.player)
 
         # spawn periodically
         self.__spawn_zombies()
