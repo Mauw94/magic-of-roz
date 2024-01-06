@@ -58,6 +58,17 @@ class Keys:
         if key == arcade.key.F:
             game.player.inventory.use_item()
 
+        if key == arcade.key.KEY_1:
+            game.player.inventory.use_item(index=0)
+        if key == arcade.key.KEY_2:
+            game.player.inventory.use_item(index=1)
+        if key == arcade.key.KEY_3:
+            game.player.inventory.use_item(index=2)
+        if key == arcade.key.KEY_4:
+            game.player.inventory.use_item(index=3)
+        if key == arcade.key.KEY_5:
+            game.player.inventory.use_item(index=4)
+
         self.process_keychange(game)
 
     def on_key_release(self, game: "GameView", key, modifiers):
@@ -89,6 +100,13 @@ class Keys:
             game.player.normal_ranged_attack_pressed = True
             game.player.set_mouse_pos(x, y)
 
+        if button == arcade.MOUSE_BUTTON_RIGHT:
+            game.player.special_ranged_attack_pressed = True
+            game.player.set_mouse_pos(x, y)
+
     def on_mouse_release(self, game: "GameView", x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
             game.player.normal_ranged_attack_pressed = False
+
+        if button == arcade.MOUSE_BUTTON_RIGHT:
+            game.player.special_ranged_attack_pressed = False

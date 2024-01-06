@@ -33,7 +33,10 @@ class Inventory:
         if self.selected_item_index > self.__space - 1:
             self.selected_item_index = 0
 
-    def use_item(self) -> None:
+    def use_item(self, index: int = None) -> None:
+        if index is not None:
+            self.selected_item_index = index
+
         Logger.log_debug(
             f"Attempting to use item in inventory at position: {self.selected_item_index}"
         )
