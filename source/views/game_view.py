@@ -205,9 +205,18 @@ class GameView(arcade.View):
         self.__scroll_screen()
 
         if self.escape_pressed:
-            Logger.log_game_event("Returning to main menu")
             from views.main_menu import MainMenu
 
+            Logger.log_game_event("Returning to main menu")
+            arcade.set_viewport(0, self.screen_width, 0, self.screen_height)
+            game_view = MainMenu(self.screen_width, self.screen_height)
+            self.window.show_view(game_view)
+
+        if self.player.is_dead:
+            from views.main_menu import MainMenu
+
+            Logger.log_game_event("Player died")
+            Logger.log_game_event("Returning to main menu")
             arcade.set_viewport(0, self.screen_width, 0, self.screen_height)
             game_view = MainMenu(self.screen_width, self.screen_height)
             self.window.show_view(game_view)

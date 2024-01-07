@@ -34,7 +34,7 @@ class Player(Entity):
 
         self.character_info = self._create_char_stats(character_info=character_info)
         self.attack_entity_manager = AttackEntityManager()
-        self.resource_manager = ResourceManager()
+        self.resource_manager = ResourceManager(self)
 
         self.center_x = Consts.SCREEN_WIDTH // 2
         self.center_y = Consts.SCREEN_HEIGHT // 2
@@ -48,6 +48,7 @@ class Player(Entity):
         self.ranged_attack_timer = 0
 
         self.hit = False
+        self.is_dead = False
         self.hit_sound = ENEMY_HIT_SOUND
 
         self.movement_speed = Consts.PLAYER_MOVEMENT_SPEED

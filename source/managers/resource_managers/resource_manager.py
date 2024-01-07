@@ -2,7 +2,7 @@ from helpers.logging.logger import Logger
 
 
 class ResourceManager:
-    def __init__(self):
+    def __init__(self, player):
         self.cur_mana = 0
         self.cur_hp = 0
 
@@ -16,6 +16,8 @@ class ResourceManager:
 
         self.mana_is_full = True
         self.hp_is_full = True
+
+        self.__player_ref = player
 
     def set_max_hp(self, hp: int) -> None:
         self._max_hp = hp
@@ -43,6 +45,7 @@ class ResourceManager:
         self.cur_hp -= hp
         if self.cur_hp < 0:
             self.cur_hp = 0
+            self.__player_ref.is_dead = True
 
     def regen_hp(self) -> None:
         if self.cur_hp >= self._max_hp:
